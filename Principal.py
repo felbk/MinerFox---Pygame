@@ -1,3 +1,4 @@
+#==============IMPORTS===============
 from Grafico import *
 from Classes import *
 import pygame
@@ -6,20 +7,24 @@ from sys import exit
 import random as rdm
 
 pygame.init()
-tela=inicia_tela(500,500)
-cor_tela= (0,0,150)
+tela = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0],FULLSCREEN)
+
 play = True
-ch = Chão((0,0),50,50,tela)
 
 while play:
-    tela.fill(cor_tela)
-    pygame.draw.rect(tela,(0,0,0),(ch.x,ch.y,ch.L,ch.A))
     pygame.display.flip()
+    tela.fill((255,255,255))
 
+    #Analisa eventos
     for event in pygame.event.get():
         if event.type == QUIT:
-            play != play
+            play = False
+            pygame.quit()
             exit()
-        #if event.type == KEYDOWN:
+        
+    
+
+
+
 
     
