@@ -36,8 +36,6 @@ while play:
            
 
             play = False
-            pygame.quit()
-            exit()
         if event.type == KEYDOWN:
                 if event.key == K_d: 
                     Bd = True
@@ -47,6 +45,8 @@ while play:
                     Be = True
                 else:
                      Be = False
+                if event.key == K_ESCAPE:
+                     play = False
         if event.type == KEYUP:
                 if event.key == K_d: 
                     Bd = False
@@ -64,6 +64,8 @@ while play:
     
     elementos.update()
     pygame.display.flip()
+pygame.quit()
+exit()
 
 
 
