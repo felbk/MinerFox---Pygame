@@ -20,9 +20,7 @@ class Chão(pygame.sprite.Sprite):
         pygame.draw.rect(surf,(0,0,0),self.rect)
 
         return
-    def update(self):
-        
-        return 
+    
 
         
 
@@ -41,10 +39,7 @@ class Corpo(pygame.sprite.Sprite):
         self.add(elementos)
 
     
-   def draw(self,surf):
-        pygame.draw.rect(surf,(255,0,0),self.rect)
-
-        return
+  
 
    def update(self):
         self.Fall = True
@@ -86,10 +81,7 @@ class Player(Corpo):
         Corpo.__init__(self,tam,pos)
        
         
-    def draw(self,surf):
-        Corpo.draw(surf)
-
-        return
+   
     
     def update(self):
     
