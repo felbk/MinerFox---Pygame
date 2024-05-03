@@ -51,14 +51,16 @@ class Corpo(pygame.sprite.Sprite):
             self.vx= 0 
             
         # Confere se está no chão ou caindo
-        for gnd in allgnds:
-            if  pygame.sprite.collide_rect(self,gnd):
+        
+        if  pygame.sprite.spritecollideany(self,allgnds):
                 self.Fall= False
+        
                     
         if self.Fall == True:
             self.vy = 2
         else:
             self.vy = 0
+        
 
         #atualiza posição
         self.y += self.vy
