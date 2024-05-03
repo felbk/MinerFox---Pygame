@@ -17,7 +17,7 @@ class Chão(pygame.sprite.Sprite):
         self.add(elementos)
 
     def update(self):
-
+        
         return 
 
         
@@ -33,20 +33,30 @@ class Corpo(pygame.sprite.Sprite):
         self.rect = pygame.Rect(pos , tam)
         self.vx = 0
         self.vy = 0
-        self.walk = True
+        self.andar = True
         self.add(elementos)
 
         
 
    def update(self):
         self.Fall = True
+        self.andar = True
         # Confere se está no chão ou caindo
         
        
         if pygame.sprite.spritecollideany(self,allgnds):
-                colisor = pygame.sprite.spritecollideany(self,allgnds)
+                colisor = pygame.sprite.spritecollideany(self,allgnds,collided=None)
                 if  colisor.rect.collidepoint(self.rect.midbottom):
                     self.Fall= False
+                if  colisor.rect.collidepoint(self.rect.midleft):
+                    self.andar = False
+                    self.vx = 8
+                if  colisor.rect.collidepoint(self.rect.midright):
+                    self.andar = False
+                    self.vx = -8
+        
+                
+                
                 
                 
                     
@@ -67,6 +77,7 @@ class Corpo(pygame.sprite.Sprite):
 class Player(Corpo):
     def __init__(self,tam, pos):
         Corpo.__init__(self,tam,pos)
+       
         
 
     def update(self):
@@ -82,7 +93,7 @@ class Player(Corpo):
             
         else:
             self.vx= 0 
-            
+        
         Corpo.update(self)
         return
 
