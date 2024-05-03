@@ -8,18 +8,20 @@ elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
 
 class Chão(pygame.sprite.Sprite):
-    def __init__(self, tam = tuple, pos=tuple) :
+    def __init__(self, tam = tuple, pos=tuple,img=str) :
         pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(img)
         self.pos = pos
         self.tam = tam
-        self.rect = pygame.Rect(pos[0],pos[1],tam[0],tam[1])
+        self.image = pygame.transform.scale(self.image,self.tam)
+        self.rect = self.image.get_rect()
+        self.rect.x = self.pos[0]
+        self.rect.y = self.pos[1]
         self.add(allgnds)
         self.add(elementos)
 
-    def draw(self,surf):
-        pygame.draw.rect(surf,(0,0,0),self.rect)
-
         return
+    
     
 
         

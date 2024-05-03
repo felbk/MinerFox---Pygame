@@ -15,10 +15,10 @@ clock.tick(30)
 
 
 
-ch1 = Chão((tela.get_width(),50),(0,tela.get_height() - 50 ))
-ch2 = Chão((tela.get_width()/2,50),(100,tela.get_height() -100 ))
-ch3 = Chão((tela.get_width()/2,50),(200,tela.get_height() -400))
+ch1 = Chão((tela.get_width(),50),(0,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
+
 player = Player((50,50),(tela.get_width()/2,0))
+
 player.add(elementos)
 
 
@@ -61,11 +61,10 @@ while play:
     
         
     
-    pygame.draw.rect(tela,(0,0,0),ch1.rect)
-    pygame.draw.rect(tela,(0,0,0),ch2.rect)
-    pygame.draw.rect(tela,(0,0,0),ch3.rect)
+   
     pygame.draw.rect(tela,(255,0,0),player.rect)
     elementos.update()
+    allgnds.draw(tela)
     pygame.display.flip()
 pygame.quit()
 exit()
