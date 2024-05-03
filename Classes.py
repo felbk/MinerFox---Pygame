@@ -12,7 +12,7 @@ class Chão(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.pos = pos
         self.tam = tam
-        self.rect = (pos[0],pos[1],tam[0],tam[1])
+        self.rect = pygame.Rect(pos[0],pos[1],tam[0],tam[1])
         self.add(allgnds)
         self.add(elementos)
 
@@ -30,31 +30,25 @@ class Corpo(pygame.sprite.Sprite):
         self.y=pos[1]
         self.pos = (self.x,self.y)
         self.tam = tam
-        self.rect = Rect(pos , tam)
+        self.rect = pygame.Rect(pos , tam)
         self.vx = 0
         self.vy = 0
+        self.walk = True
         self.add(elementos)
 
         
 
    def update(self):
-        
         self.Fall = True
-        from Principal import Be
-        from Principal import Bd
-
-        if Bd:
-            self.vx = 0.5
-        elif Be:
-            self.vx = -0.5
-        else:
-            self.vx= 0 
-            
         # Confere se está no chão ou caindo
         
-        if  pygame.sprite.spritecollideany(self,allgnds):
-                self.Fall= False
-        
+       
+        if pygame.sprite.spritecollideany(self,allgnds):
+                colisor = pygame.sprite.spritecollideany(self,allgnds)
+                if  colisor.rect.collidepoint(self.rect.midbottom):
+                    self.Fall= False
+                
+                
                     
         if self.Fall == True:
             self.vy = 2
@@ -66,7 +60,7 @@ class Corpo(pygame.sprite.Sprite):
         self.y += self.vy
         self.x += self.vx
         self.pos = (self.x,self.y)
-        self.rect = Rect(self.pos , self.tam)
+        self.rect = pygame.Rect(self.pos , self.tam)
         
         return
 
@@ -76,16 +70,19 @@ class Player(Corpo):
         
 
     def update(self):
+    
         # Controle para andar
         from Principal import Be
         from Principal import Bd
-
-        if Bd:
+        if Bd :
             self.vx = 0.5
-        elif Be:
+            
+        elif Be :
             self.vx = -0.5
+            
         else:
             self.vx= 0 
+            
         Corpo.update(self)
         return
 

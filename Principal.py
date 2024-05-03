@@ -17,6 +17,7 @@ clock.tick(30)
 
 ch1 = Chão((tela.get_width(),50),(0,tela.get_height() - 50 ))
 ch2 = Chão((tela.get_width()/2,50),(100,tela.get_height() -100 ))
+
 corpo1 = Player((50,50),(tela.get_width()/2,0))
 corpo1.add(elementos)
 
