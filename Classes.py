@@ -16,6 +16,10 @@ class Chão(pygame.sprite.Sprite):
         self.add(allgnds)
         self.add(elementos)
 
+    def draw(self,surf):
+        pygame.draw.rect(surf,(0,0,0),self.rect)
+
+        return
     def update(self):
         
         return 
@@ -36,24 +40,27 @@ class Corpo(pygame.sprite.Sprite):
         self.andar = True
         self.add(elementos)
 
-        
+    
+   def draw(self,surf):
+        pygame.draw.rect(surf,(255,0,0),self.rect)
+
+        return
 
    def update(self):
         self.Fall = True
         self.andar = True
         # Confere se está no chão ou caindo
         
-       
-        if pygame.sprite.spritecollideany(self,allgnds):
-                colisor = pygame.sprite.spritecollideany(self,allgnds,collided=None)
-                if  colisor.rect.collidepoint(self.rect.midbottom):
+        
+        for colisor in pygame.sprite.spritecollide(self,allgnds,dokill=False):
+                if  colisor.rect.clipline((self.rect.bottomleft),(self.rect.bottomright)):
                     self.Fall= False
                 if  colisor.rect.collidepoint(self.rect.midleft):
                     self.andar = False
-                    self.vx = 8
+                    self.vx = 0.1
                 if  colisor.rect.collidepoint(self.rect.midright):
                     self.andar = False
-                    self.vx = -8
+                    self.vx = -0.1
         
                 
                 
@@ -79,16 +86,21 @@ class Player(Corpo):
         Corpo.__init__(self,tam,pos)
        
         
+    def draw(self,surf):
+        Corpo.draw(surf)
 
+        return
+    
     def update(self):
     
         # Controle para andar
         from Principal import Be
         from Principal import Bd
-        if Bd :
+        
+        if Bd and self.andar :
             self.vx = 0.5
             
-        elif Be :
+        elif Be and self.andar :
             self.vx = -0.5
             
         else:
