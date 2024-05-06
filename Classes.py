@@ -65,7 +65,7 @@ class Corpo(pygame.sprite.Sprite):
                 
                     
         if self.Fall == True:
-            self.vy = 2
+            self.vy = 2.5
         else:
             self.vy = 0
         
@@ -92,10 +92,10 @@ class Player(Corpo):
         from Principal import Bd
         
         if Bd and self.andar :
-            self.vx = 0.5
+            self.vx = 0.7
             
         elif Be and self.andar :
-            self.vx = -0.5
+            self.vx = -0.7
             
         else:
             self.vx= 0 
