@@ -38,7 +38,6 @@ class Corpo(pygame.sprite.Sprite):
         self.vx = 0
         self.vy = 0
         self.andar = True
-        self.pulo = False
         self.add(elementos)
         self.Fall = True
 
@@ -48,7 +47,7 @@ class Corpo(pygame.sprite.Sprite):
    def update(self):
         # Confere se está no chão ou caindo
         
-        
+        self.Fall = True
         for colisor in pygame.sprite.spritecollide(self,allgnds,dokill=False):
                 if  colisor.rect.clipline((self.rect.bottomleft),(self.rect.bottomright)):
                     self.Fall= False
@@ -58,18 +57,14 @@ class Corpo(pygame.sprite.Sprite):
                 if  colisor.rect.collidepoint(self.rect.midright):
                     self.andar = False
                     self.vx = -0.1
+      
         
         
                 
                 
                 
                     
-        if self.Fall == True:
-            self.vy = 2
-        elif not self.pulo:
-            self.vy = 0
-        else: 
-            self.vy=-2
+        
         
 
         #atualiza posição
@@ -120,13 +115,8 @@ class Player(Corpo):
         # Variaveis de controle=======================================================================
         from Principal import Be
         from Principal import Bd
-        from Principal import Besp
-        from Principal import Bc
 
-        if (Besp or Bc) and not self.Fall:
-           # tempo_pulo = time.time()
-            self.pulo = True
-            self.timerpulo = 0
+        
         #Direita======================================================================================
         if Bd and self.andar :
             self.vx = 0.7
@@ -155,13 +145,6 @@ class Player(Corpo):
             self.idle = True
             
         #Pular=============================================================================================
-        if self.pulo == True:
-                
-                self.Fall = False
-                self.timerpulo+=0.06
-                if self.timerpulo >= 3:
-                    self.pulo = False
-                    self.Fall = True
               
 
         #Analisa animação a ser executada==================================================================

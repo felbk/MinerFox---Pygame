@@ -22,7 +22,6 @@ player = Player((150,150),(tela.get_width()/2,0))
 Bd = False
 Be = False
 Besp = False
-Bc = False
 while play:
 
     tela.fill((255,255,255))
@@ -34,15 +33,8 @@ while play:
 
             play = False
         if event.type == KEYDOWN:
+
             
-                if event.key == K_SPACE:
-                    Besp = True
-                else:
-                    Besp = False
-                if event.key == K_w:
-                    Bc = True
-                else:
-                    Bc = False
                 if event.key == K_d: 
                     Bd = True
                     
@@ -64,11 +56,6 @@ while play:
                 if event.key == K_a: 
                     Be = False
         
-                if event.key == K_SPACE:
-                    Besp = False
-
-                if event.key == K_w:
-                    Bc = False
        
     
         
