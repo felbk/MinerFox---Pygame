@@ -88,6 +88,7 @@ class Player(Corpo):
         self.idle = True
         self.idle_list= []
         self.frame= 0
+        self.flip = False
         for i in range(1,15):
             imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
@@ -109,10 +110,15 @@ class Player(Corpo):
         
         if Bd and self.andar :
             self.vx = 0.7
+            if self.flip:
+                self.image = pygame.transform.flip(self.image)
+                self.flip = False
             
         elif Be and self.andar :
             self.vx = -0.7
-            
+            if not self.flip:
+                self.image = pygame.transform.flip(self.image)
+                self.flip = True
         else:
             self.vx= 0 
         if self.idle:
