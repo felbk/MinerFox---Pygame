@@ -124,20 +124,28 @@ class Player(Corpo):
             self.vx = 0.7
             if self.flip:
                 self.flip = False
+            if not self.run:
+                self.frame=0
             self.run = True
+            self.idle = False
 
         #Esquerda======================================================================================
         elif Be and self.andar :
             self.vx = -0.7
             if not self.flip:
                 self.flip = True
+            if not self.run:
+                self.frame=0
             self.run = True
+            self.idle = False
         #Parado============================================================================================
         else:
             self.vx= 0 
-            self.idle = True
             self.run = False
-            self.frame = 0 
+            if not self.idle:
+                self.frame=0
+            self.idle = True
+            
 
         #Analisa animação a ser executada==================================================================
 
