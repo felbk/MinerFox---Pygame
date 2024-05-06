@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 import random as rdm
-
+import time 
 
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
@@ -38,14 +38,14 @@ class Corpo(pygame.sprite.Sprite):
         self.vx = 0
         self.vy = 0
         self.andar = True
+        self.pulo = False
         self.add(elementos)
+        self.Fall = True
 
     
   
 
    def update(self):
-        self.Fall = True
-        self.andar = True
         # Confere se está no chão ou caindo
         
         
@@ -59,15 +59,17 @@ class Corpo(pygame.sprite.Sprite):
                     self.andar = False
                     self.vx = -0.1
         
-                
+        
                 
                 
                 
                     
         if self.Fall == True:
-            self.vy = 4
-        else:
+            self.vy = 2
+        elif not self.pulo:
             self.vy = 0
+        else: 
+            self.vy=-2
         
 
         #atualiza posição
@@ -104,8 +106,7 @@ class Player(Corpo):
             imgprov = pygame.image.load(f"Assets\-raposa\-run\-run ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
             self.run_list.append(imgprov)
-        
-        
+
 
             
 
@@ -119,6 +120,13 @@ class Player(Corpo):
         # Variaveis de controle=======================================================================
         from Principal import Be
         from Principal import Bd
+        from Principal import Besp
+        from Principal import Bc
+
+        if (Besp or Bc) and not self.Fall:
+           # tempo_pulo = time.time()
+            self.pulo = True
+            self.timerpulo = 0
         #Direita======================================================================================
         if Bd and self.andar :
             self.vx = 0.7
@@ -146,6 +154,15 @@ class Player(Corpo):
                 self.frame=0
             self.idle = True
             
+        #Pular=============================================================================================
+        if self.pulo == True:
+                
+                self.Fall = False
+                self.timerpulo+=0.06
+                if self.timerpulo >= 3:
+                    self.pulo = False
+                    self.Fall = True
+              
 
         #Analisa animação a ser executada==================================================================
 
@@ -167,6 +184,7 @@ class Player(Corpo):
         if self.frame >= len(self.anim):
             self.frame = 0
 
+        
         
         Corpo.update(self)
         return
