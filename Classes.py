@@ -65,7 +65,7 @@ class Corpo(pygame.sprite.Sprite):
                 
                     
         if self.Fall == True:
-            self.vy = 2.5
+            self.vy = 4
         else:
             self.vy = 0
         
@@ -81,16 +81,16 @@ class Player(Corpo):
         Corpo.__init__(self,tam,pos)
         fox = "Assets\-raposa\-idle\-idle (1).png"
         self.image = pygame.image.load(fox)
-        self.image = pygame.transform.scale(self.image,(150,150))
+        self.image = pygame.transform.scale(self.image,self.tam)
         self.rect = self.image.get_rect()
-        self.rect.x = 50
-        self.rect.y = 300
+        self.rect.x = self.pos[0]
+        self.rect.y = self.pos[1]
         self.idle = True
         self.idle_list= []
         self.frame= 0
         for i in range(1,15):
             imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
-            imgprov = pygame.transform.scale(imgprov,(150,150))
+            imgprov = pygame.transform.scale(imgprov,self.tam)
             self.idle_list.append(imgprov)
         self.anim = self.idle_list
 

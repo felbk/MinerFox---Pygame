@@ -17,13 +17,7 @@ clock.tick(30)
 
 ch1 = Chão((tela.get_width(),50),(0,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
 
-player = Player((50,50),(tela.get_width()/2,0))
-
-player.add(elementos)
-
-
-
-
+player = Player((150,150),(tela.get_width()/2,0))
 
 Bd = False
 Be = False
