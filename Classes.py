@@ -104,28 +104,35 @@ class Player(Corpo):
     
     def update(self):
     
-        # Controle para andar
+        # Variaveis de controle=======================================================================
         from Principal import Be
         from Principal import Bd
-        
+        #Direita======================================================================================
         if Bd and self.andar :
             self.vx = 0.7
             if self.flip:
-                self.image = pygame.transform.flip(self.image)
                 self.flip = False
-            
+        #Esquerda======================================================================================
         elif Be and self.andar :
             self.vx = -0.7
             if not self.flip:
-                self.image = pygame.transform.flip(self.image)
                 self.flip = True
+        #Parado============================================================================================
         else:
             self.vx= 0 
+
+        #Analisa animação a ser executada==================================================================
         if self.idle:
             self.anim = self.idle_list
-            
+        #Escolhe frame da animação======================================================================   
         self.image = self.anim[int(self.frame)]
-        self.frame += 0.02
+
+        #Flipa imagem=====================================================================================
+        if self.flip:
+            self.image = pygame.transform.flip(self.image,1,0)
+            
+        #Progressão dos frames da animação==============================================================
+        self.frame += 0.02 
         if self.frame >= len(self.anim):
             self.frame = 0
 

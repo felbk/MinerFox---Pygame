@@ -58,8 +58,8 @@ while play:
    
     
     elementos.update()
-    #allgnds.draw(tela)
     elementos.draw(tela)
+    #allgnds.draw(tela)
     pygame.display.flip()
 pygame.quit()
 exit()
