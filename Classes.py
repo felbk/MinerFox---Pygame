@@ -85,6 +85,16 @@ class Player(Corpo):
         self.rect = self.image.get_rect()
         self.rect.x = 50
         self.rect.y = 300
+        self.idle = True
+        self.idle_list= []
+        self.frame= 0
+        for i in range(1,15):
+            imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
+            imgprov = pygame.transform.scale(imgprov,(150,150))
+            self.idle_list.append(imgprov)
+        self.anim = self.idle_list
+
+            
 
 
        
@@ -105,6 +115,14 @@ class Player(Corpo):
             
         else:
             self.vx= 0 
+        if self.idle:
+            self.anim = self.idle_list
+            
+        self.image = self.anim[int(self.frame)]
+        self.frame += 0.02
+        if self.frame >= len(self.anim):
+            self.frame = 0
+
         
         Corpo.update(self)
         return
