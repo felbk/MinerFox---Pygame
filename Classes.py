@@ -86,14 +86,26 @@ class Player(Corpo):
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
         self.idle = True
+        self.run = False
         self.idle_list= []
+        self.die_list= []
+        self.jump_list= []
+        self.run_list= []
         self.frame= 0
         self.flip = False
+        #Cria lista de frames da animação Idle
         for i in range(1,15):
             imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
             self.idle_list.append(imgprov)
         self.anim = self.idle_list
+        #Cria lista de frames da animação Run
+        for i in range(1,9):
+            imgprov = pygame.image.load(f"Assets\-raposa\-run\-run ({i}).png")
+            imgprov = pygame.transform.scale(imgprov,self.tam)
+            self.run_list.append(imgprov)
+        
+        
 
             
 
@@ -112,25 +124,36 @@ class Player(Corpo):
             self.vx = 0.7
             if self.flip:
                 self.flip = False
+            self.run = True
+
         #Esquerda======================================================================================
         elif Be and self.andar :
             self.vx = -0.7
             if not self.flip:
                 self.flip = True
+            self.run = True
         #Parado============================================================================================
         else:
             self.vx= 0 
+            self.idle = True
+            self.run = False
+            
 
         #Analisa animação a ser executada==================================================================
+
+       
         if self.idle:
             self.anim = self.idle_list
+        if self.run:
+            self.anim = self.run_list
+        
         #Escolhe frame da animação======================================================================   
         self.image = self.anim[int(self.frame)]
 
         #Flipa imagem=====================================================================================
         if self.flip:
             self.image = pygame.transform.flip(self.image,1,0)
-            
+
         #Progressão dos frames da animação==============================================================
         self.frame += 0.02 
         if self.frame >= len(self.anim):

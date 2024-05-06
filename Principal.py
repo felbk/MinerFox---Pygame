@@ -36,10 +36,12 @@ while play:
             
                 if event.key == K_d: 
                     Bd = True
+                    
                 else:
                     Bd = False
                 if event.key == K_a: 
                     Be = True
+                    
                 else:
                     Be = False
                 if event.key == K_ESCAPE:
@@ -47,8 +49,11 @@ while play:
         if event.type == KEYUP:
                 if event.key == K_d: 
                     Bd = False
+                    
+                    
                 if event.key == K_a: 
                     Be = False
+                    
         
                 
        
@@ -59,7 +64,6 @@ while play:
     
     elementos.update()
     elementos.draw(tela)
-    #allgnds.draw(tela)
     pygame.display.flip()
 pygame.quit()
 exit()
