@@ -40,6 +40,7 @@ class Corpo(pygame.sprite.Sprite):
         self.andar = True
         self.add(elementos)
         self.Fall = True
+        self.jumping = False
 
     
   
@@ -57,15 +58,13 @@ class Corpo(pygame.sprite.Sprite):
                 if  colisor.rect.collidepoint(self.rect.midright):
                     self.andar = False
                     self.vx = -0.1
-      
-        
-        
-                
-                
-                
-                    
-        
-        
+        if self.Fall:
+            self.vy = 2
+        else:
+            self.vy=0
+        if self.jumping:
+            self.vy= -2
+
 
         #atualiza posição
         self.rect.y += self.vy
@@ -101,6 +100,11 @@ class Player(Corpo):
             imgprov = pygame.image.load(f"Assets\-raposa\-run\-run ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
             self.run_list.append(imgprov)
+        #Cria lista de frames da animação Jump
+        for i in range(1,12):
+            imgprov = pygame.image.load(f"Assets\-raposa\-jump\-jump ({i}).png")
+            imgprov = pygame.transform.scale(imgprov,self.tam)
+            self.jump_list.append(imgprov)
 
 
             
@@ -113,12 +117,18 @@ class Player(Corpo):
     def update(self):
     
         # Variaveis de controle=======================================================================
-        from Principal import Be
-        from Principal import Bd
+        from Principal import Be,Bc,Bd
 
         
+        if Bc:
+
+            if not self.jumping:
+                self.frame=0
+            self.jumping = True
+            self.idle = False
+            self.run = False
         #Direita======================================================================================
-        if Bd and self.andar :
+        elif Bd and self.andar :
             self.vx = 0.7
             if self.flip:
                 self.flip = False
@@ -126,6 +136,7 @@ class Player(Corpo):
                 self.frame=0
             self.run = True
             self.idle = False
+            self.jumping = False
 
         #Esquerda======================================================================================
         elif Be and self.andar :
@@ -136,10 +147,13 @@ class Player(Corpo):
                 self.frame=0
             self.run = True
             self.idle = False
+            self.jumping = False
+
         #Parado============================================================================================
         else:
             self.vx= 0 
             self.run = False
+            self.jumping = False
             if not self.idle:
                 self.frame=0
             self.idle = True
@@ -154,6 +168,8 @@ class Player(Corpo):
             self.anim = self.idle_list
         if self.run:
             self.anim = self.run_list
+        if self.jumping:
+            self.anim = self.jump_list
         
         #Escolhe frame da animação======================================================================   
         self.image = self.anim[int(self.frame)]
@@ -166,8 +182,7 @@ class Player(Corpo):
         self.frame += 0.02 
         if self.frame >= len(self.anim):
             self.frame = 0
-
-        
+ 
         
         Corpo.update(self)
         return

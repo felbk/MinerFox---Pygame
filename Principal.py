@@ -21,13 +21,19 @@ player = Player((150,150),(tela.get_width()/2,0))
 
 Bd = False
 Be = False
-Besp = False
+Bc = False
 while play:
 
     tela.fill((255,255,255))
 
     #Analisa eventos
+    if Bc :
+         contbc+=0.03
+         if contbc >=3:
+              Bc = False
+         
     for event in pygame.event.get():
+        
         if event.type == QUIT:
            
 
@@ -47,6 +53,11 @@ while play:
                     Be = False
                 if event.key == K_ESCAPE:
                     play = False
+                if event.key == K_SPACE and not player.Fall:
+                    
+                    contbc = 0
+                    Bc = True 
+        
                 
         if event.type == KEYUP:
                 if event.key == K_d: 
@@ -55,7 +66,9 @@ while play:
                     
                 if event.key == K_a: 
                     Be = False
-        
+    
+                
+                
        
     
         
