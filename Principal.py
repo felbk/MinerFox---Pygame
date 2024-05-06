@@ -8,7 +8,7 @@ import random as rdm
 
 
 pygame.init()
-tela = pygame.display.set_mode(pygame.display.get_desktop_sizes()[0],FULLSCREEN)
+tela = pygame.display.set_mode((1280,720),FULLSCREEN)
 play = True
 clock = pygame.time.Clock()
 clock.tick(30)
