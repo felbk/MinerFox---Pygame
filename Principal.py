@@ -51,8 +51,10 @@ while play:
                     Bd = False
                     
                     
+                    
                 if event.key == K_a: 
                     Be = False
+                    
                     
         
                 

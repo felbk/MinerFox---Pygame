@@ -124,6 +124,8 @@ class Player(Corpo):
             self.vx = 0.7
             if self.flip:
                 self.flip = False
+            if not self.run:
+                self.frame=0
             self.run = True
 
         #Esquerda======================================================================================
@@ -131,13 +133,17 @@ class Player(Corpo):
             self.vx = -0.7
             if not self.flip:
                 self.flip = True
+            if not self.run:
+                self.frame=0
             self.run = True
         #Parado============================================================================================
         else:
             self.vx= 0 
+            if not self.idle:
+                self.frame=0
             self.idle = True
             self.run = False
-            self.frame = 0 
+            
 
         #Analisa animação a ser executada==================================================================
 
@@ -153,6 +159,7 @@ class Player(Corpo):
         #Flipa imagem=====================================================================================
         if self.flip:
             self.image = pygame.transform.flip(self.image,1,0)
+        
 
         #Progressão dos frames da animação==============================================================
         self.frame += 0.02 
