@@ -79,7 +79,7 @@ class Corpo(pygame.sprite.Sprite):
 class Player(Corpo):
     def __init__(self,tam, pos):
         Corpo.__init__(self,tam,pos)
-        fox = "Assets\-raposa\idle\-tile014.png"
+        fox = "Assets\-raposa\-idle\-idle (1).png"
         self.image = pygame.image.load(fox)
         self.image = pygame.transform.scale(self.image,(150,150))
         self.rect = self.image.get_rect()
