@@ -137,7 +137,7 @@ class Player(Corpo):
             self.vx= 0 
             self.idle = True
             self.run = False
-            
+            self.frame = 0 
 
         #Analisa animação a ser executada==================================================================
 
