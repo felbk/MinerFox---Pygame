@@ -30,11 +30,11 @@ class Corpo(pygame.sprite.Sprite):
    
    def __init__(self, tam = tuple, pos=tuple) :
         pygame.sprite.Sprite.__init__(self)
-        self.x=pos[0]
-        self.y=pos[1]
-        self.pos = (self.x,self.y)
-        self.tam = tam
         self.rect = pygame.Rect(pos , tam)
+        self.rect.x=pos[0]
+        self.rect.y=pos[1]
+        self.pos = (self.rect.x,self.rect.y)
+        self.tam = tam
         self.vx = 0
         self.vy = 0
         self.andar = True
@@ -71,16 +71,22 @@ class Corpo(pygame.sprite.Sprite):
         
 
         #atualiza posição
-        self.y += self.vy
-        self.x += self.vx
-        self.pos = (self.x,self.y)
-        self.rect = pygame.Rect(self.pos , self.tam)
+        self.rect.y += self.vy
+        self.rect.x += self.vx
         
         return
 
 class Player(Corpo):
     def __init__(self,tam, pos):
         Corpo.__init__(self,tam,pos)
+        fox = "Assets\-raposa\idle\-tile014.png"
+        self.image = pygame.image.load(fox)
+        self.image = pygame.transform.scale(self.image,(150,150))
+        self.rect = self.image.get_rect()
+        self.rect.x = 50
+        self.rect.y = 300
+
+
        
         
    

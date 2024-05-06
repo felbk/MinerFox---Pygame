@@ -62,9 +62,10 @@ while play:
         
     
    
-    pygame.draw.rect(tela,(255,0,0),player.rect)
+    
     elementos.update()
-    allgnds.draw(tela)
+    #allgnds.draw(tela)
+    elementos.draw(tela)
     pygame.display.flip()
 pygame.quit()
 exit()
