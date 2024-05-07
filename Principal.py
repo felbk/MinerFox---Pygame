@@ -29,7 +29,7 @@ while play:
     #Analisa eventos
     if Bc :
          contbc+=0.03
-         if contbc >=3:
+         if contbc >=5:
               Bc = False
          
     for event in pygame.event.get():

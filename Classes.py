@@ -89,6 +89,7 @@ class Player(Corpo):
         self.run_list= []
         self.frame= 0
         self.flip = False
+        self.vframe = 0.02
         #Cria lista de frames da animação Idle
         for i in range(1,15):
             imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
@@ -168,10 +169,16 @@ class Player(Corpo):
        
         if self.idle:
             self.anim = self.idle_list
+            self.vframe = 0.02
         if self.run:
             self.anim = self.run_list
+            self.vframe = 0.04
         if self.jumping:
             self.anim = self.jump_list
+            if self.frame <= 3:
+                self.vframe = 0.7
+            else:
+                self.vframe = 0.025
         
         #Escolhe frame da animação======================================================================   
         self.image = self.anim[int(self.frame)]
@@ -181,7 +188,7 @@ class Player(Corpo):
             self.image = pygame.transform.flip(self.image,1,0)
 
         #Progressão dos frames da animação==============================================================
-        self.frame += 0.02 
+        self.frame += self.vframe
         if self.frame >= len(self.anim):
             self.frame = 0
  
