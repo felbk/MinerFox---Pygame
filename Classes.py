@@ -121,12 +121,13 @@ class Player(Corpo):
 
         
         if Bc:
-
+            
             if not self.jumping:
                 self.frame=0
             self.jumping = True
             self.idle = False
             self.run = False
+        
         #Direita======================================================================================
         elif Bd and self.andar :
             self.vx = 0.7
@@ -157,6 +158,7 @@ class Player(Corpo):
             if not self.idle:
                 self.frame=0
             self.idle = True
+            
             
         #Pular=============================================================================================
               

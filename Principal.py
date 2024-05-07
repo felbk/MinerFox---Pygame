@@ -44,13 +44,10 @@ while play:
                 if event.key == K_d: 
                     Bd = True
                     
-                else:
-                    Bd = False
+            
                 if event.key == K_a: 
                     Be = True
                     
-                else:
-                    Be = False
                 if event.key == K_ESCAPE:
                     play = False
                 if event.key == K_SPACE and not player.Fall:
