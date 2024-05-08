@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 import random as rdm
-
+import time 
 
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
@@ -39,16 +39,16 @@ class Corpo(pygame.sprite.Sprite):
         self.vy = 0
         self.andar = True
         self.add(elementos)
+        self.Fall = True
+        self.jumping = False
 
     
   
 
    def update(self):
-        self.Fall = True
-        self.andar = True
         # Confere se está no chão ou caindo
         
-        
+        self.Fall = True
         for colisor in pygame.sprite.spritecollide(self,allgnds,dokill=False):
                 if  colisor.rect.clipline((self.rect.bottomleft),(self.rect.bottomright)):
                     self.Fall= False
@@ -58,17 +58,13 @@ class Corpo(pygame.sprite.Sprite):
                 if  colisor.rect.collidepoint(self.rect.midright):
                     self.andar = False
                     self.vx = -0.1
-        
-                
-                
-                
-                
-                    
-        if self.Fall == True:
-            self.vy = 4
+        if self.Fall:
+            self.vy = 2
         else:
-            self.vy = 0
-        
+            self.vy=0
+        if self.jumping:
+            self.vy= -2
+
 
         #atualiza posição
         self.rect.y += self.vy
@@ -93,6 +89,7 @@ class Player(Corpo):
         self.run_list= []
         self.frame= 0
         self.flip = False
+        self.vframe = 0.02
         #Cria lista de frames da animação Idle
         for i in range(1,15):
             imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
@@ -104,8 +101,12 @@ class Player(Corpo):
             imgprov = pygame.image.load(f"Assets\-raposa\-run\-run ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
             self.run_list.append(imgprov)
-        
-        
+        #Cria lista de frames da animação Jump
+        for i in range(1,12):
+            imgprov = pygame.image.load(f"Assets\-raposa\-jump\-jump ({i}).png")
+            imgprov = pygame.transform.scale(imgprov,self.tam)
+            self.jump_list.append(imgprov)
+
 
             
 
@@ -117,16 +118,27 @@ class Player(Corpo):
     def update(self):
     
         # Variaveis de controle=======================================================================
-        from Principal import Be
-        from Principal import Bd
+        from Principal import Be,Bc,Bd
+
+        
+        if Bc:
+            
+            if not self.jumping:
+                self.frame=0
+            self.jumping = True
+            self.idle = False
+            self.run = False
+        
         #Direita======================================================================================
-        if Bd and self.andar :
+        elif Bd and self.andar :
             self.vx = 0.7
             if self.flip:
                 self.flip = False
             if not self.run:
                 self.frame=0
             self.run = True
+            self.idle = False
+            self.jumping = False
 
         #Esquerda======================================================================================
         elif Be and self.andar :
@@ -136,22 +148,37 @@ class Player(Corpo):
             if not self.run:
                 self.frame=0
             self.run = True
+            self.idle = False
+            self.jumping = False
+
         #Parado============================================================================================
         else:
             self.vx= 0 
+            self.run = False
+            self.jumping = False
             if not self.idle:
                 self.frame=0
             self.idle = True
-            self.run = False
             
+            
+        #Pular=============================================================================================
+              
 
         #Analisa animação a ser executada==================================================================
 
        
         if self.idle:
             self.anim = self.idle_list
+            self.vframe = 0.02
         if self.run:
             self.anim = self.run_list
+            self.vframe = 0.04
+        if self.jumping:
+            self.anim = self.jump_list
+            if self.frame <= 3:
+                self.vframe = 0.7
+            else:
+                self.vframe = 0.025
         
         #Escolhe frame da animação======================================================================   
         self.image = self.anim[int(self.frame)]
@@ -162,10 +189,10 @@ class Player(Corpo):
         
 
         #Progressão dos frames da animação==============================================================
-        self.frame += 0.02 
+        self.frame += self.vframe
         if self.frame >= len(self.anim):
             self.frame = 0
-
+ 
         
         Corpo.update(self)
         return
