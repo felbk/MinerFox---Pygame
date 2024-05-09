@@ -1,84 +1,70 @@
 #==============IMPORTS===============
 from Grafico import *
-from Classes import *
+from sprites import *
 import pygame
 from pygame.locals import *
 from sys import exit
 import random as rdm
 
-
 pygame.init()
-tela = pygame.display.set_mode((1280,720),FULLSCREEN)
+tela = pygame.display.set_mode((1280,720))
 play = True
 clock = pygame.time.Clock()
 clock.tick(30)
-
-
 
 ch1 = Chão((tela.get_width(),50),(0,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
 
 player = Player((150,150),(tela.get_width()/2,0))
 
-Bd = False
-Be = False
-Bc = False
+vel = 1
 while play:
 
     tela.fill((255,255,255))
 
     #Analisa eventos
-    if Bc :
-         contbc+=0.03
-         if contbc >=5:
-              Bc = False
          
     for event in pygame.event.get():
-        
-        if event.type == QUIT:
-           
-
+        if event.type == QUIT:   
             play = False
-        if event.type == KEYDOWN:
 
+        if event.type == KEYDOWN:
             
                 if event.key == K_d: 
-                    Bd = True
+                   player.vx += vel
+                   player.flip = False
                     
-            
                 if event.key == K_a: 
-                    Be = True
+                    player.vx -= vel 
+                    player.flip = True            
                     
                 if event.key == K_ESCAPE:
                     play = False
-                if event.key == K_SPACE and not player.Fall:
-                    
-                    contbc = 0
-                    Bc = True 
-        
+                if event.key == K_SPACE :
+                      if not player.Fall:
+                        player.jump = True
+
+                
+                      
+                           
+                   
                 
         if event.type == KEYUP:
-                if event.key == K_d: 
-                    Bd = False
+                if event.key == K_d : 
+                    player.vx -= vel
                     
                     
-                    
-                if event.key == K_a: 
-                    Be = False
-    
+                if event.key == K_a : 
+                    player.vx += vel
+                
+                if event.key == K_SPACE:
+                     player.jump = False
                 
                 
-       
-    
-        
-    
-   
-    
+
     elementos.update()
     elementos.draw(tela)
     pygame.display.flip()
 pygame.quit()
 exit()
-
-
 
     
