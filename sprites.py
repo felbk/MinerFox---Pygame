@@ -41,7 +41,7 @@ class Corpo(pygame.sprite.Sprite):
         self.tam = tam
         self.jump = False
         self.vx = 0
-        self.vy = -2
+        self.vy = 0
         self.state = IDLE
         self.add(elementos)
         self.andar = True
@@ -49,37 +49,54 @@ class Corpo(pygame.sprite.Sprite):
         
 
    def update(self):
-          #aplica gravidade
-        hits = pygame.sprite.spritecollide(self,allgnds,False)
-        if len(hits) == 0 :
-            self.Fall = True
-            if self.vy< 2:
-                 self.vy += 0.05
+        
+        g = 0.1
+        self.vy += g
+        #Movimento em x a ser analisado 
+        self.proxima_posicao = pygame.Rect.copy(self.rect)
+        self.proxima_posicao.x +=  self.vx
+        colisao_X = False
+        #confere se ira entrar em um objeto
+        for gnd in allgnds:
+            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
+                colisao_X = True
+                break
+        
+        # permite o movimento caso não colida
+
+        if not colisao_X:
+            self.rect.x = self.proxima_posicao.x
+        
+          #Movimento em y a ser analisado 
+        self.proxima_posicao = pygame.Rect.copy(self.rect)
+        self.proxima_posicao.y += self.vy
+        colisao_Y = False
+        #confere se ira entrar em um objeto
+        for gnd in allgnds:
+            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
+                colisao_Y= True
+                self.vy = 0
+               # if gnd.rect.y > self.proxima_posicao.y :
+
+                break
+           
+        
+        # permite o movimento caso não colida
+
+        if not colisao_Y:
+            self.rect.y = self.proxima_posicao.y
+        
                 
-        else:
-            for hit in hits:
-                if hit.rect.top <= self.rect.bottom:
-                    self.Fall = False
-                    if not self.jump:
-                        self.vy = 0 
-                    elif self.vy!=0:
-                        self.vy -= self.vy
-                    else:
-                        self.vy -= 5
-                    self.andar= True
-                elif hit.rect.right >= self.rect.left :
-                    self.vx = 0.1
-                    self.andar = False
-                elif  hit.rect.left <= self.rect.right:
-                    self.vx = -0.1
-                    self.andar = False
+            
+
+
+                    
                
                 
             
 
         #atualiza posição
-        self.rect.y += self.vy
-        self.rect.x += self.vx
+        
         
         return
 

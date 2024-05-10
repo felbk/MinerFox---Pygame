@@ -40,9 +40,8 @@ while play:
                     
                 if event.key == K_ESCAPE:
                     play = False
-                if event.key == K_SPACE :
-                      if not player.Fall:
-                        player.jump = True
+                #if event.key == K_SPACE :
+                      
 
                 
                       
@@ -58,7 +57,7 @@ while play:
                     player.vx += vel
                 
                 if event.key == K_SPACE:
-                     player.jump = False
+                     player.vy = 4
                 
                 
 
