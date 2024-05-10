@@ -44,6 +44,7 @@ def Fase_1(tela):
                     
                     
         elementos.update()
+        #pygame.draw.rect(tela,(255,0,0),player.rect) mostra colisor 
         elementos.draw(tela)
         pygame.display.flip()
 

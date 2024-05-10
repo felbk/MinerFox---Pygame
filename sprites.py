@@ -94,8 +94,9 @@ class Player(Corpo):
         fox = "Assets\-raposa\-idle\-idle (1).png"
         self.image = pygame.image.load(fox).convert_alpha()
         self.image = pygame.transform.scale(self.image,self.tam)
+        self.image = self.image.subsurface((25,75),(100,75))
         self.rect = self.image.get_rect()
-        self.rect.x = self.pos[0]
+        self.rect.x = self.pos[0] 
         self.rect.y = self.pos[1]
         self.animacoes = {}
         self.animacoes["idle"]= []
@@ -111,17 +112,20 @@ class Player(Corpo):
         for i in range(1,15):
             imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
+            imgprov =  imgprov.subsurface((25,75),(100,75))
             self.animacoes["idle"].append(imgprov)
         self.anim = self.animacoes["idle"]
         #Cria lista de frames da animação Run
         for i in range(1,9):
             imgprov = pygame.image.load(f"Assets\-raposa\-run\-run ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
+            imgprov =  imgprov.subsurface((25,75),(100,75))
             self.animacoes["run"].append(imgprov)
         #Cria lista de frames da animação Jump
         for i in range(1,8):
             imgprov = pygame.image.load(f"Assets\-raposa\-jump\-jump ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
+            imgprov =  imgprov.subsurface((25,75),(100,75))
             self.animacoes["jump"].append(imgprov)
 
 
@@ -132,6 +136,7 @@ class Player(Corpo):
 
     
     def update(self):
+        
         
         if self.jump:
             self.state = JUMP
@@ -144,6 +149,7 @@ class Player(Corpo):
      
         self.anima()
         Corpo.update(self)
+        
         return
 
     def anima(self):
