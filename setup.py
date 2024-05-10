@@ -6,7 +6,7 @@ from pygame.locals import *
 from sys import exit
 from Fase1 import Fase_1
 pygame.init()
-tela = pygame.display.set_mode((WIDTH,HEIGHT),FULLSCREEN)
+tela = pygame.display.set_mode((WIDTH,HEIGHT))
 
 
 HOME = 0
