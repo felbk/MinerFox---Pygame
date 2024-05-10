@@ -1,8 +1,6 @@
 import pygame
 from pygame.locals import *
 from sys import exit
-import random as rdm
-import time 
 
 IDLE = 0
 RUN = 1
@@ -49,8 +47,8 @@ class Corpo(pygame.sprite.Sprite):
         
 
    def update(self):
-        
-        g = 0.1
+        self.Fall = True
+        g = 0.2
         self.vy += g
         #Movimento em x a ser analisado 
         self.proxima_posicao = pygame.Rect.copy(self.rect)
@@ -76,10 +74,12 @@ class Corpo(pygame.sprite.Sprite):
             if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
                 colisao_Y= True
                 self.vy = 0
-               # if gnd.rect.y > self.proxima_posicao.y :
-
+                if gnd.rect.y > self.proxima_posicao.y :
+                    self.Fall = False
+                    self.rect.y= gnd.rect.y - self.rect.height
+                
                 break
-           
+        
         
         # permite o movimento caso não colida
 
