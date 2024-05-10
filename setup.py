@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from Fase1 import Fase_1
+from Inicio_MinerFox import inicio_minerfox
 pygame.init()
 tela = pygame.display.set_mode((WIDTH,HEIGHT),FULLSCREEN)
 
@@ -12,17 +13,16 @@ tela = pygame.display.set_mode((WIDTH,HEIGHT),FULLSCREEN)
 HOME = 0
 PLAYING = 1
 QUIT = 2
-state = PLAYING
+state = HOME
 fase = 1
 
 
 while not state == QUIT:
-   # if state == HOME:
+    if state == HOME:
         #Rodar tela inicial
+        state = inicio_minerfox(tela)
         #state =  tela inicial( )["state"] -> função que retorna um dicionario com state e N da fase 
-        
-
-    if state == PLAYING: 
+    elif state == PLAYING: 
         if fase == 1:
             dici = Fase_1(tela)
             state = dici["state"]
