@@ -57,13 +57,24 @@ class Corpo(pygame.sprite.Sprite):
                  self.vy += 0.05
                 
         else:
-            self.Fall = False
-            if not self.jump:
-                self.vy = 0 
-            elif self.vy!=0:
-                self.vy -= self.vy
-            else:
-                self.vy -= 5
+            for hit in hits:
+                if hit.rect.top <= self.rect.bottom:
+                    self.Fall = False
+                    if not self.jump:
+                        self.vy = 0 
+                    elif self.vy!=0:
+                        self.vy -= self.vy
+                    else:
+                        self.vy -= 5
+                    self.andar= True
+                elif hit.rect.right >= self.rect.left :
+                    self.vx = 0.1
+                    self.andar = False
+                elif  hit.rect.left <= self.rect.right:
+                    self.vx = -0.1
+                    self.andar = False
+               
+                
             
 
         #atualiza posição
