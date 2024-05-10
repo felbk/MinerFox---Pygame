@@ -1,7 +1,5 @@
 
-def Fase_1():
-    
-    tela = pygame.display.set_mode((WIDTH,HEIGHT))
+def Fase_1(tela):
     play = True
     
 
@@ -11,6 +9,8 @@ def Fase_1():
     player = Player((150,150),(tela.get_width()/2,0))
 
     vel = 2
+    clock = pygame.time.Clock()
+    clock.tick(FPS)
     while play:
 
         tela.fill((255,255,255))
@@ -19,7 +19,7 @@ def Fase_1():
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:   
-                play = False
+                pygame.quit()
 
         keys = pygame.key.get_pressed()
         
@@ -34,26 +34,27 @@ def Fase_1():
             player.vx = 0          
             
         if keys[pygame.K_ESCAPE]:
-            play = False
+             pygame.quit()
         if keys[pygame.K_SPACE ] and not player.Fall :
             player.vy = -5
+            player.jump = True
+        if not keys[pygame.K_SPACE ]:
+            player.jump = False
                       
                     
                     
-                    
-
         elementos.update()
         elementos.draw(tela)
         pygame.display.flip()
-    pygame.quit()
+
     return {"state": QUIT , "fase": 1}
 
-    
+
 #==============IMPORTS===============
-from Config import WIDTH, HEIGHT
 from sprites import *
+from Config import WIDTH, HEIGHT , FPS
 import pygame
 from pygame.locals import *
 from sys import exit
-from setup import QUIT , PARTIDA , HOME
+from setup import QUIT , PLAYING , HOME
 

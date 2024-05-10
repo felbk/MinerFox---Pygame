@@ -86,15 +86,6 @@ class Corpo(pygame.sprite.Sprite):
             self.rect.x = self.proxima_posicao.x
         
         
-                
-            
-
-
-        
-
-        #atualiza posição
-        
-        
         return
 
 class Player(Corpo):
@@ -116,7 +107,6 @@ class Player(Corpo):
         self.flip = False
         self.last_update = pygame.time.get_ticks()
         
-        
         #Cria lista de frames da animação Idle
         for i in range(1,15):
             imgprov = pygame.image.load(f"Assets\-raposa\-idle\-idle ({i}).png")
@@ -129,7 +119,7 @@ class Player(Corpo):
             imgprov = pygame.transform.scale(imgprov,self.tam)
             self.animacoes["run"].append(imgprov)
         #Cria lista de frames da animação Jump
-        for i in range(1,12):
+        for i in range(1,8):
             imgprov = pygame.image.load(f"Assets\-raposa\-jump\-jump ({i}).png")
             imgprov = pygame.transform.scale(imgprov,self.tam)
             self.animacoes["jump"].append(imgprov)
@@ -195,6 +185,8 @@ class Player(Corpo):
             # Verifica se já chegou no final da animação.
             if self.frame == len(self.anim):
                 self.frame = 0 
+                if self.anim == self.animacoes["jump"]:
+                    self.frame = 2
 
         return
 
