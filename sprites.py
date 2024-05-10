@@ -48,8 +48,28 @@ class Corpo(pygame.sprite.Sprite):
 
    def update(self):
         self.Fall = True
-        g = 0.2
+        g = 0.05
         self.vy += g
+          #Movimento em y a ser analisado 
+        self.proxima_posicao = pygame.Rect.copy(self.rect)
+        self.proxima_posicao.y += self.vy
+        colisao_Y = False
+        #confere se ira entrar em um objeto
+        for gnd in allgnds:
+            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
+                colisao_Y= True
+                self.vy = 0
+                if gnd.rect.y > self.rect.y :
+                    self.Fall = False
+                    self.rect.y= gnd.rect.y - self.rect.height
+                
+                break
+        
+        
+        # permite o movimento caso não colida
+
+        if not colisao_Y:
+            self.rect.y = self.proxima_posicao.y
         #Movimento em x a ser analisado 
         self.proxima_posicao = pygame.Rect.copy(self.rect)
         self.proxima_posicao.x +=  self.vx
@@ -65,35 +85,12 @@ class Corpo(pygame.sprite.Sprite):
         if not colisao_X:
             self.rect.x = self.proxima_posicao.x
         
-          #Movimento em y a ser analisado 
-        self.proxima_posicao = pygame.Rect.copy(self.rect)
-        self.proxima_posicao.y += self.vy
-        colisao_Y = False
-        #confere se ira entrar em um objeto
-        for gnd in allgnds:
-            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
-                colisao_Y= True
-                self.vy = 0
-                if gnd.rect.y > self.proxima_posicao.y :
-                    self.Fall = False
-                    self.rect.y= gnd.rect.y - self.rect.height
-                
-                break
-        
-        
-        # permite o movimento caso não colida
-
-        if not colisao_Y:
-            self.rect.y = self.proxima_posicao.y
         
                 
             
 
 
-                    
-               
-                
-            
+        
 
         #atualiza posição
         
@@ -171,7 +168,7 @@ class Player(Corpo):
         if self.state == JUMP:
             if self.anim != self.animacoes["jump"]:
                 self.frame = 2
-                self.frametick= 60
+                self.frametick= 100
             self.anim = self.animacoes["jump"]
         if self.state == IDLE:
             if self.anim != self.animacoes["idle"]:

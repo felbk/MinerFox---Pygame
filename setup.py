@@ -5,6 +5,8 @@ from pygame.locals import *
 from sys import exit
 from Fase1 import Fase_1
 pygame.init()
+clock = pygame.time.Clock()
+clock.tick(30)
 
 HOME = 0 
 PARTIDA = 1 

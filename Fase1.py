@@ -1,10 +1,9 @@
 
 def Fase_1():
-    pygame.init()
-    tela = pygame.display.set_mode((WIDTH,HEIGHT),FULLSCREEN)
+    
+    tela = pygame.display.set_mode((WIDTH,HEIGHT))
     play = True
-    clock = pygame.time.Clock()
-    clock.tick(FPS)
+    
 
     Chão((tela.get_width(),50),(0,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
     Chão((tela.get_width()/2,120),(0,tela.get_height() - 120 ),"Assets\provisorios\chao.png")
@@ -19,40 +18,27 @@ def Fase_1():
         #Analisa eventos
             
         for event in pygame.event.get():
-            if event.type == QUIT:   
+            if event.type == pygame.QUIT:   
                 play = False
 
-            if event.type == KEYDOWN:
-                
-                    if event.key == K_d: 
-                        player.vx += vel
-                        player.flip = False
-                        
-                    if event.key == K_a: 
-                        player.vx -= vel 
-                        player.flip = True            
-                        
-                    if event.key == K_ESCAPE:
-                        play = False
-                    if event.key == K_SPACE :
-                        player.vy = -6
-                        
-
+        keys = pygame.key.get_pressed()
+        
+            
+        if keys[pygame.K_d]: 
+            player.vx = vel
+            player.flip = False   
+        elif keys[pygame.K_a]: 
+            player.vx = -vel 
+            player.flip = True  
+        else:
+            player.vx = 0          
+            
+        if keys[pygame.K_ESCAPE]:
+            play = False
+        if keys[pygame.K_SPACE ] and not player.Fall :
+            player.vy = -5
+                      
                     
-                        
-                            
-                    
-                    
-            if event.type == KEYUP:
-                    if event.key == K_d : 
-                        player.vx -= vel
-                        
-                        
-                    if event.key == K_a : 
-                        player.vx += vel
-                    
-                    if event.key == K_SPACE:
-                        player.vy = 5
                     
                     
 
@@ -64,7 +50,7 @@ def Fase_1():
 
     
 #==============IMPORTS===============
-from Config import WIDTH, HEIGHT, FPS
+from Config import WIDTH, HEIGHT
 from sprites import *
 import pygame
 from pygame.locals import *
