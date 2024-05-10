@@ -92,7 +92,7 @@ class Player(Corpo):
     def __init__(self,tam, pos):
         Corpo.__init__(self,tam,pos)
         fox = "Assets\-raposa\-idle\-idle (1).png"
-        self.image = pygame.image.load(fox)
+        self.image = pygame.image.load(fox).convert_alpha()
         self.image = pygame.transform.scale(self.image,self.tam)
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0]
