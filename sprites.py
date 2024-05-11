@@ -1,4 +1,5 @@
 import pygame
+import pygame.display
 from pygame.locals import *
 from sys import exit
 
@@ -24,44 +25,61 @@ class Chão(pygame.sprite.Sprite):
 
         return
     
+
     
 
         
 
 class Corpo(pygame.sprite.Sprite):
    
-   def __init__(self, tam = tuple, pos=tuple) :
+   def __init__(self, tam = tuple, pos=tuple,img= pygame.SurfaceType) :
         pygame.sprite.Sprite.__init__(self)
-        self.rect = pygame.Rect(pos , tam)
+        self.image = img
+        self.tam = tam
+        self.rect = self.image.get_rect()
         self.rect.x=pos[0]
         self.rect.y=pos[1]
         self.pos = (self.rect.x,self.rect.y)
-        self.tam = tam
         self.jump = False
         self.vx = 0
         self.vy = 0
         self.state = IDLE
-        self.add(elementos)
         self.andar = True
         self.Fall = True
+        self.flip= False
+        self.colisor = pygame.sprite.Sprite
+        self.colisor.rect = self.rect
+        self.colisor.rect.center = self.rect.center
+        self.add(elementos)
+        
+    
+   
+       
+        
         
 
    def update(self):
+       
         self.Fall = True
-        g = 0.05
-        self.vy += g
+        g = 0.05 #aceleração da gravidade
+        if self.vy < 3: #Velocidade maxima de queda
+            self.vy += g
+
           #Movimento em y a ser analisado 
-        self.proxima_posicao = pygame.Rect.copy(self.rect)
-        self.proxima_posicao.y += self.vy
+        self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
+        self.colisor.proxima_posicao.y += self.vy
         colisao_Y = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
-            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
+            if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
                 colisao_Y= True
                 self.vy = 0
-                if gnd.rect.y > self.rect.y :
+                if gnd.rect.y > self.colisor.rect.y : # colisão com limite no chão
                     self.Fall = False
-                    self.rect.y= gnd.rect.y - self.rect.height
+                    self.colisor.rect.y= gnd.rect.y - self.colisor.rect.height
+                if gnd.rect.y < self.colisor.rect.y : # colisão com limite no teto
+                    self.Fall = True
+                    self.colisor.rect.top = gnd.rect.bottom 
                 
                 break
         
@@ -69,32 +87,46 @@ class Corpo(pygame.sprite.Sprite):
         # permite o movimento caso não colida
 
         if not colisao_Y:
-            self.rect.y = self.proxima_posicao.y
+            self.colisor.rect.y = self.colisor.proxima_posicao.y
         #Movimento em x a ser analisado 
-        self.proxima_posicao = pygame.Rect.copy(self.rect)
-        self.proxima_posicao.x +=  self.vx
+        self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
+        self.colisor.proxima_posicao.x +=  self.vx
         colisao_X = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
-            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
+            if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
                 colisao_X = True
                 break
         
         # permite o movimento caso não colida
 
         if not colisao_X:
-            self.rect.x = self.proxima_posicao.x
+            self.colisor.rect.x = self.colisor.proxima_posicao.x
         
+        # caiu no void --> reposiciona
+        if self.colisor.rect.y > pygame.display.get_window_size()[1] + 300:
+            self.colisor.rect.y = 0
+        
+
+        #cola a imagem no colisor 
+        
+        self.rect.center = self.colisor.rect.center 
+       
+
+
         
         return
 
+    
+        
 class Player(Corpo):
+
     def __init__(self,tam, pos):
-        Corpo.__init__(self,tam,pos)
         fox = "Assets\-raposa\-idle\-idle (1).png"
-        self.image = pygame.image.load(fox).convert_alpha()
-        self.image = pygame.transform.scale(self.image,self.tam)
-        self.image = self.image.subsurface((25,75),(100,75))
+        image = pygame.image.load(fox).convert_alpha()
+        image = pygame.transform.scale(image,tam)
+        image = image.subsurface((25,75),(100,75))
+        Corpo.__init__(self,tam,pos,image)
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0] 
         self.rect.y = self.pos[1]
@@ -107,6 +139,8 @@ class Player(Corpo):
         self.frame= 0
         self.flip = False
         self.last_update = pygame.time.get_ticks()
+        self.colisor.rect = pygame.Rect.inflate(self.colisor.rect,-50,-10)
+        
         
         #Cria lista de frames da animação Idle
         for i in range(1,15):
@@ -128,13 +162,6 @@ class Player(Corpo):
             imgprov =  imgprov.subsurface((25,75),(100,75))
             self.animacoes["jump"].append(imgprov)
 
-
-     
-
-        
-
-
-    
     def update(self):
         
         
@@ -149,6 +176,13 @@ class Player(Corpo):
      
         self.anima()
         Corpo.update(self)
+
+        #ajeita raposa e colisor
+        self.rect.centery -= 5
+        if self.flip:
+            self.rect.centerx +=16 #move a imagem em relação ao colisor
+        else:
+            self.rect.centerx -=16 #move a imagem em relação ao colisor
         
         return
 
@@ -175,6 +209,7 @@ class Player(Corpo):
         self.image = self.anim[int(self.frame)]
         if self.flip:
             self.image = pygame.transform.flip(self.image,1,0)
+            
         
         now = pygame.time.get_ticks()
         # Verifica quantos ticks se passaram desde a ultima mudança de frame.
