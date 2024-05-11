@@ -52,7 +52,7 @@ def Fase_1(tela):
         #nao ultrapassa limites do mapa
         if player.rect.left < 0 :
             player.vx =1         
-        if player.rect.rightt > mapa.get_width() :
+        if player.rect.right > mapa.get_width() :
             player.vx=-1
                     
                     

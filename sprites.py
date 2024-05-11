@@ -180,8 +180,10 @@ class Player(Corpo):
             self.state = JUMP
         if self.vx == 0 and not self.Fall and self.vy == 0:
             self.state = IDLE
+            self.jump = False
         if self.vx != 0 and not self.Fall and not self.jump:
             self.state = RUN
+            
         
         
      
@@ -208,8 +210,8 @@ class Player(Corpo):
             self.anim = self.animacoes["run"]
         if self.state == JUMP:
             if self.anim != self.animacoes["jump"]:
-                self.frame = 2
-                self.frametick= 100
+                self.frame = 3
+                self.frametick= 180
             self.anim = self.animacoes["jump"]
         if self.state == IDLE:
             if self.anim != self.animacoes["idle"]:
@@ -238,7 +240,9 @@ class Player(Corpo):
             if self.frame == len(self.anim):
                 self.frame = 0 
                 if self.anim == self.animacoes["jump"]:
-                    self.frame = 2
+                    self.frame = 3
+                    if self.vy >=0 : 
+                        self.state = IDLE
 
         return
 
