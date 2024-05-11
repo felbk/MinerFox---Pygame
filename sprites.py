@@ -2,6 +2,7 @@ import pygame
 import pygame.display
 from pygame.locals import *
 from sys import exit
+from Config import WIDTH , HEIGHT , FPS
 
 IDLE = 0
 RUN = 1
@@ -9,6 +10,14 @@ JUMP = 2
 
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
+def mostra_mapa_na_tela(tela,mapa,player):
+    mapa.fill((255,255,255))
+    elementos.draw(mapa)
+    tela.fill((255,255,255))
+
+    pygame.Surface.blit(tela,mapa,(0,0),(player.colisor.rect.centerx - WIDTH/2,player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT))
+
+    return 
 
 class Chão(pygame.sprite.Sprite):
     def __init__(self, tam = tuple, pos=tuple,img=str) :
@@ -101,10 +110,16 @@ class Corpo(pygame.sprite.Sprite):
 
         if not colisao_X:
             self.colisor.rect.x = self.colisor.proxima_posicao.x
-        
+
+        passou_all_gnds = True
+        for gnd in allgnds:
+            if gnd.rect.y > self.colisor.rect.y:
+                passou_all_gnds = False 
+                break
+
         # caiu no void --> reposiciona
-        if self.colisor.rect.y > pygame.display.get_window_size()[1] + 300:
-            self.colisor.rect.y = 0
+        if passou_all_gnds:
+            self.colisor.rect.y = 0 
         
 
         #cola a imagem no colisor 

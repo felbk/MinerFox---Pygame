@@ -9,7 +9,6 @@ from Inicio_MinerFox import inicio_minerfox
 pygame.init()
 tela = pygame.display.set_mode((WIDTH,HEIGHT))
 
-
 HOME = 0
 PLAYING = 1
 QUIT = 2

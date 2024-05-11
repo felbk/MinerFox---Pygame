@@ -1,7 +1,10 @@
 
+
 def Fase_1(tela):
+    from Config import WIDTH, HEIGHT , FPS
+    mapa = pygame.Surface((2000,2000))
     play = True
-    mostracls = True
+    
 
     Chão((tela.get_width(),50),(800,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
     Chão((tela.get_width()/2,120),(0,tela.get_height() - 120 ),"Assets\provisorios\chao.png")
@@ -13,9 +16,10 @@ def Fase_1(tela):
     clock = pygame.time.Clock()
     clock.tick(FPS)
     while play:
-
-        tela.fill((255,255,255))
-
+     
+        mapa.fill((255,255,255))
+        
+        
         #Analisa eventos
             
         for event in pygame.event.get():
@@ -49,21 +53,20 @@ def Fase_1(tela):
                     
         elementos.update()
         
-        if mostracls:
-            pygame.draw.rect(tela,(255,0,0,50),player.rect) #mostra corpo 
-            pygame.draw.rect(tela,(0,255,0,50),player.colisor.rect) #mostra colisor 
+    
         
-        elementos.draw(tela)
+        mostra_mapa_na_tela(tela,mapa,player)
+
         pygame.display.flip()
 
     return {"state": QUIT , "fase": 1}
 
 
 #==============IMPORTS===============
-from sprites import *
-from Config import WIDTH, HEIGHT , FPS
+
 import pygame
 from pygame.locals import *
 from sys import exit
+from sprites import *
 from setup import QUIT , PLAYING , HOME
 
