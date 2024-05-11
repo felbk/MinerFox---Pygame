@@ -10,27 +10,93 @@ JUMP = 2
 
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
-def camera_movimenta(tela,mapa,player):
-   
 
-    pos_cam=pygame.Rect(player.colisor.rect.centerx - WIDTH/2,player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
-    #barra camera ao chegar na esq
-    if pos_cam.left < 0 : 
-        pos_cam.left = 0
-    #barra camera ao chegar na dir    
-    if pos_cam.right > mapa.get_width() : 
-        pos_cam.right = mapa.get_width()
-    #barra camera ao chegar no topo
-    if pos_cam.top < 0 : 
-        pos_cam.top= 0
-    #barra camera ao chegar em baixo 
-    if pos_cam.bottom > mapa.get_height() : 
-        pos_cam.bottom = mapa.get_height()
+
+class Fase ():
+    def __init__(self,tela,tamanho_mapa= tuple):
+        self.mapa = pygame.Surface(tamanho_mapa)
+        self.player = Player((150,150),(10,0))
+        self.play = True 
+        self.vel = 2
+        self.clock = pygame.time.Clock()
+        self.clock.tick(FPS)
+        self.tela = tela
+
+
+    def analisa_controles(self):
+          #Analisa eventos
+            
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:   
+                pygame.quit()
+        
+        keys = pygame.key.get_pressed()
+        
+            
+        if keys[pygame.K_d]: 
+            self.player.vx = self.vel
+            self.player.flip = False   
+        elif keys[pygame.K_a]: 
+            self.player.vx = -self.vel 
+            self.player.flip = True  
+        else:
+            self.player.vx = 0          
+            
+        if keys[pygame.K_ESCAPE]:
+             pygame.quit()
+        if keys[pygame.K_SPACE ] and not self.player.Fall :
+            self.player.vy = -5
+            self.player.jump = True
+        if not keys[pygame.K_SPACE ]:
+            self.player.jump = False
+
+        #nao ultrapassa limites do mapa
+        if self.player.rect.left < 0 :
+            self.player.vx =1         
+        if self.player.rect.right > self.mapa.get_width() :
+            self.player.vx=-1
+        return
+    
+    def bloqueia_limites(self):
+          #nao ultrapassa limites do mapa
+        if self.player.rect.left < 0 :
+            self.player.vx =1         
+        if self.player.rect.right > self.mapa.get_width() :
+            self.player.vx=-1
+        return
+    
+    def camera_movimenta(self):
+   
+        pos_cam=pygame.Rect(self.player.colisor.rect.centerx - WIDTH/2,self.player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
+        #barra camera ao chegar na esq
+        if pos_cam.left < 0 : 
+            pos_cam.left = 0
+        #barra camera ao chegar na dir    
+        if pos_cam.right > self.mapa.get_width() : 
+            pos_cam.right = self.mapa.get_width()
+        #barra camera ao chegar no topo
+        if pos_cam.top < 0 : 
+            pos_cam.top= 0
+        #barra camera ao chegar em baixo 
+        if pos_cam.bottom > self.mapa.get_height() : 
+            pos_cam.bottom = self.mapa.get_height()
+
+        
+        pygame.Surface.blit(self.tela,self.mapa,(0,0),pos_cam)
+
+        return 
+    def update(self):
+        elementos.update()
+        self.mapa.fill((255,255,255))
+        self.analisa_controles()
+        self.bloqueia_limites()
+        elementos.draw(self.mapa)
+        self.tela.fill((255,255,255))
+        self.camera_movimenta()
+        pygame.display.flip()
+        return
 
     
-    pygame.Surface.blit(tela,mapa,(0,0),pos_cam)
-
-    return 
 
 class Chão(pygame.sprite.Sprite):
     def __init__(self, tam = tuple, pos=tuple,img=str) :
