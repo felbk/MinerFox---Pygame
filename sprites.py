@@ -10,12 +10,25 @@ JUMP = 2
 
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
-def mostra_mapa_na_tela(tela,mapa,player):
-    mapa.fill((255,255,255))
-    elementos.draw(mapa)
-    tela.fill((255,255,255))
+def camera_movimenta(tela,mapa,player):
+   
 
-    pygame.Surface.blit(tela,mapa,(0,0),(player.colisor.rect.centerx - WIDTH/2,player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT))
+    pos_cam=pygame.Rect(player.colisor.rect.centerx - WIDTH/2,player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
+    #barra camera ao chegar na esq
+    if pos_cam.left < 0 : 
+        pos_cam.left = 0
+    #barra camera ao chegar na dir    
+    if pos_cam.right > mapa.get_width() : 
+        pos_cam.right = mapa.get_width()
+    #barra camera ao chegar no topo
+    if pos_cam.top < 0 : 
+        pos_cam.top= 0
+    #barra camera ao chegar em baixo 
+    if pos_cam.bottom > mapa.get_height() : 
+        pos_cam.bottom = mapa.get_height()
+
+    
+    pygame.Surface.blit(tela,mapa,(0,0),pos_cam)
 
     return 
 

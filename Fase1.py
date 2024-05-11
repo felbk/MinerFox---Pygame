@@ -6,9 +6,9 @@ def Fase_1(tela):
     play = True
     
 
-    Chão((tela.get_width(),50),(800,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
-    Chão((tela.get_width()/2,120),(0,tela.get_height() - 120 ),"Assets\provisorios\chao.png")
-    Chão((tela.get_width()/2,50),(500,tela.get_height() - 320 ),"Assets\provisorios\chao.png")
+    Chão((tela.get_width(),50),(800,mapa.get_height() - 50 ),"Assets\provisorios\chao.png")
+    Chão((tela.get_width()/2,120),(0,mapa.get_height() - 120 ),"Assets\provisorios\chao.png")
+    Chão((tela.get_width()/2,50),(500,mapa.get_height() - 320 ),"Assets\provisorios\chao.png")
 
     player = Player((150,150),(tela.get_width()/2,0))
 
@@ -55,12 +55,14 @@ def Fase_1(tela):
         if player.rect.right > mapa.get_width() :
             player.vx=-1
                     
-                    
+        #
         elementos.update()
         
-    
+        mapa.fill((255,255,255))
+        elementos.draw(mapa)
+        tela.fill((255,255,255))
         
-        mostra_mapa_na_tela(tela,mapa,player)
+        camera_movimenta(tela,mapa,player)
 
         pygame.display.flip()
 
