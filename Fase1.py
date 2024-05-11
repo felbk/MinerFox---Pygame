@@ -48,7 +48,12 @@ def Fase_1(tela):
             player.jump = True
         if not keys[pygame.K_SPACE ]:
             player.jump = False
-                      
+
+        #nao ultrapassa limites do mapa
+        if player.rect.left < 0 :
+            player.vx =1         
+        if player.rect.rightt > mapa.get_width() :
+            player.vx=-1
                     
                     
         elementos.update()
