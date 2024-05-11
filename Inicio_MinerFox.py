@@ -16,6 +16,7 @@ def inicio_minerfox(tela):
 
     working = True
     while working:
+        state = HOME
         tempo_fps.tick(FPS)
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
@@ -23,12 +24,15 @@ def inicio_minerfox(tela):
             if event.type == pygame.QUIT:
                 state = QUIT
                 working = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    state = QUIT
+            working = False
+
         if keys[pygame.K_KP_ENTER]:
             state = PLAYING
             working = False
-        if keys[pygame.K_ESCAPE]:
-            state = QUIT
-            working = False
+
 
         tela.blit(tela_inicial,tela_inicial_rect)
         tela.blit(text,(WIDTH/2 - 150, 0.7*HEIGHT))

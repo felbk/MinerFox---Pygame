@@ -11,7 +11,9 @@ def Fase_1(tela):
 
     while fase1.play:
         fase1.update()
-    return {"state": QUIT , "fase": 1}
+        
+    elementos.empty()
+    return {"state": 0 , "fase": 1}
 
 
 #==============IMPORTS===============

@@ -43,7 +43,7 @@ class Fase ():
             self.player.vx = 0          
             
         if keys[pygame.K_ESCAPE]:
-             pygame.quit()
+             self.play = False
         if keys[pygame.K_SPACE ] and not self.player.Fall :
             self.player.vy = -5
             self.player.jump = True
