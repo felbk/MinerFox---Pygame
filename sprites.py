@@ -39,7 +39,6 @@ class Corpo(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x=pos[0]
         self.rect.y=pos[1]
-        self.pos = (self.rect.x,self.rect.y)
         self.jump = False
         self.vx = 0
         self.vy = 0
@@ -127,9 +126,6 @@ class Player(Corpo):
         image = pygame.transform.scale(image,tam)
         image = image.subsurface((25,75),(100,75))
         Corpo.__init__(self,tam,pos,image)
-        self.rect = self.image.get_rect()
-        self.rect.x = self.pos[0] 
-        self.rect.y = self.pos[1]
         self.animacoes = {}
         self.animacoes["idle"]= []
         self.animacoes["jump"]= []
@@ -137,7 +133,6 @@ class Player(Corpo):
         self.animacoes["die"]= []
         self.frametick = 100
         self.frame= 0
-        self.flip = False
         self.last_update = pygame.time.get_ticks()
         self.colisor.rect = pygame.Rect.inflate(self.colisor.rect,-50,-10)
         

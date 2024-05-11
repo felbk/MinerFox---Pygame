@@ -3,9 +3,9 @@ def Fase_1(tela):
     play = True
     mostracls = True
 
-    Chão((tela.get_width(),50),(0,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
+    Chão((tela.get_width(),50),(800,tela.get_height() - 50 ),"Assets\provisorios\chao.png")
     Chão((tela.get_width()/2,120),(0,tela.get_height() - 120 ),"Assets\provisorios\chao.png")
-    Chão((tela.get_width()/2,50),(500,tela.get_height() - 250 ),"Assets\provisorios\chao.png")
+    Chão((tela.get_width()/2,50),(500,tela.get_height() - 320 ),"Assets\provisorios\chao.png")
 
     player = Player((150,150),(tela.get_width()/2,0))
 
