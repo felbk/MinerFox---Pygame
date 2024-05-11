@@ -111,9 +111,10 @@ class Corpo(pygame.sprite.Sprite):
         if not colisao_X:
             self.colisor.rect.x = self.colisor.proxima_posicao.x
 
+        # confere se não há mais onde cair
         passou_all_gnds = True
         for gnd in allgnds:
-            if gnd.rect.y > self.colisor.rect.y:
+            if gnd.rect.y > self.colisor.rect.y-300:
                 passou_all_gnds = False 
                 break
 
