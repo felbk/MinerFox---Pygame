@@ -6,6 +6,16 @@ def Fase_1(tela):
     fase1 = Fase(tela,(2000,2000)) #Cria fase
 
 
+#função cria blocos do mapa
+def posicao_mapa(matriz_mapa,tamanho):
+    posicoes = []
+    for linha in range(len(matriz_mapa)):
+        for coluna in range(len(matriz_mapa[linha])):
+        posicao = (coluna, linha*tamanho)
+        posicoes.append(posicao)
+    return posicoes
+
+
 #Cria os blocos do chão 
     Chão((tela.get_width(),50),(800,fase1.mapa.get_height() - 50 ),"Assets\provisorios\chao.png")
     Chão((tela.get_width()/2,120),(0,fase1.mapa.get_height() - 120 ),"Assets\provisorios\chao.png")
