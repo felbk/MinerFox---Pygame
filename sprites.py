@@ -1,5 +1,6 @@
 import pygame
 import pygame.display
+import pygame.display
 from pygame.locals import *
 from sys import exit
 from Config import WIDTH , HEIGHT , FPS
@@ -12,6 +13,17 @@ elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
 hud = pygame.sprite.Group()
 
+def posicao_mapa(matriz_mapa,tamanho):
+    for linha in range(len(matriz_mapa)):
+        for coluna in range(len(matriz_mapa[linha])):
+            elemento = matriz_mapa[linha][coluna]
+            posicao = (coluna*tamanho[0], linha*tamanho[1])
+            if elemento in range (1,16):
+                img = f"Assets/-mapa/-mapa ({elemento}).png"
+                Chão(tamanho,posicao,img)
+
+            
+    return 
 
 class Fase ():
     def __init__(self,tela,tamanho_mapa= tuple):
@@ -22,6 +34,9 @@ class Fase ():
         self.clock = pygame.time.Clock()
         self.clock.tick(FPS)
         self.tela = tela
+        self.bg = pygame.image.load("Assets/-mapa/bg.png")
+        self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
+        self.pos_cam = (0,0)
 
     def analisa_controles(self):
           #Analisa eventos
@@ -69,22 +84,22 @@ class Fase ():
     
     def camera_movimenta(self):
    
-        pos_cam=pygame.Rect(self.player.colisor.rect.centerx - WIDTH/2,self.player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
+        self.pos_cam=pygame.Rect(self.player.colisor.rect.centerx - WIDTH/2,self.player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
         #barra camera ao chegar na esq
-        if pos_cam.left < 0 : 
-            pos_cam.left = 0
+        if self.pos_cam.left < 0 : 
+            self.pos_cam.left = 0
         #barra camera ao chegar na dir    
-        if pos_cam.right > self.mapa.get_width() : 
-            pos_cam.right = self.mapa.get_width()
+        if self.pos_cam.right > self.mapa.get_width() : 
+            self.pos_cam.right = self.mapa.get_width()
         #barra camera ao chegar no topo
-        if pos_cam.top < 0 : 
-            pos_cam.top= 0
+        if self.pos_cam.top < 0 : 
+            self.pos_cam.top= 0
         #barra camera ao chegar em baixo 
-        if pos_cam.bottom > self.mapa.get_height() : 
-            pos_cam.bottom = self.mapa.get_height()
+        if self.pos_cam.bottom > self.mapa.get_height() : 
+            self.pos_cam.bottom = self.mapa.get_height()
 
         
-        pygame.Surface.blit(self.tela,self.mapa,(0,0),pos_cam)
+        pygame.Surface.blit(self.tela,self.mapa,(0,0),self.pos_cam)
 
         return 
     def update(self):
@@ -93,10 +108,11 @@ class Fase ():
         self.mapa.fill((255,255,255))
         self.analisa_controles()
         self.bloqueia_limites()
+       
+        pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
         elementos.draw(self.mapa)
         self.tela.blit(self.player.txt_live,(300,300))
         hud.draw(self.tela)
-        self.tela.fill((255,255,255))
         self.camera_movimenta()
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         pygame.display.flip()

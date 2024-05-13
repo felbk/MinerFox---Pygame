@@ -1,4 +1,6 @@
 
+#função cria blocos do mapa
+
 
 def Fase_1(tela):
     from Config import WIDTH, HEIGHT , FPS
@@ -6,10 +8,18 @@ def Fase_1(tela):
     fase1 = Fase(tela,(2000,2000)) #Cria fase
 
 
-#Cria os blocos do chão 
-    Chão((tela.get_width(),50),(800,fase1.mapa.get_height() - 50 ),"Assets\provisorios\chao.png")
-    Chão((tela.get_width()/2,120),(0,fase1.mapa.get_height() - 120 ),"Assets\provisorios\chao.png")
-    Chão((tela.get_width()/2,50),(500,fase1.mapa.get_height() - 320 ),"Assets\provisorios\chao.png")
+
+
+#Cria os blocos do chão
+    matmapa =[[0,0,0,0,0,0,0,],
+              [0,0,0,0,0,0,0],
+              [0,0,0,3,0,0,3],
+              [3,3,0,0,0,3,0],
+              [0,0,0,0,3,0,0],
+              [3,3,3,3,3,3,3],
+              [0,0,0,0,0,0,0],
+           ]
+    posicao_mapa(matmapa,(120,120))
 
     while fase1.play:
         fase1.update() # Atualiza fase
