@@ -10,6 +10,7 @@ JUMP = 2
 
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
+hud = pygame.sprite.Group()
 
 
 class Fase ():
@@ -21,7 +22,6 @@ class Fase ():
         self.clock = pygame.time.Clock()
         self.clock.tick(FPS)
         self.tela = tela
-
 
     def analisa_controles(self):
           #Analisa eventos
@@ -55,6 +55,8 @@ class Fase ():
             self.player.vx =1         
         if self.player.rect.right > self.mapa.get_width() :
             self.player.vx=-1
+        if self.player.lives_player <=0:
+            self.play = False
         return
     
     def bloqueia_limites(self):
@@ -87,12 +89,16 @@ class Fase ():
         return 
     def update(self):
         elementos.update()
+        hud.update()
         self.mapa.fill((255,255,255))
         self.analisa_controles()
         self.bloqueia_limites()
         elementos.draw(self.mapa)
+        self.tela.blit(self.player.txt_live,(300,300))
+        hud.draw(self.tela)
         self.tela.fill((255,255,255))
         self.camera_movimenta()
+        self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         pygame.display.flip()
         return
 
@@ -138,6 +144,8 @@ class Corpo(pygame.sprite.Sprite):
         self.colisor.rect = self.rect
         self.colisor.rect.center = self.rect.center
         self.add(elementos)
+        
+        
         
     
    
@@ -199,16 +207,16 @@ class Corpo(pygame.sprite.Sprite):
 
         # caiu no void --> reposiciona
         if passou_all_gnds:
-            self.colisor.rect.y = 0 
+            self.passou_all_gnds = True
+        else:
+            self.passou_all_gnds = False
         
 
         #cola a imagem no colisor 
         
         self.rect.center = self.colisor.rect.center 
-       
 
-
-        
+ 
         return
 
     
@@ -229,6 +237,7 @@ class Player(Corpo):
         self.frametick = 100
         self.frame= 0
         self.last_update = pygame.time.get_ticks()
+        self.lives_player = 3
         self.colisor.rect = pygame.Rect.inflate(self.colisor.rect,-50,-10)
         
         
@@ -275,7 +284,13 @@ class Player(Corpo):
             self.rect.centerx +=16 #move a imagem em relação ao colisor
         else:
             self.rect.centerx -=16 #move a imagem em relação ao colisor
-        
+
+        if self.passou_all_gnds == True:
+            self.lives_player -=1
+            self.colisor.rect.y = 0
+
+        self.fonte = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
+        self.txt_live = self.fonte.render('N' * self.lives_player, True, (255,0,0))
         return
 
     def anima(self):
