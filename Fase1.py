@@ -5,21 +5,16 @@
 def Fase_1(tela):
     from Config import WIDTH, HEIGHT , FPS
 
-    fase1 = Fase(tela,(2000,2000)) #Cria fase
+    fase1 = Fase(tela,(4000,1000)) #Cria fase
 
 
 
 
 #Cria os blocos do chão
-    matmapa =[[0,0,0,0,0,0,0,],
-              [0,0,0,0,0,0,0],
-              [0,0,0,3,0,0,3],
-              [3,3,0,0,0,3,0],
-              [0,0,0,0,3,0,0],
-              [3,3,3,3,3,3,3],
-              [0,0,0,0,0,0,0],
-           ]
-    posicao_mapa(matmapa,(120,120))
+    matmapa =[[0]*40]*10
+    matmapa[8] = [0]*7 + [3]*3 + [0]*30
+    matmapa[9] = [3]*7 + [10]*3 + [3]*30
+    posicao_mapa(matmapa,(100,100))
 
     while fase1.play:
         fase1.update() # Atualiza fase
