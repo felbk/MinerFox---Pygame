@@ -6,13 +6,14 @@ PLAYING = 1
 QUIT = 2
 FPS = 30
 
-def inicio_minerfox(tela):
+def tela_perda(tela):
     tempo_fps = pygame.time.Clock()
-    tela_inicial = pygame.image.load('Assets/-tela_inicial/-tela_inicio_Miner_Fox (2).jpg').convert()
+    tela_inicial = pygame.image.load('Assets/-tela_final/-tela_final.jpg').convert()
     tela_inicial = pygame.transform.scale(tela_inicial,(WIDTH,HEIGHT))
     tela_inicial_rect = tela_inicial.get_rect()
-    start_text = pygame.font.Font('Assets/-interacoes/Alfabeto.ttf',46)
-    text = start_text.render('Press Enter to Play',True,(255,255,255))
+    start_text = pygame.font.Font('Assets/-interacoes/Alfabeto.ttf',35)
+    text_restart = start_text.render('Press Enter to Restart',True,(255,255,255))
+    text_esc = start_text.render('Press Esc to Exit', True, (255,255,255))
 
     working = True
     while working:
@@ -23,20 +24,17 @@ def inicio_minerfox(tela):
             if event.type == pygame.QUIT:
                 state = QUIT
                 working = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    state = QUIT
+        
+        if keys[pygame.K_ESCAPE]:
+            state = False
             working = False
-
         if keys[pygame.K_KP_ENTER]:
-            state = PLAYING
+            state = True
             working = False
 
 
         tela.blit(tela_inicial,tela_inicial_rect)
-        tela.blit(text,(WIDTH/2 - 262, 0.675*HEIGHT))
+        tela.blit(text_restart,(WIDTH/2-462, 0.65*HEIGHT))
+        tela.blit(text_esc,(WIDTH/2+57, 0.65*HEIGHT))
         pygame.display.flip()
     return state
-
-
-

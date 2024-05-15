@@ -5,7 +5,7 @@ from pygame.locals import *
 import random
 from sys import exit
 from Config import WIDTH , HEIGHT , FPS
-
+from Tela_Perda import tela_perda
 IDLE = 0
 RUN = 1
 JUMP = 2
@@ -40,6 +40,7 @@ class Fase ():
         self.bg = pygame.image.load("Assets/-mapa/bg.png")
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
+        self.state = 1
 
     def analisa_controles(self):
           #Analisa eventos
@@ -75,7 +76,13 @@ class Fase ():
         if self.player.rect.right > self.mapa.get_width() :
             self.player.vx=-1
         if self.player.lives_player <=0:
-            self.play = False
+            tela_perda(self.tela)
+            if tela_perda == True:
+                self.play = True
+                self.state = 1
+            else: 
+                self.play=False
+                self.state = 0
         return
     
     def bloqueia_limites(self):
@@ -261,6 +268,7 @@ class Player(Corpo):
         self.frame= 0
         self.last_update = pygame.time.get_ticks()
         self.lives_player = 3
+        self.lives_off = 0
         self.colisor.rect = pygame.Rect.inflate(self.colisor.rect,-50,-10)
         
         
@@ -310,11 +318,12 @@ class Player(Corpo):
 
         if self.passou_all_gnds == True:
             self.lives_player -=1
+            self.lives_off +=1
             self.colisor.rect.y = 0
             self.colisor.rect.x = 10
 
         self.fonte = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
-        self.txt_live = self.fonte.render('N' * self.lives_player, True, (255,0,0))
+        self.txt_live = self.fonte.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
         return
 
     def anima(self):

@@ -23,7 +23,7 @@ def Fase_1(tela):
         fase1.update() # Atualiza fase
         
     elementos.empty()
-    return {"state": 0 , "fase": 1}
+    return {"state": fase1.state , "fase": 1}
 
 
 #==============IMPORTS===============
