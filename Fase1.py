@@ -18,13 +18,12 @@ def Fase_1(tela):
     matmapa[8] = [0]*7 + [2,3,4] 
     matmapa[9] = [3]*7 + [6,7,8] + [0]*2+ [3]*20
     posicao_mapa(matmapa,(100,100))
-    #Home
-    state = 0
+
     while fase1.play:
         fase1.update() # Atualiza fase
         
     elementos.empty()
-    return {"state": state , "fase": 1}
+    return {"state": fase1.state , "fase": 1}
 
 
 #==============IMPORTS===============

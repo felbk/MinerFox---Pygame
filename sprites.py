@@ -39,6 +39,7 @@ class Fase ():
         self.bg = pygame.image.load("Assets/-mapa/bg.png")
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
+        self.state = 1
 
     def analisa_controles(self):
           #Analisa eventos
@@ -77,8 +78,10 @@ class Fase ():
             tela_perda(self.tela)
             if tela_perda == True:
                 self.play = True
+                self.state = 1
             else: 
                 self.play=False
+                self.state = 0
         return
     
     def bloqueia_limites(self):
