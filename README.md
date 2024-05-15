@@ -7,7 +7,7 @@
 </ul>
 <h2>🎮Instruções para jogar🎮</h2>
 <p>
-  Com a pasa "MinerFox---Pygame" instalada, execute o arquivo "setup.py".
+  Com a pasta "MinerFox---Pygame" instalada, execute o arquivo "setup.py".
 </p>
 <h3>Controles durante o jogo</h3>
 <ul>
