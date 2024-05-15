@@ -180,11 +180,11 @@ class Corpo(pygame.sprite.Sprite):
           #Movimento em y a ser analisado 
         self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
         self.colisor.proxima_posicao.y += self.vy
-        colisao_Y = False
+        self.colisao_Y = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
             if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
-                colisao_Y= True
+                self.colisao_Y= True
                 self.vy = 0
                 if gnd.rect.y > self.colisor.rect.y : # colisão com limite no chão
                     self.Fall = False
@@ -198,32 +198,33 @@ class Corpo(pygame.sprite.Sprite):
         
         # permite o movimento caso não colida
 
-        if not colisao_Y:
+        if not self.colisao_Y:
             self.colisor.rect.y = self.colisor.proxima_posicao.y
+
         #Movimento em x a ser analisado 
         self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
         self.colisor.proxima_posicao.x +=  self.vx
-        colisao_X = False
+        self.colisao_X = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
             if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
-                colisao_X = True
+                self.colisao_X = True
                 break
         
         # permite o movimento caso não colida
 
-        if not colisao_X:
+        if not self.colisao_X:
             self.colisor.rect.x = self.colisor.proxima_posicao.x
 
         # confere se não há mais onde cair
-        passou_all_gnds = True
+        self.passou_all_gnds = True
         for gnd in allgnds:
             if gnd.rect.y > self.colisor.rect.y-300:
-                passou_all_gnds = False 
+                self.passou_all_gnds = False 
                 break
 
         # caiu no void --> reposiciona
-        if passou_all_gnds:
+        if self.passou_all_gnds:
             self.passou_all_gnds = True
         else:
             self.passou_all_gnds = False
