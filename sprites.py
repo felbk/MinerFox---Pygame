@@ -14,6 +14,7 @@ elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
 hud = pygame.sprite.Group()
 allcoliders = pygame.sprite.Group()
+aves = pygame.sprite.Group()
 
 def posicao_mapa(matriz_mapa,tamanho):
     for linha in range(len(matriz_mapa)):
@@ -39,6 +40,9 @@ class Fase ():
         self.bg = pygame.image.load("Assets/-mapa/bg.png")
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
+    def analisa_colisoes(self):
+   
+        return
 
     def analisa_controles(self):
           #Analisa eventos
@@ -110,6 +114,7 @@ class Fase ():
         allcoliders.update()
         hud.update()
         self.mapa.fill((255,255,255))
+        self.analisa_colisoes()
         self.analisa_controles()
         self.bloqueia_limites()
        #Exibe background
@@ -372,6 +377,44 @@ class Ave(Corpo):
         self.runtime = random.randint(1000,2000) 
         self.lastupdate = pygame.time.get_ticks() 
         self.vx = -1
+        self.pos = pos
+        self.animacoes= {}
+        self.animacoes["fly"] = []
+        self.frametick = 100
+        self.frame= 0
+        self.last_update = pygame.time.get_ticks()
+        self.flip= False
+        self.add(aves)
+        
+
+         #Cria lista de frames da animação fly
+        for i in range(3,10):
+            imgprov = pygame.image.load(f"Assets\-bird\-bird ({i}).png")
+            imgprov = pygame.transform.scale(imgprov,self.tam)
+            self.animacoes["fly"].append(imgprov)
+        self.anim = self.animacoes["fly"]
+    def anima(self):
+        now = pygame.time.get_ticks()
+        # Verifica quantos ticks se passaram desde a ultima mudança de frame.
+        elapsed_ticks = now - self.last_update
+
+        # Se já está na hora de mudar de imagem...
+        if elapsed_ticks > self.frametick:
+            # Marca o tick da nova imagem.
+            self.last_update = now
+
+            # Avança um quadro.
+            self.frame += 1
+
+            # Verifica se já chegou no final da animação.
+            if self.frame == len(self.anim):
+                self.frame = 0 
+        self.image = self.anim[self.frame]
+        if self.flip:
+            self.image = pygame.transform.flip(self.image,1,0)
+
+        return
+
 
     def update(self):
         now = pygame.time.get_ticks()
@@ -379,9 +422,11 @@ class Ave(Corpo):
         if self.deltaticks >= self.runtime:
             self.lastupdate = now
             self.vx *= -1 #Inverte velocidade
-            self.image = pygame.transform.flip(self.image,1,0) #Inverte Imagem
-
+            self.flip = not self.flip
+        self.anima()
         Corpo.update(self)
+        self.colisor.rect.y = self.pos[1]
+        self.rect.center = self.colisor.rect.center
         return 
         
    
