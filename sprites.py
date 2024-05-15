@@ -108,8 +108,9 @@ class Fase ():
         self.mapa.fill((255,255,255))
         self.analisa_controles()
         self.bloqueia_limites()
-       
+       #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
+
         elementos.draw(self.mapa)
         self.tela.blit(self.player.txt_live,(300,300))
         hud.draw(self.tela)
