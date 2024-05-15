@@ -14,4 +14,5 @@
   <li> D = Direita  </li>
   <li> E = Esquerda  </li>
   <li> W = Pular  </li>
+  
 </ul>
