@@ -390,8 +390,8 @@ class Ave(Corpo):
 class Diamante(pygame.sprite.Sprite):
     def __init__(self, pos = tuple):
         pygame.sprite.Sprite.__init__(self)
-        img = pygame.image.load("Assets/-interacoes/tile002.png")
-        img = pygame.transform.scale(img,(40,80))
+        img = pygame.image.load("Assets/-interacoes/diamante.png.png")
+        img = pygame.transform.scale(img,(40,40))
         self.image = img
         self.rect = self.image.get_rect()
         self.pos = pos

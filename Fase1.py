@@ -8,7 +8,7 @@ def Fase_1(tela):
     fase1 = Fase(tela,(4000,1000)) #Cria fase
     Ave((500,800))
 
-    Diamante((800,750))
+    Diamante((825,650))
 
 #Cria os blocos do chão
     matmapa =[[0]*40]*10
