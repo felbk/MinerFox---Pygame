@@ -12,8 +12,11 @@ def Fase_1(tela):
 
 #Cria os blocos do chão
     matmapa =[[0]*40]*10
+
+    matmapa[6] = [0]*21 + [14,15,15,15,1] + [0]*4 + [14,15,15,15,15,1] 
+    matmapa[7] = [0]*13 + [14,15,15,15,1] 
     matmapa[8] = [0]*7 + [3]*3 + [0]*30
-    matmapa[9] = [3]*7 + [10]*3 + [0]*2+ [3]*28
+    matmapa[9] = [3]*7 + [10]*3 + [0]*2+ [3]*20
     posicao_mapa(matmapa,(100,100))
 
     while fase1.play:

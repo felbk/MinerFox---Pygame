@@ -304,6 +304,7 @@ class Player(Corpo):
         if self.passou_all_gnds == True:
             self.lives_player -=1
             self.colisor.rect.y = 0
+            self.colisor.rect.x = 10
 
         self.fonte = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
         self.txt_live = self.fonte.render('N' * self.lives_player, True, (255,0,0))
