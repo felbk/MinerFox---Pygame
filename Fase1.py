@@ -45,3 +45,4 @@ som_aguia = pygame.mixer.Sound('songs\som_aguia.mp3')
 som_cacador = pygame.mixer.Sound('songs\som_cacador.mp3')
 
 
+Assets["Placar"] = pygame.font.Font('assets/-fontes/fonte_arcade')
