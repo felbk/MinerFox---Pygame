@@ -14,6 +14,7 @@ elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
 hud = pygame.sprite.Group()
 allcoliders = pygame.sprite.Group()
+all_diamantes = pygame.sprite.Group()
 
 def posicao_mapa(matriz_mapa,tamanho):
     for linha in range(len(matriz_mapa)):
@@ -386,4 +387,15 @@ class Ave(Corpo):
         
    
    
-    
+class Diamante(pygame.sprite.Sprite):
+    def __init__(self, pos = tuple):
+        pygame.sprite.Sprite.__init__(self)
+        img = pygame.image.load("Assets/-interacoes/tile002.png")
+        img = pygame.transform.scale(img,(40,80))
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.pos = pos
+        self.rect.x = self.pos[0]
+        self.rect.y = self.pos[1]
+        self.add(elementos)
+        self.add(all_diamantes)
