@@ -28,8 +28,6 @@ while not state == QUIT:
             dici = Fase_1(tela)
             state = dici["state"]
             fase = dici["fase"]
-    #elif state == FINAL:
-    #    state = tela_perda(tela)
 
 pygame.quit()
 
