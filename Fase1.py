@@ -26,3 +26,14 @@ from sys import exit
 from sprites import *
 from setup import QUIT , PLAYING , HOME
 
+
+#carregando sons do jogo
+pygame.mixer.music.load("songs\som__de_fundo.wav")
+pygame.mixer.music.set_volume(0.4)
+coleta_diamantes = pygame.mixer.Sound('songs\coleta_diamantes.mp3')
+game_over_cacador = pygame.mixer.Sound('songs\game_over_cacador.wav')
+game_over_jogo = pygame.mixer.Sound("songs\game_over.mp3")
+som_aguia = pygame.mixer.Sound('songs\som_aguia.mp3')
+som_cacador = pygame.mixer.Sound('songs\som_cacador.mp3')
+
+
