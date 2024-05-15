@@ -2,6 +2,7 @@ import pygame
 import pygame.display
 import pygame.display
 from pygame.locals import *
+import random
 from sys import exit
 from Config import WIDTH , HEIGHT , FPS
 
@@ -12,6 +13,7 @@ JUMP = 2
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
 hud = pygame.sprite.Group()
+allcoliders = pygame.sprite.Group()
 
 def posicao_mapa(matriz_mapa,tamanho):
     for linha in range(len(matriz_mapa)):
@@ -46,6 +48,7 @@ class Fase ():
                 pygame.quit()
         
         keys = pygame.key.get_pressed()
+
         
             
         if keys[pygame.K_d]: 
@@ -104,6 +107,7 @@ class Fase ():
         return 
     def update(self):
         elementos.update()
+        allcoliders.update()
         hud.update()
         self.mapa.fill((255,255,255))
         self.analisa_controles()
@@ -157,7 +161,7 @@ class Corpo(pygame.sprite.Sprite):
         self.andar = True
         self.Fall = True
         self.flip= False
-        self.colisor = pygame.sprite.Sprite
+        self.colisor = pygame.sprite.Sprite(allcoliders)
         self.colisor.rect = self.rect
         self.colisor.rect.center = self.rect.center
         self.add(elementos)
@@ -173,9 +177,9 @@ class Corpo(pygame.sprite.Sprite):
    def update(self):
        
         self.Fall = True
-        g = 0.05 #aceleração da gravidade
+        self.g = 0.05 #aceleração da gravidade
         if self.vy < 3: #Velocidade maxima de queda
-            self.vy += g
+            self.vy += self.g
 
           #Movimento em y a ser analisado 
         self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
@@ -359,4 +363,27 @@ class Player(Corpo):
 
         return
 
-           
+class Ave(Corpo):
+    def __init__(self, pos=tuple):
+        img = pygame.image.load("Assets/-bird/-bird (1).png")
+        tam= (60,60)
+        img= pygame.transform.scale(img,tam)
+        Corpo.__init__(self,tam,pos,img)
+        self.runtime = random.randint(1000,2000) 
+        self.lastupdate = pygame.time.get_ticks() 
+        self.vx = -1
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        self.deltaticks = now - self.lastupdate
+        if self.deltaticks >= self.runtime:
+            self.lastupdate = now
+            self.vx *= -1 #Inverte velocidade
+            self.image = pygame.transform.flip(self.image,1,0) #Inverte Imagem
+
+        Corpo.update(self)
+        return 
+        
+   
+   
+    

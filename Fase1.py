@@ -6,7 +6,7 @@ def Fase_1(tela):
     from Config import WIDTH, HEIGHT , FPS
 
     fase1 = Fase(tela,(4000,1000)) #Cria fase
-
+    Ave((500,800))
 
 
 
