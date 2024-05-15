@@ -11,7 +11,7 @@ def inicio_minerfox(tela):
     tela_inicial = pygame.image.load('Assets/-tela_inicial/-tela_inicio_Miner_Fox (2).jpg').convert()
     tela_inicial = pygame.transform.scale(tela_inicial,(WIDTH,HEIGHT))
     tela_inicial_rect = tela_inicial.get_rect()
-    start_text = pygame.font.SysFont(None,48)
+    start_text = pygame.font.Font('Assets/-interacoes/Alfabeto.ttf',46)
     text = start_text.render('Press Enter to Play',True,(255,255,255))
 
     working = True
@@ -19,7 +19,6 @@ def inicio_minerfox(tela):
         state = HOME
         tempo_fps.tick(FPS)
         keys = pygame.key.get_pressed()
-        mouse = pygame.mouse.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 state = QUIT
@@ -35,7 +34,7 @@ def inicio_minerfox(tela):
 
 
         tela.blit(tela_inicial,tela_inicial_rect)
-        tela.blit(text,(WIDTH/2 - 150, 0.7*HEIGHT))
+        tela.blit(text,(WIDTH/2 - 262, 0.675*HEIGHT))
         pygame.display.flip()
     return state
 
