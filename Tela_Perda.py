@@ -36,7 +36,7 @@ def tela_perda(tela):
 
 
         tela.blit(tela_inicial,tela_inicial_rect)
-        tela.blit(text_restart,(WIDTH/2 - 150, 0.7*HEIGHT))
-        tela.blit(text_restart,(WIDTH/2 - 150, 0.7*HEIGHT))
+        tela.blit(text_restart,(WIDTH/2 - 150, 0.5*HEIGHT))
+        tela.blit(text_restart,(WIDTH/2, 0.5*HEIGHT))
         pygame.display.flip()
     return state
