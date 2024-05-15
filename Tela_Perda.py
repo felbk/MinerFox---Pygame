@@ -26,10 +26,10 @@ def tela_perda(tela):
                 working = False
         
         if keys[pygame.K_ESCAPE]:
-            state = HOME
+            state = False
             working = False
         if keys[pygame.K_KP_ENTER]:
-            state = PLAYING
+            state = True
             working = False
 
 

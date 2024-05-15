@@ -5,7 +5,7 @@ from pygame.locals import *
 import random
 from sys import exit
 from Config import WIDTH , HEIGHT , FPS
-
+from Tela_Perda import tela_perda
 IDLE = 0
 RUN = 1
 JUMP = 2
@@ -74,7 +74,11 @@ class Fase ():
         if self.player.rect.right > self.mapa.get_width() :
             self.player.vx=-1
         if self.player.lives_player <=0:
-            self.play = False
+            tela_perda(self.tela)
+            if tela_perda == True:
+                self.play = True
+            else: 
+                self.play=False
         return
     
     def bloqueia_limites(self):
