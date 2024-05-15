@@ -1,6 +1,8 @@
 import pygame
 import pygame.display
+import pygame.display
 from pygame.locals import *
+import random
 from sys import exit
 from Config import WIDTH , HEIGHT , FPS
 
@@ -11,7 +13,19 @@ JUMP = 2
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
 hud = pygame.sprite.Group()
+allcoliders = pygame.sprite.Group()
 
+def posicao_mapa(matriz_mapa,tamanho):
+    for linha in range(len(matriz_mapa)):
+        for coluna in range(len(matriz_mapa[linha])):
+            elemento = matriz_mapa[linha][coluna]
+            posicao = (coluna*tamanho[0], linha*tamanho[1])
+            if elemento in range (1,16):
+                img = f"Assets/-mapa/-mapa ({elemento}).png"
+                Chão(tamanho,posicao,img)
+
+            
+    return 
 
 class Fase ():
     def __init__(self,tela,tamanho_mapa= tuple):
@@ -22,6 +36,9 @@ class Fase ():
         self.clock = pygame.time.Clock()
         self.clock.tick(FPS)
         self.tela = tela
+        self.bg = pygame.image.load("Assets/-mapa/bg.png")
+        self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
+        self.pos_cam = (0,0)
 
     def analisa_controles(self):
           #Analisa eventos
@@ -31,6 +48,7 @@ class Fase ():
                 pygame.quit()
         
         keys = pygame.key.get_pressed()
+
         
             
         if keys[pygame.K_d]: 
@@ -69,34 +87,37 @@ class Fase ():
     
     def camera_movimenta(self):
    
-        pos_cam=pygame.Rect(self.player.colisor.rect.centerx - WIDTH/2,self.player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
+        self.pos_cam=pygame.Rect(self.player.colisor.rect.centerx - WIDTH/2,self.player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
         #barra camera ao chegar na esq
-        if pos_cam.left < 0 : 
-            pos_cam.left = 0
+        if self.pos_cam.left < 0 : 
+            self.pos_cam.left = 0
         #barra camera ao chegar na dir    
-        if pos_cam.right > self.mapa.get_width() : 
-            pos_cam.right = self.mapa.get_width()
+        if self.pos_cam.right > self.mapa.get_width() : 
+            self.pos_cam.right = self.mapa.get_width()
         #barra camera ao chegar no topo
-        if pos_cam.top < 0 : 
-            pos_cam.top= 0
+        if self.pos_cam.top < 0 : 
+            self.pos_cam.top= 0
         #barra camera ao chegar em baixo 
-        if pos_cam.bottom > self.mapa.get_height() : 
-            pos_cam.bottom = self.mapa.get_height()
+        if self.pos_cam.bottom > self.mapa.get_height() : 
+            self.pos_cam.bottom = self.mapa.get_height()
 
         
-        pygame.Surface.blit(self.tela,self.mapa,(0,0),pos_cam)
+        pygame.Surface.blit(self.tela,self.mapa,(0,0),self.pos_cam)
 
         return 
     def update(self):
         elementos.update()
+        allcoliders.update()
         hud.update()
         self.mapa.fill((255,255,255))
         self.analisa_controles()
         self.bloqueia_limites()
+       #Exibe background
+        pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
+
         elementos.draw(self.mapa)
         self.tela.blit(self.player.txt_live,(300,300))
         hud.draw(self.tela)
-        self.tela.fill((255,255,255))
         self.camera_movimenta()
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         pygame.display.flip()
@@ -140,7 +161,7 @@ class Corpo(pygame.sprite.Sprite):
         self.andar = True
         self.Fall = True
         self.flip= False
-        self.colisor = pygame.sprite.Sprite
+        self.colisor = pygame.sprite.Sprite(allcoliders)
         self.colisor.rect = self.rect
         self.colisor.rect.center = self.rect.center
         self.add(elementos)
@@ -156,18 +177,18 @@ class Corpo(pygame.sprite.Sprite):
    def update(self):
        
         self.Fall = True
-        g = 0.05 #aceleração da gravidade
+        self.g = 0.05 #aceleração da gravidade
         if self.vy < 3: #Velocidade maxima de queda
-            self.vy += g
+            self.vy += self.g
 
           #Movimento em y a ser analisado 
         self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
         self.colisor.proxima_posicao.y += self.vy
-        colisao_Y = False
+        self.colisao_Y = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
             if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
-                colisao_Y= True
+                self.colisao_Y= True
                 self.vy = 0
                 if gnd.rect.y > self.colisor.rect.y : # colisão com limite no chão
                     self.Fall = False
@@ -181,32 +202,33 @@ class Corpo(pygame.sprite.Sprite):
         
         # permite o movimento caso não colida
 
-        if not colisao_Y:
+        if not self.colisao_Y:
             self.colisor.rect.y = self.colisor.proxima_posicao.y
+
         #Movimento em x a ser analisado 
         self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
         self.colisor.proxima_posicao.x +=  self.vx
-        colisao_X = False
+        self.colisao_X = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
             if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
-                colisao_X = True
+                self.colisao_X = True
                 break
         
         # permite o movimento caso não colida
 
-        if not colisao_X:
+        if not self.colisao_X:
             self.colisor.rect.x = self.colisor.proxima_posicao.x
 
         # confere se não há mais onde cair
-        passou_all_gnds = True
+        self.passou_all_gnds = True
         for gnd in allgnds:
             if gnd.rect.y > self.colisor.rect.y-300:
-                passou_all_gnds = False 
+                self.passou_all_gnds = False 
                 break
 
         # caiu no void --> reposiciona
-        if passou_all_gnds:
+        if self.passou_all_gnds:
             self.passou_all_gnds = True
         else:
             self.passou_all_gnds = False
@@ -288,6 +310,7 @@ class Player(Corpo):
         if self.passou_all_gnds == True:
             self.lives_player -=1
             self.colisor.rect.y = 0
+            self.colisor.rect.x = 10
 
         self.fonte = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
         self.txt_live = self.fonte.render('N' * self.lives_player, True, (255,0,0))
@@ -340,4 +363,27 @@ class Player(Corpo):
 
         return
 
-           
+class Ave(Corpo):
+    def __init__(self, pos=tuple):
+        img = pygame.image.load("Assets/-bird/-bird (1).png")
+        tam= (60,60)
+        img= pygame.transform.scale(img,tam)
+        Corpo.__init__(self,tam,pos,img)
+        self.runtime = random.randint(1000,2000) 
+        self.lastupdate = pygame.time.get_ticks() 
+        self.vx = -1
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        self.deltaticks = now - self.lastupdate
+        if self.deltaticks >= self.runtime:
+            self.lastupdate = now
+            self.vx *= -1 #Inverte velocidade
+            self.image = pygame.transform.flip(self.image,1,0) #Inverte Imagem
+
+        Corpo.update(self)
+        return 
+        
+   
+   
+    
