@@ -286,6 +286,7 @@ class Player(Corpo):
         self.frame= 0
         self.last_update = pygame.time.get_ticks()
         self.lives_player = 3
+        self.lives_player_max = self.lives_player
         self.lives_off = 0
     
         
@@ -332,9 +333,10 @@ class Player(Corpo):
 
         if self.passou_all_gnds == True:
             self.lives_player -=1
-            self.lives_off +=1
             self.rect.y = 0
             self.rect.x = 10
+        
+        self.lives_off = self.lives_player_max - self.lives_player
 
         self.fonte = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
         self.txt_live = self.fonte.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
