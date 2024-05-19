@@ -1,18 +1,18 @@
 import pygame
 from os import path
 from Config import WIDTH, HEIGHT
+from Assets import load_assets
 HOME = 0
 PLAYING = 1
 QUIT = 2
 FPS = 30
 
 def inicio_minerfox(tela):
+    assets = load_assets()
     tempo_fps = pygame.time.Clock()
-    tela_inicial = pygame.image.load('Assets/-tela_inicial/-tela_inicio_Miner_Fox (2).jpg').convert()
-    tela_inicial = pygame.transform.scale(tela_inicial,(WIDTH,HEIGHT))
+    tela_inicial = assets['tela_inicial']
     tela_inicial_rect = tela_inicial.get_rect()
-    start_text = pygame.font.Font('Assets/-interacoes/Alfabeto.ttf',46)
-    text = start_text.render('Press Enter to Play',True,(255,255,255))
+    text = assets['text']
 
     working = True
     while working:
