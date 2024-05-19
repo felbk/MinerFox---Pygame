@@ -1,19 +1,19 @@
 import pygame
 from os import path
 from Config import WIDTH, HEIGHT
+from Assets import load_assets
 HOME = 0
 PLAYING = 1
 QUIT = 2
 FPS = 30
 
 def tela_perda(tela):
+    assets = load_assets()
     tempo_fps = pygame.time.Clock()
-    tela_inicial = pygame.image.load('Assets/-tela_final/-tela_final.jpg').convert()
-    tela_inicial = pygame.transform.scale(tela_inicial,(WIDTH,HEIGHT))
+    tela_inicial = assets['tela_inicial']
     tela_inicial_rect = tela_inicial.get_rect()
-    start_text = pygame.font.Font('Assets/-interacoes/Alfabeto.ttf',35)
-    text_restart = start_text.render('Press Enter to Restart',True,(255,255,255))
-    text_esc = start_text.render('Press Esc to Exit', True, (255,255,255))
+    text_restart = assets['text_restart']
+    text_esc = assets['text_esc']
 
     working = True
     while working:
