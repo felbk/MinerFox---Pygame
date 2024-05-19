@@ -56,9 +56,13 @@ class Fase ():
                     self.player.lives_player -=1
                     self.player.rect.bottom = ave.rect.top-10
                     self.player.vy = -5 
+                    self.player.score +=100
                 break
-                
-                
+        if self.player.score >500:
+            if self.player.lives_player<3:
+                self.player.lives_player +=1 
+                self.player.score -=500     
+            
         return
 
     def analisa_controles(self):
