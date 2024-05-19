@@ -18,4 +18,5 @@ def load_assets():
     assets['tela_inicial'] = pygame.transform.scale(assets['tela_inicial'],(WIDTH,HEIGHT))
     assets['start_text_inicial'] = pygame.font.Font('Assets/-interacoes/Alfabeto.ttf',46)
     assets['text'] = assets['start_text_inicial'].render('Press Enter to Play',True,(255,255,255))
+
     return assets

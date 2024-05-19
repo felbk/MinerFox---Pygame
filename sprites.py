@@ -6,6 +6,7 @@ import random
 from sys import exit
 from Config import WIDTH , HEIGHT , FPS
 from Tela_Perda import tela_perda
+from Assets import load_assets
 IDLE = 0
 RUN = 1
 JUMP = 2
@@ -50,6 +51,7 @@ class Fase ():
                 if self.player.rect.centery < ave.rect.centery :
                 
                     self.player.vy = -3
+                    self.player.score +=100
                 else:
                     self.player.lives_player -=1
                     self.player.rect.bottom = ave.rect.top-10
@@ -143,10 +145,10 @@ class Fase ():
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
 
         elementos.draw(self.mapa)
-        self.tela.blit(self.player.txt_live,(300,300))
         hud.draw(self.tela)
         self.camera_movimenta()
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
+        self.tela.blit(self.player.txt_score,(50,0.05*HEIGHT))
         pygame.display.flip()
         return
 
@@ -288,6 +290,7 @@ class Player(Corpo):
         self.lives_player = 3
         self.lives_player_max = self.lives_player
         self.lives_off = 0
+        self.score = 100
     
         
         
@@ -338,8 +341,10 @@ class Player(Corpo):
         
         self.lives_off = self.lives_player_max - self.lives_player
 
-        self.fonte = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
-        self.txt_live = self.fonte.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
+        self.heart = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
+        self.fonte = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
+        self.txt_live = self.heart.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
+        self.txt_score = self.fonte.render('{0}'.format(self.score),True, (255,255,255))
         return
 
     def anima(self):
