@@ -53,12 +53,9 @@ class Fase ():
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
         self.state = 1
-<<<<<<< Updated upstream
-=======
         self.mixer = pygame.mixer
-        self.mixer.init()
-        #self.mixer.music.load()
->>>>>>> Stashed changes
+        self.mixer.music.load("songs\som__de_fundo.wav")
+        self.mixer.music.play(-1)
         
         
     def analisa_colisoes(self):
@@ -168,6 +165,9 @@ class Fase ():
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         self.tela.blit(self.player.txt_score,(50,0.05*HEIGHT))
         pygame.display.flip()
+        if not self.play:
+            self.mixer.music.stop()
+            
         return
 
     
