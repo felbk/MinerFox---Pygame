@@ -10,7 +10,8 @@ FPS = 30
 def inicio_minerfox(tela):
     #Carrega assets
     assets = load_assets()
-
+    pygame.mixer.init()
+    
     tempo_fps = pygame.time.Clock()
     #Carrega imagens e textos da tela inicial
     tela_inicial = assets['tela_inicial']
