@@ -4,7 +4,7 @@ from Config import WIDTH,HEIGHT, FPS
 import pygame
 from pygame.locals import *
 from sys import exit
-from Fase1 import Fase_1, Fase_3
+from Fase1 import Fase_1, Fase_2, Fase_3, Fase_4
 from Inicio_MinerFox import inicio_minerfox
 pygame.init()
 tela = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -25,6 +25,18 @@ while not state == QUIT:
     elif state == PLAYING: 
         if fase == 1:
             dici = Fase_1(tela)
+            state = dici["state"]
+            fase = dici["fase"] 
+        if fase == 2:
+            dici = Fase_2(tela)
+            state = dici["state"]
+            fase = dici["fase"] 
+        if fase == 3:
+            dici = Fase_3(tela)
+            state = dici["state"]
+            fase = dici["fase"] 
+        if fase == 4:
+            dici = Fase_4(tela)
             state = dici["state"]
             fase = dici["fase"] 
 pygame.quit()

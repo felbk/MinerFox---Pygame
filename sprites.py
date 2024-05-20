@@ -499,7 +499,7 @@ class Ave(Corpo):
         img = pygame.image.load("Assets/-bird/-bird (1).png")
         tam= (60,60)
         img= pygame.transform.scale(img,tam)
-        Corpo.__init__(self,tam,pos,img,False, False)
+        Corpo.__init__(self,tam,pos,img,True, False)
         self.runtime = random.randint(1000,2000) 
         self.lastupdate = pygame.time.get_ticks() 
         self.vx = - (random.randint(10,20)/10)
