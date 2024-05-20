@@ -85,9 +85,6 @@ class Fase ():
         self.img_ave = pygame.image.load('Assets/-score/-cont_ave.png').convert_alpha()
         self.img_ave = pygame.transform.scale(self.img_ave,(240,120))
         
-        self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
-        self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
-        
         
     def analisa_colisoes(self):
 
