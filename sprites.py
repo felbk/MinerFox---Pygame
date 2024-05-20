@@ -56,6 +56,7 @@ class Fase ():
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
         self.state = 1
+        self.cont_aves = len(aves.sprites())
         self.mixer = pygame.mixer
         self.mixer.music.load("songs\som__de_fundo.wav")
         self.mixer.music.play(-1)
@@ -171,7 +172,16 @@ class Fase ():
         
         pygame.Surface.blit(self.tela,self.mapa,(0,0),self.pos_cam)
 
+
         return 
+    
+    def hud_update(self):
+        self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
+        self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
+        self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
+        self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, (255,255,255))
+        return
+    
     def update(self):
         elementos.update()
         allcoliders.update()
@@ -180,6 +190,7 @@ class Fase ():
         self.analisa_colisoes()
         self.analisa_eventos()
         self.bloqueia_limites()
+        self.hud_update()
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
 
@@ -188,8 +199,11 @@ class Fase ():
         
         hud.draw(self.tela) #desenha o hud
         self.camera_movimenta()
+        self.cont_aves = len(aves.sprites())
+        self.tela.blit(self.img_ave,(0.9*WIDTH,0.05*HEIGHT))
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         self.tela.blit(self.player.txt_score,(50,0.05*HEIGHT))
+        self.tela.blit(self.txt_cont_aves,(0.8*WIDTH,0.05*HEIGHT))
         pygame.display.flip()
         if not self.play:
             self.mixer.music.stop()
@@ -337,7 +351,7 @@ class Player(Corpo):
         self.lives_player = 3
         self.lives_player_max = self.lives_player
         self.lives_off = 0
-        self.score = 100
+        self.score = 0
         
     
         
@@ -459,7 +473,6 @@ class Ave(Corpo):
         self.last_update = pygame.time.get_ticks()
         self.flip= False
         self.add(aves)
-        
 
          #Cria lista de frames da animação fly
         for i in range(3,10):
@@ -501,6 +514,7 @@ class Ave(Corpo):
         self.rect.y = self.pos[1]
         self.anima()
         Corpo.update(self)
+
         return 
         
    
