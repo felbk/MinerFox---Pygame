@@ -24,7 +24,7 @@ while not state == QUIT:
         #state =  tela inicial( )["state"] -> função que retorna um dicionario com state e N da fase 
     elif state == PLAYING: 
         if fase == 1:
-            dici = Fase_3(tela)
+            dici = Fase_1(tela)
             state = dici["state"]
             fase = dici["fase"] 
 pygame.quit()
