@@ -33,6 +33,9 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
                     Chão(tamanho,posicao,img,False)
             if elemento == "ave" : 
                 Ave(posicao)
+
+            if elemento == "diamante":
+                Diamante(posicao)
             
 
             
