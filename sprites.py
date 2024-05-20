@@ -146,6 +146,10 @@ class Fase ():
         self.txt_cont_aves = self.fonte_ave.render('{0}'.format(self.cont_aves),True, (255,255,255))
 
         return 
+    def hud_update(self):
+        self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
+        self.txt_cont_aves = self.fonte_ave.render('{0}'.format(self.cont_aves),True, (255,255,255))
+        return
     def update(self):
         elementos.update()
         allcoliders.update()
@@ -154,6 +158,7 @@ class Fase ():
         self.analisa_colisoes()
         self.analisa_controles()
         self.bloqueia_limites()
+        self.hud_update()
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
 
