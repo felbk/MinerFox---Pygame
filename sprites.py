@@ -72,6 +72,7 @@ class Fase ():
         self.ave_sound = pygame.mixer.Sound("songs\som_aguia.mp3")
         self.score_fundo = pygame.image.load('Assets/-score/-score.png').convert_alpha()
         self.score_fundo = pygame.transform.scale(self.score_fundo,(240,120))
+        self.img_ave = pygame.image.load('Assets/-score/-cont_ave.png').convert_alpha()
         
         
         
@@ -191,7 +192,6 @@ class Fase ():
         return 
     
     def hud_update(self):
-        self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
         self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
         self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
         self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, (255,255,255))
