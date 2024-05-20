@@ -25,7 +25,7 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
         for coluna in range(len(matriz_mapa[linha])):
             elemento = matriz_mapa[linha][coluna]
             posicao = (coluna*tamanho[0], linha*tamanho[1])
-            if elemento in range (1,16):
+            if elemento in range (1,37):
                 img = f"Assets/-mapa/-mapa ({elemento}).png"
                 if elemento not in range(12,14) and elemento not in range(16,37): #Chão sem fisica para itens decorativos
                     Chão(tamanho,posicao,img)
