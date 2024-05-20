@@ -70,6 +70,8 @@ class Fase ():
         self.game_over_sound = pygame.mixer.Sound("songs\game_over.mp3")
         self.diamante_sound = pygame.mixer.Sound("songs\coleta_diamantes.mp3")
         self.ave_sound = pygame.mixer.Sound("songs\som_aguia.mp3")
+        self.score_fundo = pygame.image.load('Assets/-score/-score.png').convert_alpha()
+        self.score_fundo = pygame.transform.scale(self.score_fundo,(240,120))
         
         
         
@@ -215,7 +217,8 @@ class Fase ():
         self.cont_aves = len(aves.sprites())
         self.tela.blit(self.img_ave,(0.9*WIDTH,0.05*HEIGHT))
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
-        self.tela.blit(self.player.txt_score,(50,0.05*HEIGHT))
+        self.tela.blit(self.score_fundo,(20,0.005*HEIGHT))
+        self.tela.blit(self.player.txt_score,(50,0.07*HEIGHT))
         self.tela.blit(self.txt_cont_aves,(0.8*WIDTH,0.05*HEIGHT))
         pygame.display.flip()
         if not self.play:
@@ -417,7 +420,7 @@ class Player(Corpo):
         self.lives_off = self.lives_player_max - self.lives_player
 
         self.heart = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
-        self.fonte = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
+        self.fonte = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',36)
         self.txt_live = self.heart.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
         self.txt_score = self.fonte.render('{0}'.format(self.score),True, (255,255,255))
         return
