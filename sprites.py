@@ -61,6 +61,7 @@ class Fase ():
         self.mixer.music.play(-1)
         self.mixer.music.set_volume(0.2)
         self.game_over_sound = pygame.mixer.Sound("songs\game_over.mp3")
+        self.diamante_sound = pygame.mixer.Sound("songs\coleta_diamantes.mp3")
         
         
         
@@ -83,6 +84,7 @@ class Fase ():
         for diamante in pygame.sprite.spritecollide(self.player, all_diamantes, True, pygame.sprite.collide_mask):
             if pygame.sprite.collide_mask(self.player, diamante):
                 self.player.score += 100
+                self.diamante_sound.play()
                 break
    
                
