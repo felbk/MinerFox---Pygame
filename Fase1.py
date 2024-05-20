@@ -38,6 +38,7 @@ from sprites import *
 from setup import QUIT , PLAYING , HOME
 from Assets import load_assets
 
+#carrega assets
 assets = load_assets()
 
 #carregando sons do jogo
