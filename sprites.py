@@ -5,7 +5,8 @@ from pygame.locals import *
 import random
 from sys import exit
 from Config import WIDTH , HEIGHT , FPS
-
+from Tela_Perda import tela_perda
+from Assets import load_assets
 IDLE = 0
 RUN = 1
 JUMP = 2
@@ -15,15 +16,24 @@ allgnds = pygame.sprite.Group()
 hud = pygame.sprite.Group()
 allcoliders = pygame.sprite.Group()
 all_diamantes = pygame.sprite.Group()
+aves = pygame.sprite.Group()
+personagens = pygame.sprite.Group()
+itensmapa = pygame.sprite.Group()
 
-def posicao_mapa(matriz_mapa,tamanho):
+def posiciona_itens_mapa(matriz_mapa,tamanho):
     for linha in range(len(matriz_mapa)):
         for coluna in range(len(matriz_mapa[linha])):
             elemento = matriz_mapa[linha][coluna]
             posicao = (coluna*tamanho[0], linha*tamanho[1])
             if elemento in range (1,16):
                 img = f"Assets/-mapa/-mapa ({elemento}).png"
-                Chão(tamanho,posicao,img)
+                if elemento not in range(12,14):
+                    Chão(tamanho,posicao,img)
+                else:
+                    Chão(tamanho,posicao,img,False)
+            if elemento == "ave" : 
+                Ave(posicao)
+            
 
             
     return 
@@ -40,6 +50,22 @@ class Fase ():
         self.bg = pygame.image.load("Assets/-mapa/bg.png")
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
+        self.state = 1
+    def analisa_colisoes(self):
+        for ave in pygame.sprite.spritecollide(self.player,aves,True, pygame.sprite.collide_mask):
+            if pygame.sprite.collide_mask(self.player,ave):
+                if self.player.rect.centery < ave.rect.centery :
+                
+                    self.player.vy = -3
+                    self.player.score +=100
+                else:
+                    self.player.lives_player -=1
+                    self.player.rect.bottom = ave.rect.top-10
+                    self.player.vy = -5 
+                break
+                
+                
+        return
 
     def analisa_controles(self):
           #Analisa eventos
@@ -63,6 +89,7 @@ class Fase ():
             
         if keys[pygame.K_ESCAPE]:
              self.play = False
+             self.state = 0
         if keys[pygame.K_SPACE ] and not self.player.Fall :
             self.player.vy = -5
             self.player.jump = True
@@ -75,7 +102,13 @@ class Fase ():
         if self.player.rect.right > self.mapa.get_width() :
             self.player.vx=-1
         if self.player.lives_player <=0:
-            self.play = False
+            tela_perda(self.tela)
+            if tela_perda == True:
+                self.play = True
+                self.state = 1
+            else: 
+                self.play=False
+                self.state = 0
         return
     
     def bloqueia_limites(self):
@@ -88,7 +121,7 @@ class Fase ():
     
     def camera_movimenta(self):
    
-        self.pos_cam=pygame.Rect(self.player.colisor.rect.centerx - WIDTH/2,self.player.colisor.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
+        self.pos_cam=pygame.Rect(self.player.rect.centerx - WIDTH/2,self.player.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
         #barra camera ao chegar na esq
         if self.pos_cam.left < 0 : 
             self.pos_cam.left = 0
@@ -111,23 +144,26 @@ class Fase ():
         allcoliders.update()
         hud.update()
         self.mapa.fill((255,255,255))
+        self.analisa_colisoes()
         self.analisa_controles()
         self.bloqueia_limites()
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
 
-        elementos.draw(self.mapa)
-        self.tela.blit(self.player.txt_live,(300,300))
-        hud.draw(self.tela)
+        itensmapa.draw(self.mapa) #desenha todos os elementos do mapa
+        all_diamantes.draw(self.mapa)
+        personagens.draw(self.mapa) #redesenha personagens para sobrepor o cenário
+        hud.draw(self.tela) #desenha o hud
         self.camera_movimenta()
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
+        self.tela.blit(self.player.txt_score,(50,0.05*HEIGHT))
         pygame.display.flip()
         return
 
     
 
 class Chão(pygame.sprite.Sprite):
-    def __init__(self, tam = tuple, pos=tuple,img=str) :
+    def __init__(self, tam = tuple, pos=tuple,img=str, fisica = bool) :
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(img)
         self.pos = pos
@@ -136,8 +172,10 @@ class Chão(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
-        self.add(allgnds)
+        if not fisica == False:
+            self.add(allgnds)
         self.add(elementos)
+        self.add(itensmapa)
 
         return
     
@@ -152,9 +190,11 @@ class Corpo(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = img
         self.tam = tam
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.x=pos[0]
         self.rect.y=pos[1]
+        self.mask = pygame.mask.from_surface(self.image)
         self.jump = False
         self.vx = 0
         self.vy = 0
@@ -162,10 +202,8 @@ class Corpo(pygame.sprite.Sprite):
         self.andar = True
         self.Fall = True
         self.flip= False
-        self.colisor = pygame.sprite.Sprite(allcoliders)
-        self.colisor.rect = self.rect
-        self.colisor.rect.center = self.rect.center
         self.add(elementos)
+        self.add(personagens)
         
         
         
@@ -176,27 +214,27 @@ class Corpo(pygame.sprite.Sprite):
         
 
    def update(self):
-       
+        self.mask = pygame.mask.from_surface(self.image)
         self.Fall = True
         self.g = 0.05 #aceleração da gravidade
         if self.vy < 3: #Velocidade maxima de queda
             self.vy += self.g
 
           #Movimento em y a ser analisado 
-        self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
-        self.colisor.proxima_posicao.y += self.vy
+        self.proxima_posicao = pygame.Rect.copy(self.rect)
+        self.proxima_posicao.y += self.vy
         self.colisao_Y = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
-            if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
+            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
                 self.colisao_Y= True
                 self.vy = 0
-                if gnd.rect.y > self.colisor.rect.y : # colisão com limite no chão
+                if gnd.rect.y > self.rect.y : # colisão com limite no chão
                     self.Fall = False
-                    self.colisor.rect.y= gnd.rect.y - self.colisor.rect.height
-                if gnd.rect.y < self.colisor.rect.y : # colisão com limite no teto
+                    self.rect.y= gnd.rect.y - self.rect.height
+                if gnd.rect.y < self.rect.y : # colisão com limite no teto
                     self.Fall = True
-                    self.colisor.rect.top = gnd.rect.bottom 
+                    self.rect.top = gnd.rect.bottom 
                 
                 break
         
@@ -204,27 +242,27 @@ class Corpo(pygame.sprite.Sprite):
         # permite o movimento caso não colida
 
         if not self.colisao_Y:
-            self.colisor.rect.y = self.colisor.proxima_posicao.y
+            self.rect.y = self.proxima_posicao.y
 
         #Movimento em x a ser analisado 
-        self.colisor.proxima_posicao = pygame.Rect.copy(self.colisor.rect)
-        self.colisor.proxima_posicao.x +=  self.vx
+        self.proxima_posicao = pygame.Rect.copy(self.rect)
+        self.proxima_posicao.x +=  self.vx
         self.colisao_X = False
         #confere se ira entrar em um objeto
         for gnd in allgnds:
-            if pygame.Rect.colliderect(gnd.rect,self.colisor.proxima_posicao):
+            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
                 self.colisao_X = True
                 break
         
         # permite o movimento caso não colida
 
         if not self.colisao_X:
-            self.colisor.rect.x = self.colisor.proxima_posicao.x
+            self.rect.x = self.proxima_posicao.x
 
         # confere se não há mais onde cair
         self.passou_all_gnds = True
         for gnd in allgnds:
-            if gnd.rect.y > self.colisor.rect.y-300:
+            if gnd.rect.y > self.rect.y-300:
                 self.passou_all_gnds = False 
                 break
 
@@ -237,7 +275,7 @@ class Corpo(pygame.sprite.Sprite):
 
         #cola a imagem no colisor 
         
-        self.rect.center = self.colisor.rect.center 
+        self.rect.center = self.rect.center 
 
  
         return
@@ -261,7 +299,11 @@ class Player(Corpo):
         self.frame= 0
         self.last_update = pygame.time.get_ticks()
         self.lives_player = 3
-        self.colisor.rect = pygame.Rect.inflate(self.colisor.rect,-50,-10)
+        self.lives_player_max = self.lives_player
+        self.lives_off = 0
+        self.score = 100
+        
+    
         
         
         #Cria lista de frames da animação Idle
@@ -302,19 +344,19 @@ class Player(Corpo):
         Corpo.update(self)
 
         #ajeita raposa e colisor
-        self.rect.centery -= 5
-        if self.flip:
-            self.rect.centerx +=16 #move a imagem em relação ao colisor
-        else:
-            self.rect.centerx -=16 #move a imagem em relação ao colisor
+        
 
         if self.passou_all_gnds == True:
             self.lives_player -=1
-            self.colisor.rect.y = 0
-            self.colisor.rect.x = 10
+            self.rect.y = 0
+            self.rect.x = 10
+        
+        self.lives_off = self.lives_player_max - self.lives_player
 
-        self.fonte = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
-        self.txt_live = self.fonte.render('N' * self.lives_player, True, (255,0,0))
+        self.heart = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
+        self.fonte = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
+        self.txt_live = self.heart.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
+        self.txt_score = self.fonte.render('{0}'.format(self.score),True, (255,255,255))
         return
 
     def anima(self):
@@ -372,7 +414,45 @@ class Ave(Corpo):
         Corpo.__init__(self,tam,pos,img)
         self.runtime = random.randint(1000,2000) 
         self.lastupdate = pygame.time.get_ticks() 
-        self.vx = -1
+        self.vx = - (random.randint(10,20)/10)
+        self.pos = pos
+        self.animacoes= {}
+        self.animacoes["fly"] = []
+        self.frametick = 100
+        self.frame= 0
+        self.last_update = pygame.time.get_ticks()
+        self.flip= False
+        self.add(aves)
+        
+
+         #Cria lista de frames da animação fly
+        for i in range(3,10):
+            imgprov = pygame.image.load(f"Assets\-bird\-bird ({i}).png")
+            imgprov = pygame.transform.scale(imgprov,self.tam)
+            self.animacoes["fly"].append(imgprov)
+        self.anim = self.animacoes["fly"]
+    def anima(self):
+        now = pygame.time.get_ticks()
+        # Verifica quantos ticks se passaram desde a ultima mudança de frame.
+        elapsed_ticks = now - self.last_update
+
+        # Se já está na hora de mudar de imagem...
+        if elapsed_ticks > self.frametick:
+            # Marca o tick da nova imagem.
+            self.last_update = now
+
+            # Avança um quadro.
+            self.frame += 1
+
+            # Verifica se já chegou no final da animação.
+            if self.frame == len(self.anim):
+                self.frame = 0 
+        self.image = self.anim[self.frame]
+        if self.flip:
+            self.image = pygame.transform.flip(self.image,1,0)
+
+        return
+
 
     def update(self):
         now = pygame.time.get_ticks()
@@ -380,8 +460,10 @@ class Ave(Corpo):
         if self.deltaticks >= self.runtime:
             self.lastupdate = now
             self.vx *= -1 #Inverte velocidade
-            self.image = pygame.transform.flip(self.image,1,0) #Inverte Imagem
+            self.flip = not self.flip
 
+        self.rect.y = self.pos[1]
+        self.anima()
         Corpo.update(self)
         return 
         
