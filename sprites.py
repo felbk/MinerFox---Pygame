@@ -53,6 +53,12 @@ class Fase ():
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
         self.state = 1
+<<<<<<< Updated upstream
+=======
+        self.mixer = pygame.mixer
+        self.mixer.init()
+        #self.mixer.music.load()
+>>>>>>> Stashed changes
         
         
     def analisa_colisoes(self):
