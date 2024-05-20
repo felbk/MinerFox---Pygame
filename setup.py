@@ -24,15 +24,14 @@ while not state == QUIT:
         #state =  tela inicial( )["state"] -> função que retorna um dicionario com state e N da fase 
     elif state == PLAYING: 
         if fase == 1:
-            dici = Fase_1(tela)
-            state = dici["state"]
-            fase = dici["fase"] 
-        if fase == 2:
-            dici = Fase_2(tela)
-            state = dici["state"]
-            fase = dici["fase"] 
-        if fase == 3:
             dici = Fase_3(tela)
+=======
+            dici = Fase_2(tela)
+>>>>>>> origin/Camila
+            state = dici["state"]
+            fase = dici["fase"] 
+        if fase == 4:
+            dici = Fase_4(tela)
             state = dici["state"]
             fase = dici["fase"] 
         if fase == 4:
