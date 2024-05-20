@@ -26,7 +26,6 @@ def Fase_1(tela):
             fase1.play = False
             fase1.state = 0
     elementos.empty()
-    allcoliders.empty()
     fase1.mixer.music.stop()
     return {"state": fase1.state , "fase": 1}
 
@@ -53,4 +52,4 @@ som_aguia = assets['som_aguia']
 som_cacador = assets['som_cacador']
 
 
-Assets["Placar"] = pygame.font.Font('assets/-fontes/fonte_arcade')
+assets["Placar"] = pygame.font.Font('assets/-fontes/fonte_arcade')

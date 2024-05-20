@@ -68,7 +68,7 @@ class Fase ():
         self.tela = tela
         self.bg = pygame.image.load("Assets/-mapa/bg.png")
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
-        self.pos_cam = (0,0)
+        self.pos_cam = pygame.Rect(0,0,WIDTH,HEIGHT)
         self.state = 1
         self.cont_aves = len(aves.sprites())
 
@@ -83,6 +83,8 @@ class Fase ():
         self.score_fundo = pygame.image.load('Assets/-score/-score.png').convert_alpha()
         self.score_fundo = pygame.transform.scale(self.score_fundo,(240,120))
         
+        self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
+        self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
         
         
     def analisa_colisoes(self):
@@ -121,6 +123,9 @@ class Fase ():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:   
                 pygame.quit()
+                
+
+            
         
         #ANALISA TECLAS PRESSIONADAS
         keys = pygame.key.get_pressed()
@@ -203,8 +208,7 @@ class Fase ():
     
     #Processamento das informações a serem exibidas como texto 
     def hud_update(self):
-        self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
-        self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
+        
         self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
         self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, (255,255,255))
         return
@@ -220,11 +224,13 @@ class Fase ():
         self.hud_update()
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
-
+      
+        #Blit somente no que aparece
         
-        elementos.draw(self.mapa)
+        for elemento in elementos:
+            if pygame.Rect.colliderect(self.pos_cam,elemento.rect):
+                self.mapa.blit(elemento.image,elemento.rect)
         
-        hud.draw(self.tela) #desenha o hud
         self.camera_movimenta()
         self.cont_aves = len(aves.sprites())
         self.tela.blit(self.img_ave,(0.9*WIDTH,0.05*HEIGHT))
@@ -232,7 +238,7 @@ class Fase ():
         self.tela.blit(self.score_fundo,(20,0.005*HEIGHT))
         self.tela.blit(self.player.txt_score,(50,0.07*HEIGHT))
         self.tela.blit(self.txt_cont_aves,(0.8*WIDTH,0.05*HEIGHT))
-        pygame.display.flip()
+        pygame.display.update()
         if not self.play:
             self.mixer.music.stop()
             
@@ -291,7 +297,7 @@ class Corpo(pygame.sprite.Sprite):
         
         
 
-   def update(self):
+   def upd(self):
         self.mask = pygame.mask.from_surface(self.image)
         self.Fall = True
         self.g = 0.05 #aceleração da gravidade
@@ -419,7 +425,7 @@ class Player(Corpo):
         
      
         self.anima()
-        Corpo.update(self)
+        self.upd()
 
         #ajeita raposa e colisor
         
@@ -541,7 +547,7 @@ class Ave(Corpo):
 
         self.rect.y = self.pos[1]
         self.anima()
-        Corpo.update(self)
+        self.upd()
 
         return 
         
