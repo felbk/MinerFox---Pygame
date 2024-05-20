@@ -28,13 +28,9 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
             posicao = (coluna*tamanho[0], linha*tamanho[1])
             if elemento in range (1,16):
                 img = f"Assets/-mapa/-mapa ({elemento}).png"
-                if elemento not in range(12,14):
-                    Chão(tamanho,posicao,img)
-                else:
-                    Chão(tamanho,posicao,img,False)
+                Chão(tamanho,posicao,img)
             if elemento == "ave" : 
                 Ave(posicao)
-            
 
             
     return 
@@ -69,9 +65,13 @@ class Fase ():
                     self.player.lives_player -=1
                     self.player.rect.bottom = ave.rect.top-10
                     self.player.vy = -5 
+                    self.player.score +=100
                 break
-                
-                
+        if self.player.score >500:
+            if self.player.lives_player<3:
+                self.player.lives_player +=1 
+                self.player.score -=500     
+            
         return
 
     def analisa_controles(self):
@@ -170,7 +170,7 @@ class Fase ():
     
 
 class Chão(pygame.sprite.Sprite):
-    def __init__(self, tam = tuple, pos=tuple,img=str, fisica = bool) :
+    def __init__(self, tam = tuple, pos=tuple,img=str) :
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(img)
         self.pos = pos
@@ -179,8 +179,7 @@ class Chão(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
-        if not fisica == False:
-            self.add(allgnds)
+        self.add(allgnds)
         self.add(elementos)
     
 
@@ -309,7 +308,6 @@ class Player(Corpo):
         self.lives_player_max = self.lives_player
         self.lives_off = 0
         self.score = 100
-        
     
         
         

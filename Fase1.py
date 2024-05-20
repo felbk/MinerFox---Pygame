@@ -37,9 +37,18 @@ from pygame.locals import *
 from sys import exit
 from sprites import *
 from setup import QUIT , PLAYING , HOME
+from Assets import load_assets
 
+#carrega assets
+assets = load_assets()
 
 #carregando sons do jogo
-
+pygame.mixer.music.load("songs\som__de_fundo.wav")
+pygame.mixer.music.set_volume(0.4)
+coleta_diamantes = assets['coleta_diamantes']
+game_over_cacador = assets['game_over_cacador']
+game_over_jogo = assets['game_over_jogo']
+som_aguia = assets['som_aguia']
+som_cacador = assets['som_cacador']
 
 
