@@ -15,6 +15,7 @@ def Fase_1(tela):
     matmapa[9] = [3]*7 + [6,7,8] + [0]*2+ [3]*20
     
     fase1 = Fase(tela,(4000,1000),matmapa) #Cria fase
+    fase1.fase = 1 
     while fase1.play:
         fase1.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
@@ -60,7 +61,9 @@ def Fase_3(tela):
 
     while fase3.play:
         fase3.update()
-
+        if len(all_diamantes.sprites()) == 0 :
+            fase3.play = False
+            fase3.state = 0
 
     elementos.empty()
     fase3.mixer.music.stop()
