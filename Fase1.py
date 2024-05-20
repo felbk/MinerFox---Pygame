@@ -4,51 +4,28 @@
 
 def Fase_1(tela):
     from Config import WIDTH, HEIGHT , FPS
-
-#Cria os blocos do chão
+    D = 'diamante'
+    A = 'ave'
+    #Cria os blocos do chão
     matmapa =[[0]*40]*10
-    matmapa[5] = [0]*23 + ["ave"] + [0]*9 + ["ave"] + ["diamante"]
-    matmapa[6] = [0]*21 + [14,15,15,15,1] + [0]*3 + ["diamante"] + [14,15,15,15,15,1] 
-    matmapa[7] = [0]*5 +["ave"]+[0]*6 +["ave"] + [14,15,15,15,1] 
-    matmapa[8] = [0,12,0,12,0,13,13] + [2,3,4] + ["ave",0,0,"diamante",0,0,"ave",0,0,0,"ave" ,0, "diamante", 0 ,0 ,"ave"] 
+    matmapa[5] = [0]*23 + [A] + [0]*9 + [A] + [D]
+    matmapa[6] = [0]*21 + [14,15,15,15,1] + [0]*3 + [D] + [14,15,15,15,15,1] 
+    matmapa[7] = [0]*5 +[A]+[0]*6 +[A] + [14,15,15,15,1] 
+    matmapa[8] = [0,12,0,12,0,13,13] + [2,3,4] + [A,0,0,D,0,0,A,0,0,0,A ,0, D, 0 ,0 ,A] 
     matmapa[9] = [3]*7 + [6,7,8] + [0]*2+ [3]*20
     
     fase1 = Fase(tela,(4000,1000),matmapa) #Cria fase
-    D = 'diamante'
-    A = 'ave'
-    C = 14
-    V = 15
-    B = 1
-    G = 12
-    T = 22
-    H = 23
-    F = 13
-    M = 28
-
-    matmapa4 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, G, 29, 0, 0, 0, 0, 0, 0, H, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, C, V, V, B, 0, 0, 0, 0, F, T, D, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, G, T, F, D, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, D, 0, 0, 0, 0, 25, 0, 0, 0, C, V, V,B, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, G, T, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, 0, F, G, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 26, 0, 0, C, V, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, 0, 0, 0, 0, 0, 0, 0, C, B, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, M, 13, T, D, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, H, 0, 0,C, V, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,3 , 0, 0],
-    [36, G, T, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, D, 0, 0, 0, 0, 0, 6, 0, 0, 0],
-    [3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 0, 0, 0]]
-    fase4 = Fase(tela,(4000,1000),matmapa4)
-    
-
-
-
-    while fase4.play:
-        fase4.update() # Atualiza fase
+    while fase1.play:
+        fase1.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
         if len(all_diamantes.sprites()) == 0 :
-            fase4.play = False
-            fase4.state = 0
+            fase1.play = False
+            fase1.state = 0
+            fase = 2
     elementos.empty()
-    fase4.mixer.music.stop()
-    return {"state": fase4.state , "fase": 1}
+    fase1.mixer.music.stop()
+    return {"state": fase1.state , "fase": fase}
+
 
 def Fase_3(tela):
     D = "diamante"
@@ -80,8 +57,44 @@ def Fase_3(tela):
 
     elementos.empty()
     fase3.mixer.music.stop()
-    return {"state": fase3.state , "fase": 1}
+    return {"state": fase3.state , "fase": 4}
     
+def Fase_4(tela):
+    D = 'diamante'
+    A = 'ave'
+    C = 14
+    V = 15
+    B = 1
+    G = 12
+    T = 22
+    H = 23
+    F = 13
+    M = 28
+
+    matmapa4 = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, G, 29, 0, 0, 0, 0, 0, 0, H, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, C, V, V, B, 0, 0, 0, 0, F, T, D, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, G, T, F, D, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, D, 0, 0, 0, 0, 25, 0, 0, 0, C, V, V,B, 0, 0, 0, 0, H, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, G, T, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, G, T, 0, 0, C, V, B, 0, 0, F, G, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 26, 0, 0, C, V, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, B, 0, 0, 0, 0, 0, 0, 0, C, B, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, M, F, T, D, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, H, 0, 0,C, V, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,3 , 0, 0],
+    [36, G, T, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, D, 0, 0, 0, 0, 0, 6, 0, 0, 0],
+    [3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 0, 0, 0]]
+
+    fase4 = Fase(tela,(4000,1000),matmapa4)
+    
+
+    while fase4.play:
+        fase4.update() # Atualiza fase
+        # quando não houver mais aves, passa de fase
+        if len(all_diamantes.sprites()) == 0 :
+            fase4.play = False
+            fase4.state = 0
+    elementos.empty()
+    fase4.mixer.music.stop()
+    return {"state": fase4.state , "fase": 1}
 
 
 #==============IMPORTS===============
