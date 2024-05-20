@@ -214,8 +214,8 @@ class Fase ():
     def update(self):
         elementos.update()
         
-        hud.update()
-        self.mapa.fill((255,255,255))
+        
+        #self.mapa.fill((255,255,255))
         self.analisa_colisoes()
         self.analisa_eventos()
         self.bloqueia_limites()
@@ -236,7 +236,7 @@ class Fase ():
         self.tela.blit(self.score_fundo,(20,0.005*HEIGHT))
         self.tela.blit(self.player.txt_score,(50,0.07*HEIGHT))
         self.tela.blit(self.txt_cont_aves,(0.85*WIDTH,0.07*HEIGHT))
-        pygame.display.update()
+        pygame.display.flip()
         if not self.play:
             self.mixer.music.stop()
             
@@ -268,7 +268,7 @@ class Chão(pygame.sprite.Sprite): #Classe para iniciar um tile
 # classe para todo personagem herdar
 class Corpo(pygame.sprite.Sprite):
    
-   def __init__(self, tam = tuple, pos=tuple,img= pygame.SurfaceType) :
+   def __init__(self, tam = tuple, pos=tuple,img= pygame.SurfaceType,colx= bool,coly=bool) :
         pygame.sprite.Sprite.__init__(self)
         self.image = img
         self.tam = tam
@@ -284,6 +284,8 @@ class Corpo(pygame.sprite.Sprite):
         self.andar = True
         self.Fall = True
         self.flip= False
+        self.coly = coly
+        self.colx = colx
         self.add(elementos)
        
         
@@ -302,24 +304,26 @@ class Corpo(pygame.sprite.Sprite):
         if self.vy < 3: #Velocidade maxima de queda
             self.vy += self.g
 
-          #Movimento em y a ser analisado 
+        #Movimento em y a ser analisado 
         self.proxima_posicao = pygame.Rect.copy(self.rect)
         self.proxima_posicao.y += self.vy
         self.colisao_Y = False
         #confere se ira entrar em um objeto
-        for gnd in allgnds:
-            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
-                self.colisao_Y= True
-                self.vy = 0
-                if gnd.rect.y > self.rect.y : # colisão com limite no chão
-                    self.Fall = False
-                    self.rect.y= gnd.rect.y - self.rect.height
-                if gnd.rect.y < self.rect.y : # colisão com limite no teto
-                    self.Fall = True
-                    self.rect.top = gnd.rect.bottom 
-                
-                break
-        
+
+        if not self.coly == False:
+            for gnd in allgnds:
+                if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
+                    self.colisao_Y= True
+                    self.vy = 0
+                    if gnd.rect.y > self.rect.y : # colisão com limite no chão
+                        self.Fall = False
+                        self.rect.y= gnd.rect.y - self.rect.height
+                    if gnd.rect.y < self.rect.y : # colisão com limite no teto
+                        self.Fall = True
+                        self.rect.top = gnd.rect.bottom 
+                    
+                    break
+            
         
         # permite o movimento caso não colida
 
@@ -330,11 +334,13 @@ class Corpo(pygame.sprite.Sprite):
         self.proxima_posicao = pygame.Rect.copy(self.rect)
         self.proxima_posicao.x +=  self.vx
         self.colisao_X = False
+
         #confere se ira entrar em um objeto
-        for gnd in allgnds:
-            if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
-                self.colisao_X = True
-                break
+        if not self.colx == False:
+            for gnd in allgnds:
+                if pygame.Rect.colliderect(gnd.rect,self.proxima_posicao):
+                    self.colisao_X = True
+                    break
         
         # permite o movimento caso não colida
 
@@ -493,7 +499,7 @@ class Ave(Corpo):
         img = pygame.image.load("Assets/-bird/-bird (1).png")
         tam= (60,60)
         img= pygame.transform.scale(img,tam)
-        Corpo.__init__(self,tam,pos,img)
+        Corpo.__init__(self,tam,pos,img,True, False)
         self.runtime = random.randint(1000,2000) 
         self.lastupdate = pygame.time.get_ticks() 
         self.vx = - (random.randint(10,20)/10)
