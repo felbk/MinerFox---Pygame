@@ -26,7 +26,8 @@ def Fase_1(tela):
             fase1.play = False
             fase1.state = 0
     elementos.empty()
-
+    allcoliders.empty()
+    fase1.mixer.music.stop()
     return {"state": fase1.state , "fase": 1}
 
 
