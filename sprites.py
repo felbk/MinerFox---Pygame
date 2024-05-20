@@ -17,6 +17,8 @@ hud = pygame.sprite.Group()
 allcoliders = pygame.sprite.Group()
 all_diamantes = pygame.sprite.Group()
 aves = pygame.sprite.Group()
+personagens = pygame.sprite.Group()
+itensmapa = pygame.sprite.Group()
 
 def posiciona_itens_mapa(matriz_mapa,tamanho):
     for linha in range(len(matriz_mapa)):
@@ -25,9 +27,13 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
             posicao = (coluna*tamanho[0], linha*tamanho[1])
             if elemento in range (1,16):
                 img = f"Assets/-mapa/-mapa ({elemento}).png"
-                Chão(tamanho,posicao,img)
+                if elemento not in range(12,14):
+                    Chão(tamanho,posicao,img)
+                else:
+                    Chão(tamanho,posicao,img,False)
             if elemento == "ave" : 
                 Ave(posicao)
+            
 
             
     return 
@@ -148,8 +154,10 @@ class Fase ():
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
 
-        elementos.draw(self.mapa)
-        hud.draw(self.tela)
+        itensmapa.draw(self.mapa) #desenha todos os elementos do mapa
+        all_diamantes.draw(self.mapa)
+        personagens.draw(self.mapa) #redesenha personagens para sobrepor o cenário
+        hud.draw(self.tela) #desenha o hud
         self.camera_movimenta()
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         self.tela.blit(self.player.txt_score,(50,0.05*HEIGHT))
@@ -159,7 +167,7 @@ class Fase ():
     
 
 class Chão(pygame.sprite.Sprite):
-    def __init__(self, tam = tuple, pos=tuple,img=str) :
+    def __init__(self, tam = tuple, pos=tuple,img=str, fisica = bool) :
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(img)
         self.pos = pos
@@ -168,8 +176,10 @@ class Chão(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
-        self.add(allgnds)
+        if not fisica == False:
+            self.add(allgnds)
         self.add(elementos)
+        self.add(itensmapa)
 
         return
     
@@ -197,6 +207,7 @@ class Corpo(pygame.sprite.Sprite):
         self.Fall = True
         self.flip= False
         self.add(elementos)
+        self.add(personagens)
         
         
         
@@ -295,6 +306,7 @@ class Player(Corpo):
         self.lives_player_max = self.lives_player
         self.lives_off = 0
         self.score = 100
+        
     
         
         
