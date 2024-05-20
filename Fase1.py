@@ -22,7 +22,7 @@ def Fase_1(tela):
     while fase1.play:
         fase1.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
-        if len(aves.sprites()) == 0 :
+        if len(all_diamantes.sprites()) == 0 :
             fase1.play = False
             fase1.state = 0
     elementos.empty()

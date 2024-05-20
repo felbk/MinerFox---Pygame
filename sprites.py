@@ -65,6 +65,8 @@ class Fase ():
         
         
     def analisa_colisoes(self):
+
+        # ANALISA COLISÃO COM AS AVES
         for ave in pygame.sprite.spritecollide(self.player,aves,True, pygame.sprite.collide_mask):
             if pygame.sprite.collide_mask(self.player,ave):
                 if self.player.rect.centery < ave.rect.centery :
@@ -76,8 +78,8 @@ class Fase ():
                     self.player.rect.bottom = ave.rect.top-10
                     self.player.vy = -5 
                 break
-    #analisa colisão diamante
     
+        #ANALISA COLISÃO COM DIAMANTES
         for diamante in pygame.sprite.spritecollide(self.player, all_diamantes, True, pygame.sprite.collide_mask):
             if pygame.sprite.collide_mask(self.player, diamante):
                 self.player.score += 100
@@ -96,19 +98,23 @@ class Fase ():
             if event.type == pygame.QUIT:   
                 pygame.quit()
         
+        #ANALISA TECLAS PRESSIONADAS
         keys = pygame.key.get_pressed()
 
         
-            
+        #DIREITA    
         if keys[pygame.K_d]: 
             self.player.vx = self.vel
             self.player.flip = False   
+        #ESQUERDA
         elif keys[pygame.K_a]: 
             self.player.vx = -self.vel 
             self.player.flip = True  
+        #PARADO
         else:
             self.player.vx = 0          
-            
+
+        #PULO   
         if keys[pygame.K_ESCAPE]:
              self.play = False
              self.state = 0
@@ -118,14 +124,10 @@ class Fase ():
         if not keys[pygame.K_SPACE ]:
             self.player.jump = False
 
-        #nao ultrapassa limites do mapa
-        if self.player.rect.left < 0 :
-            self.player.vx =1         
-        if self.player.rect.right > self.mapa.get_width() :
-            self.player.vx=-1
 
         #Analise das vidas do player
         if self.player.lives_player <=0:
+            self.mixer.music.stop()
             self.game_over_sound.play()
 
             tela_perda_return = tela_perda(self.tela)
