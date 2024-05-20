@@ -62,22 +62,25 @@ class Fase ():
         self.mixer.music.set_volume(0.2)
         self.game_over_sound = pygame.mixer.Sound("songs\game_over.mp3")
         self.diamante_sound = pygame.mixer.Sound("songs\coleta_diamantes.mp3")
+        self.ave_sound = pygame.mixer.Sound("songs\som_aguia.mp3")
         
         
         
     def analisa_colisoes(self):
 
         # ANALISA COLISÃO COM AS AVES
-        for ave in pygame.sprite.spritecollide(self.player,aves,True, pygame.sprite.collide_mask):
+        for ave in pygame.sprite.spritecollide(self.player,aves,False, pygame.sprite.collide_mask):
             if pygame.sprite.collide_mask(self.player,ave):
-                if self.player.rect.centery < ave.rect.centery :
-                
+                if self.player.rect.centery < ave.rect.centery -10 :
+                    ave.kill()
+                    self.ave_sound.play()
                     self.player.vy = -3
                     self.player.score +=100
+                    
+
                 else:
                     self.player.lives_player -=1
-                    self.player.rect.bottom = ave.rect.top-10
-                    self.player.vy = -5 
+                    self.player.rect.midbottom = (100,HEIGHT-200)
                 break
     
         #ANALISA COLISÃO COM DIAMANTES
