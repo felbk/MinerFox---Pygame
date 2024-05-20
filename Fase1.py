@@ -7,8 +7,8 @@ def Fase_1(tela):
 
 #Cria os blocos do chão
     matmapa =[[0]*40]*10
-    matmapa[5] = [0]*23 + ["ave"] + [ 0]*9 + ["ave"]
-    matmapa[6] = [0]*21 + [14,15,15,15,1] + [0]*4 + [14,15,15,15,15,1] 
+    matmapa[5] = [0]*23 + ["ave"] + [0]*9 + ["ave"] + ["diamante"]
+    matmapa[6] = [0]*21 + [14,15,15,15,1] + [0]*4 + ["diamante"] + [14,15,15,15,15,1] 
     matmapa[7] = [0]*5 +["ave"]+[0]*6 +["ave"] + [14,15,15,15,1] 
     matmapa[8] = [0,12,0,12,0,13,13] + [2,3,4] + ["ave",0,0,0,0,"ave",0,0,0,"ave" ,0 ,0 ,0 ,"ave"] 
     matmapa[9] = [3]*7 + [6,7,8] + [0]*2+ [3]*20
@@ -52,3 +52,4 @@ som_aguia = assets['som_aguia']
 som_cacador = assets['som_cacador']
 
 
+Assets["Placar"] = pygame.font.Font('assets/-fontes/fonte_arcade')

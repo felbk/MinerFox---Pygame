@@ -34,6 +34,9 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
                     Chão(tamanho,posicao,img,False)
             if elemento == "ave" : 
                 Ave(posicao)
+
+            if elemento == "diamante":
+                Diamante(posicao)
             
 
             
@@ -73,9 +76,18 @@ class Fase ():
                     self.player.rect.bottom = ave.rect.top-10
                     self.player.vy = -5 
                 break
-                
+    #analisa colisão diamante
+    
+        for diamante in pygame.sprite.spritecollide(self.player, all_diamantes, True, pygame.sprite.collide_mask):
+            if pygame.sprite.collide_mask(self.player, diamante):
+                self.player.score += 100
+                break
+   
+               
                 
         return
+    
+
 
     def analisa_controles(self):
           #Analisa eventos
@@ -492,8 +504,12 @@ class Diamante(pygame.sprite.Sprite):
         img = pygame.transform.scale(img,(40,40))
         self.image = img
         self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
         self.pos = pos
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
         self.add(elementos)
         self.add(all_diamantes)
+
+    
+
