@@ -12,15 +12,14 @@ RUN = 1
 JUMP = 2
 
 
-elementos = pygame.sprite.Group()
-allgnds = pygame.sprite.Group()
-hud = pygame.sprite.Group()
-allcoliders = pygame.sprite.Group()
-all_diamantes = pygame.sprite.Group()
-aves = pygame.sprite.Group()
+elementos = pygame.sprite.Group() #Grupo para todos os elementos (para usar o update() draw() e etc)
+allgnds = pygame.sprite.Group() #Grupo de tiles com colisão/ física
+hud = pygame.sprite.Group() 
+all_diamantes = pygame.sprite.Group() #Grupo para todos os diamantes
+aves = pygame.sprite.Group() #Grupo para as aves 
 
 
-
+# Função que recebe uma matriz e posiciona os elementos no mapa, criando-os em sua posição de acordo com seu tamanho, linha e coluna 
 def posiciona_itens_mapa(matriz_mapa,tamanho):
     for linha in range(len(matriz_mapa)):
         for coluna in range(len(matriz_mapa[linha])):
@@ -42,19 +41,28 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
             
     return 
 
+#Classe fase para facilitar a criação de novos niveis
+
 class Fase ():
     def __init__(self,tela,tamanho_mapa= tuple,matmapa="matriz"):
+        #Limpa todos os grupos antes de iniciar a fase
         elementos.empty()
         allgnds.empty()
-        allcoliders.empty()
         all_diamantes.empty()
         aves.empty()
 
+        #Cria mapa
         self.mapa = pygame.Surface(tamanho_mapa)
         posiciona_itens_mapa(matmapa,(100,100))
+
+        #Cria player
         self.player = Player((150,150),(10,0))
         self.play = True 
+
+        #Velociadade do player
         self.vel = 2
+
+        #Parametros e variaveis
         self.clock = pygame.time.Clock()
         self.clock.tick(FPS)
         self.tela = tela
@@ -63,6 +71,8 @@ class Fase ():
         self.pos_cam = (0,0)
         self.state = 1
         self.cont_aves = len(aves.sprites())
+
+        #Musicas e sons
         self.mixer = pygame.mixer
         self.mixer.music.load("songs\som__de_fundo.wav")
         self.mixer.music.play(-1)
@@ -166,6 +176,7 @@ class Fase ():
             self.player.vx=-1
         return
     
+    #Exibe na tela um pedaço do mapa
     def camera_movimenta(self):
    
         self.pos_cam=pygame.Rect(self.player.rect.centerx - WIDTH/2,self.player.rect.centery - HEIGHT/2,WIDTH,HEIGHT)
@@ -188,6 +199,7 @@ class Fase ():
 
         return 
     
+    #Processamento das informações a serem exibidas como texto 
     def hud_update(self):
         self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
         self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
@@ -197,7 +209,7 @@ class Fase ():
     
     def update(self):
         elementos.update()
-        allcoliders.update()
+        
         hud.update()
         self.mapa.fill((255,255,255))
         self.analisa_colisoes()
@@ -246,7 +258,7 @@ class Chão(pygame.sprite.Sprite): #Classe para iniciar um tile
     
 
         
-
+# classe para todo personagem herdar
 class Corpo(pygame.sprite.Sprite):
    
    def __init__(self, tam = tuple, pos=tuple,img= pygame.SurfaceType) :
