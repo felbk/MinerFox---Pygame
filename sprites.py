@@ -28,9 +28,13 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
             posicao = (coluna*tamanho[0], linha*tamanho[1])
             if elemento in range (1,16):
                 img = f"Assets/-mapa/-mapa ({elemento}).png"
-                Chão(tamanho,posicao,img)
+                if elemento not in range(12,14): #Chão sem fisica
+                    Chão(tamanho,posicao,img)
+                else:
+                    Chão(tamanho,posicao,img,False)
             if elemento == "ave" : 
                 Ave(posicao)
+            
 
             
     return 
