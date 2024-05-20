@@ -127,13 +127,14 @@ class Fase ():
         #Analise das vidas do player
         if self.player.lives_player <=0:
             self.game_over_sound.play()
-            tela_perda(self.tela)
-            if tela_perda == True:
-                self.play = True
-                self.state = 1
+
+            tela_perda_return = tela_perda(self.tela)
+            if tela_perda_return == True:
+                self.play = False
+                self.state = 1 #playng
             else: 
                 self.play=False
-                self.state = 0
+                self.state = 0 #Home
         return
     
     def bloqueia_limites(self):
