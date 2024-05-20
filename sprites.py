@@ -89,7 +89,7 @@ class Fase ():
     
 
 
-    def analisa_controles(self):
+    def analisa_eventos(self):
           #Analisa eventos
             
         for event in pygame.event.get():
@@ -170,7 +170,7 @@ class Fase ():
         hud.update()
         self.mapa.fill((255,255,255))
         self.analisa_colisoes()
-        self.analisa_controles()
+        self.analisa_eventos()
         self.bloqueia_limites()
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
