@@ -82,9 +82,8 @@ class Fase ():
         self.ave_sound = pygame.mixer.Sound("songs\som_aguia.mp3")
         self.score_fundo = pygame.image.load('Assets/-score/-score.png').convert_alpha()
         self.score_fundo = pygame.transform.scale(self.score_fundo,(240,120))
-        
-        self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
-        self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
+        self.img_ave = pygame.image.load('Assets/-score/-cont_ave.png').convert_alpha()
+        self.img_ave = pygame.transform.scale(self.img_ave,(240,120))
         
         
     def analisa_colisoes(self):
@@ -208,8 +207,7 @@ class Fase ():
     
     #Processamento das informações a serem exibidas como texto 
     def hud_update(self):
-        
-        self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
+        self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',36)
         self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, (255,255,255))
         return
     
@@ -233,11 +231,11 @@ class Fase ():
         
         self.camera_movimenta()
         self.cont_aves = len(aves.sprites())
-        self.tela.blit(self.img_ave,(0.9*WIDTH,0.05*HEIGHT))
+        self.tela.blit(self.img_ave,(0.8*WIDTH,0.001*HEIGHT))
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         self.tela.blit(self.score_fundo,(20,0.005*HEIGHT))
         self.tela.blit(self.player.txt_score,(50,0.07*HEIGHT))
-        self.tela.blit(self.txt_cont_aves,(0.8*WIDTH,0.05*HEIGHT))
+        self.tela.blit(self.txt_cont_aves,(0.85*WIDTH,0.07*HEIGHT))
         pygame.display.update()
         if not self.play:
             self.mixer.music.stop()
