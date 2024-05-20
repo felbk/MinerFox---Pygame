@@ -25,7 +25,7 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
         for coluna in range(len(matriz_mapa[linha])):
             elemento = matriz_mapa[linha][coluna]
             posicao = (coluna*tamanho[0], linha*tamanho[1])
-            if elemento in range (1,16):
+            if elemento in range (1,37):
                 img = f"Assets/-mapa/-mapa ({elemento}).png"
                 if elemento not in range(12,14) and elemento not in range(16,37): #Chão sem fisica para itens decorativos
                     Chão(tamanho,posicao,img)
@@ -100,7 +100,7 @@ class Fase ():
 
                 else:
                     self.player.lives_player -=1
-                    self.player.rect.midbottom = (100,HEIGHT-200)
+                    self.player.rect.midbottom = (self.player.posinit)
                 break
     
         #ANALISA COLISÃO COM DIAMANTES
@@ -384,6 +384,7 @@ class Player(Corpo):
         self.lives_player_max = self.lives_player
         self.lives_off = 0
         self.score = 0
+        self.posinit = pos
         
     
         
@@ -430,8 +431,7 @@ class Player(Corpo):
 
         if self.passou_all_gnds == True:
             self.lives_player -=1
-            self.rect.y = 0
-            self.rect.x = 10
+            self.rect.midbottom = self.posinit
         
         self.lives_off = self.lives_player_max - self.lives_player
 

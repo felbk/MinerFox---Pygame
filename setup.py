@@ -26,7 +26,7 @@ while not state == QUIT:
         if fase == 1:
             dici = Fase_3(tela)
             state = dici["state"]
-            fase = dici["fase"]
+            fase = dici["fase"] 
 pygame.quit()
 
         
