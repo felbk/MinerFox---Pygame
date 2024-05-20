@@ -10,7 +10,7 @@ def Fase_1(tela):
     matmapa[5] = [0]*23 + ["ave"] + [0]*9 + ["ave"] + ["diamante"]
     matmapa[6] = [0]*21 + [14,15,15,15,1] + [0]*4 + ["diamante"] + [14,15,15,15,15,1] 
     matmapa[7] = [0]*5 +["ave"]+[0]*6 +["ave"] + [14,15,15,15,1] 
-    matmapa[8] = [0,12,0,12,0,13,13] + [2,3,4] + ["ave",0,0,0,0,"ave",0,0,0,"ave" ,0 ,0 ,0 ,"ave"] 
+    matmapa[8] = [0,12,0,12,0,13,13] + [2,3,4] + ["ave",0,0,"diamante",0,0,"ave",0,0,0,"ave" ,0, "diamante", 0 ,0 ,"ave"] 
     matmapa[9] = [3]*7 + [6,7,8] + [0]*2+ [3]*20
     
     fase1 = Fase(tela,(4000,1000),matmapa) #Cria fase
