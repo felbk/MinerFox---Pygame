@@ -53,9 +53,6 @@ class Fase ():
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
         self.state = 1
-        self.mixer = pygame.mixer
-        self.mixer.init()
-        self.mixer.music.load()
         
         
     def analisa_colisoes(self):
@@ -69,13 +66,9 @@ class Fase ():
                     self.player.lives_player -=1
                     self.player.rect.bottom = ave.rect.top-10
                     self.player.vy = -5 
-                    self.player.score +=100
                 break
-        if self.player.score >500:
-            if self.player.lives_player<3:
-                self.player.lives_player +=1 
-                self.player.score -=500     
-            
+                
+                
         return
 
     def analisa_controles(self):
@@ -183,7 +176,8 @@ class Chão(pygame.sprite.Sprite): #Classe para iniciar um tile
         self.rect = self.image.get_rect()
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
-        self.add(allgnds)
+        if not fisica == False:
+            self.add(allgnds)
         self.add(elementos)
     
 
@@ -312,6 +306,7 @@ class Player(Corpo):
         self.lives_player_max = self.lives_player
         self.lives_off = 0
         self.score = 100
+        
     
         
         
