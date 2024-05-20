@@ -11,14 +11,15 @@ IDLE = 0
 RUN = 1
 JUMP = 2
 
+
 elementos = pygame.sprite.Group()
 allgnds = pygame.sprite.Group()
 hud = pygame.sprite.Group()
 allcoliders = pygame.sprite.Group()
 all_diamantes = pygame.sprite.Group()
 aves = pygame.sprite.Group()
-personagens = pygame.sprite.Group()
-itensmapa = pygame.sprite.Group()
+
+
 
 def posiciona_itens_mapa(matriz_mapa,tamanho):
     for linha in range(len(matriz_mapa)):
@@ -39,8 +40,9 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
     return 
 
 class Fase ():
-    def __init__(self,tela,tamanho_mapa= tuple):
+    def __init__(self,tela,tamanho_mapa= tuple,matmapa="matriz"):
         self.mapa = pygame.Surface(tamanho_mapa)
+        posiciona_itens_mapa(matmapa,(100,100))
         self.player = Player((150,150),(10,0))
         self.play = True 
         self.vel = 2
@@ -51,6 +53,8 @@ class Fase ():
         self.bg = pygame.transform.scale(self.bg,(self.tela.get_size()))
         self.pos_cam = (0,0)
         self.state = 1
+        
+        
     def analisa_colisoes(self):
         for ave in pygame.sprite.spritecollide(self.player,aves,True, pygame.sprite.collide_mask):
             if pygame.sprite.collide_mask(self.player,ave):
@@ -150,9 +154,9 @@ class Fase ():
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
 
-        itensmapa.draw(self.mapa) #desenha todos os elementos do mapa
-        all_diamantes.draw(self.mapa)
-        personagens.draw(self.mapa) #redesenha personagens para sobrepor o cenário
+        
+        elementos.draw(self.mapa)
+        
         hud.draw(self.tela) #desenha o hud
         self.camera_movimenta()
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
@@ -175,7 +179,7 @@ class Chão(pygame.sprite.Sprite):
         if not fisica == False:
             self.add(allgnds)
         self.add(elementos)
-        self.add(itensmapa)
+    
 
         return
     
@@ -203,7 +207,7 @@ class Corpo(pygame.sprite.Sprite):
         self.Fall = True
         self.flip= False
         self.add(elementos)
-        self.add(personagens)
+       
         
         
         
