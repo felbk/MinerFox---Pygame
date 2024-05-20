@@ -28,7 +28,7 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
             posicao = (coluna*tamanho[0], linha*tamanho[1])
             if elemento in range (1,16):
                 img = f"Assets/-mapa/-mapa ({elemento}).png"
-                if elemento not in range(12,14): #Chão sem fisica
+                if elemento not in range(12,14) and elemento not in range(16,37): #Chão sem fisica para itens decorativos
                     Chão(tamanho,posicao,img)
                 else:
                     Chão(tamanho,posicao,img,False)
@@ -44,6 +44,12 @@ def posiciona_itens_mapa(matriz_mapa,tamanho):
 
 class Fase ():
     def __init__(self,tela,tamanho_mapa= tuple,matmapa="matriz"):
+        elementos.empty()
+        allgnds.empty()
+        allcoliders.empty()
+        all_diamantes.empty()
+        aves.empty()
+
         self.mapa = pygame.Surface(tamanho_mapa)
         posiciona_itens_mapa(matmapa,(100,100))
         self.player = Player((150,150),(10,0))
@@ -143,6 +149,13 @@ class Fase ():
             else: 
                 self.play=False
                 self.state = 0 #Home
+
+        #Confere vidas e acrescenta de acordo com pontos 
+
+        if self.player.lives_player < self.player.lives_player_max and self.player.score >= 500 :
+            self.player.lives_player += 1 
+            self.player.score -= 500
+
         return
     
     def bloqueia_limites(self):
