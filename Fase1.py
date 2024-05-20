@@ -29,7 +29,28 @@ def Fase_1(tela):
     fase1.mixer.music.stop()
     return {"state": fase1.state , "fase": 1}
 
+#cria fase 2
 
+def Fase_2(tela):
+    from Config import WIDTH, HEIGHT , FPS
+
+#Cria os blocos do chão
+    
+    fase2 = Fase(tela,(7000,1000),matmapa) #Cria fase
+    
+
+    Diamante((825,650))
+
+
+    while fase2.play:
+        fase2.update() # Atualiza fase
+        # quando não houver mais aves, passa de fase
+        if len(all_diamantes.sprites()) == 0 :
+            fase2.play = False
+            fase2.state = 0
+    elementos.empty()
+    fase2.mixer.music.stop()
+    return {"state": fase2.state , "fase": 1}
 #==============IMPORTS===============
 
 import pygame
