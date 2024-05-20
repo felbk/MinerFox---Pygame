@@ -56,7 +56,7 @@ class Fase ():
         posiciona_itens_mapa(matmapa,(100,100))
 
         #Cria player
-        self.player = Player((150,150),(10,0))
+        self.player = Player((150,150),(10,tamanho_mapa[1]-200))
         self.play = True 
 
         #Velociadade do player
@@ -75,7 +75,7 @@ class Fase ():
         #Musicas e sons
         self.mixer = pygame.mixer
         self.mixer.music.load("songs\som__de_fundo.wav")
-        self.mixer.music.play(-1)
+        #self.mixer.music.play(-1)
         self.mixer.music.set_volume(0.2)
         self.game_over_sound = pygame.mixer.Sound("songs\game_over.mp3")
         self.diamante_sound = pygame.mixer.Sound("songs\coleta_diamantes.mp3")
@@ -100,7 +100,7 @@ class Fase ():
 
                 else:
                     self.player.lives_player -=1
-                    self.player.rect.midbottom = (100,HEIGHT-200)
+                    self.player.rect.midbottom = (self.player.posinit)
                 break
     
         #ANALISA COLISÃO COM DIAMANTES
@@ -384,6 +384,7 @@ class Player(Corpo):
         self.lives_player_max = self.lives_player
         self.lives_off = 0
         self.score = 0
+        self.posinit = pos
         
     
         
@@ -430,8 +431,7 @@ class Player(Corpo):
 
         if self.passou_all_gnds == True:
             self.lives_player -=1
-            self.rect.y = 0
-            self.rect.x = 10
+            self.rect.midbottom = self.posinit
         
         self.lives_off = self.lives_player_max - self.lives_player
 
