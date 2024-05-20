@@ -56,6 +56,9 @@ class Fase ():
         self.mixer = pygame.mixer
         self.mixer.music.load("songs\som__de_fundo.wav")
         self.mixer.music.play(-1)
+        self.mixer.music.set_volume(0.2)
+        self.game_over_sound = pygame.mixer.Sound("songs\game_over.mp3")
+        
         
         
     def analisa_colisoes(self):
@@ -108,7 +111,10 @@ class Fase ():
             self.player.vx =1         
         if self.player.rect.right > self.mapa.get_width() :
             self.player.vx=-1
+
+        #Analise das vidas do player
         if self.player.lives_player <=0:
+            self.game_over_sound.play()
             tela_perda(self.tela)
             if tela_perda == True:
                 self.play = True
