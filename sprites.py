@@ -142,14 +142,17 @@ class Fase ():
 
         
         pygame.Surface.blit(self.tela,self.mapa,(0,0),self.pos_cam)
-        self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
-        self.txt_cont_aves = self.fonte_ave.render('{0}'.format(self.cont_aves),True, (255,255,255))
+
 
         return 
+    
     def hud_update(self):
+        self.img_ave = pygame.image.load('Assets/-bird/-bird (1).png').convert()
+        self.img_ave = pygame.transform.scale(self.img_ave,(60,60))
         self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',48)
-        self.txt_cont_aves = self.fonte_ave.render('{0}'.format(self.cont_aves),True, (255,255,255))
+        self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, (255,255,255))
         return
+    
     def update(self):
         elementos.update()
         allcoliders.update()
@@ -168,9 +171,10 @@ class Fase ():
         hud.draw(self.tela) #desenha o hud
         self.camera_movimenta()
         self.cont_aves = len(aves.sprites())
+        self.tela.blit(self.img_ave,(0.9*WIDTH,0.05*HEIGHT))
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         self.tela.blit(self.player.txt_score,(50,0.05*HEIGHT))
-        self.tela.blit(self.txt_cont_aves,(0.7*WIDTH,0.05*HEIGHT))
+        self.tela.blit(self.txt_cont_aves,(0.8*WIDTH,0.05*HEIGHT))
         pygame.display.flip()
         return
 
