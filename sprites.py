@@ -166,7 +166,7 @@ class Fase ():
 
     
 
-class Chão(pygame.sprite.Sprite):
+class Chão(pygame.sprite.Sprite): #Classe para iniciar um tile
     def __init__(self, tam = tuple, pos=tuple,img=str, fisica = bool) :
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(img)
