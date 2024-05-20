@@ -25,9 +25,7 @@ while not state == QUIT:
     elif state == PLAYING: 
         if fase == 1:
             dici = Fase_3(tela)
-=======
             dici = Fase_2(tela)
->>>>>>> origin/Camila
             state = dici["state"]
             fase = dici["fase"] 
         if fase == 4:
