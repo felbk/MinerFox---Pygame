@@ -71,6 +71,7 @@ class Fase ():
         self.pos_cam = pygame.Rect(0,0,WIDTH,HEIGHT)
         self.state = 1
         self.cont_aves = len(aves.sprites())
+        self.fase = 1
 
         #Musicas e sons
         self.mixer = pygame.mixer
@@ -157,6 +158,7 @@ class Fase ():
         if self.player.lives_player <=0:
             self.mixer.music.stop()
             self.game_over_sound.play()
+            self.fase = 1
 
             tela_perda_return = tela_perda(self.tela)
             if tela_perda_return == True:
@@ -511,6 +513,7 @@ class Ave(Corpo):
         self.last_update = pygame.time.get_ticks()
         self.flip= False
         self.add(aves)
+        self.ciclo = True
 
          #Cria lista de frames da animação fly
         for i in range(3,10):
@@ -542,12 +545,18 @@ class Ave(Corpo):
 
 
     def update(self):
+
         now = pygame.time.get_ticks()
         self.deltaticks = now - self.lastupdate
-        if self.deltaticks >= self.runtime:
-            self.lastupdate = now
-            self.vx *= -1 #Inverte velocidade
-            self.flip = not self.flip
+        if self.ciclo:
+            if self.deltaticks >= self.runtime:
+                self.lastupdate = now
+                self.vx *= -1 #Inverte velocidade
+                self.flip = not self.flip
+        elif self.rect.x < 0:
+            self.kill()
+        else:
+            self.vx = -2
 
         self.rect.y = self.pos[1]
         self.anima()

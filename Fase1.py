@@ -14,18 +14,18 @@ def Fase_1(tela):
     matmapa[8] = [0,12,0,12,0,13,13] + [2,3,4] + [A,0,0,D,0,0,A,0,0,0,A ,0, D, 0 ,0 ,A] 
     matmapa[9] = [3]*7 + [6,7,8] + [0]*2+ [3]*20
     
-    fase1 = Fase(tela,(4000,1000),matmapa) #Cria fase
-    fase = 1
-    while fase1.play:
-        fase1.update() # Atualiza fase
+    FASE = Fase(tela,(4000,1000),matmapa) #Cria fase
+    FASE.fase = 1 
+    while FASE.play:
+        FASE.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
         if len(all_diamantes.sprites()) == 0 :
-            fase1.play = False
-            fase1.state = 0
-            fase = 2
+            FASE.play = False
+            FASE.state = 0
+            FASE.fase += 1
     elementos.empty()
-    fase1.mixer.music.stop()
-    return {"state": fase1.state , "fase": fase}
+    FASE.mixer.music.stop()
+    return {"state": FASE.state , "fase": FASE.fase}
 
 def Fase_2(tela):
     D = "diamante"
@@ -53,22 +53,22 @@ def Fase_2(tela):
  [0, L, T, 0, C, V, B, 0, 0, 0, 0, V, V, 0, 0, 0, 0, 0, D, L, 0, 0, C, V, B, 0, 0, 0, 0, 0],
  [C, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0],]
     
-    fase2 = Fase(tela,(len(matmapa[0])*100, len(matmapa) * 100),matmapa)
+    FASE = Fase(tela,(len(matmapa[0])*100, len(matmapa) * 100),matmapa)
 
     
 
    
-    fase = 2
-    while fase2.play:
-        fase2.update() # Atualiza fase
+    FASE.fase = 2
+    while FASE.play:
+        FASE.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
         if len(all_diamantes.sprites()) == 0 :
-            fase2.play = False
-            fase2.state = 0
-            fase =  3
+            FASE.play = False
+            FASE.state = 0
+            FASE.fase += 1
     elementos.empty()
-    fase2.mixer.music.stop()
-    return {"state": fase2.state , "fase": fase}
+    FASE.mixer.music.stop()
+    return {"state": FASE.state , "fase": FASE.fase}
 
 def Fase_3(tela):
     #atalhos para criação da matriz mapa
@@ -82,35 +82,35 @@ def Fase_3(tela):
     H = 16
     F = 13
     
-    matmapa= [
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,D,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ],
-[0,0,0,0,0,0,0,0,0,0,A,0,0,0,H,0,0,0,0,0,0,0,0,0,F,G,G,0,0,0,0,0,H,0,0,0,0,0,0,0,0,0,0,0,0,H,0,0,0,0,D,0,0,0,0,0,0,H,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ],
-[0,0,0,0,0,0,0,A,0,0,0,0,0,D,T,0,0,H,0,0,0,0,0,0,C,V,B,0,0,0,F,G,T,0,0,0,H,G,0,0,0,0,0,C,V,B,0,0,0,0,0,0,0,0,0,0,C,V,B,0,0,0,0,0,0,G,0,D,0,0,0,0,0,0 ],
-[0,0,0,0,0,0,0,0,0,0,0,0,C,V,B,0,0,T,H,H,0,0,0,0,0,0,0,0,0,0,C,V,B,0,0,0,C,V,B,0,0,0,0,0,0,0,0,0,0,C,V,B,0,0,0,0,0,0,0,0,0,V,0,0,0,V,0,0,0,0,0,0,0,0 ],
-[0,0,0,0,0,A,0,0,D,0,0,0,0,A,0,0,0,C,V,B,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,A,0,0,F,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ],
-[0,0,0,0,0,0,0,0,A,0,0,0,0,0,0,0,0,0,0,0,0,0,0,D,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,V,0,0,0,0,0,0,0,V,0,0,0,0,0,0 ],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,G,0,0,0,V,0,0,0,0,0,0,0,0,0,0,A,0,V,0,0,0,0,0 ],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,V,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,D,0,0,0,0 ],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,A,0,0,0,0,0,G,0,A,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,V,0,0,0,0 ],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,D,0,0,0,H,A,0,0,0,0,0,0,0,A,0,0,0,F,F,G,F,0,0,0,0,0,0,0,0,0,0,V,V,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ],
-[0,0,0,H,0,0,0,0,D,0,0,0,0,A,0,0,0,0,0,0,0,T,F,G,G,G,0,0,0,0,0,0,0,C,V,V,V,V,B,0,0,0,0,V,V,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,V,0,0 ],
-[0,G,0,T,G,0,0,0,0,0,0,G,0,0,0,G,0,0,0,0,C,V,V,V,V,B,0,C,B,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ],
-[C,V,V,V,V,V,B,0,0,0,C,V,V,V,V,V,B,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ],
- ]
+    matmapa= [[0]*100]*10
+    matmapa[7] = [H,0,0,D,0,0,0,0,0,0,0,D,H,0,0,0,0,0,0,0,0,0,0,0,D]*4
+    matmapa[8] = [T,G,F,0,G,G,G,G,0,0,0,0,T,0,G,0,F,F,F,0,0,G,G,0,F]*4
+    matmapa[9] = [3]*100
     
-    fase3 = Fase(tela,(len(matmapa[0])*100, len(matmapa) * 100),matmapa)
+    FASE = Fase(tela,(len(matmapa[0])*100, len(matmapa) * 100),matmapa)
 
-    fase = 3
-    while fase3.play:
-        fase3.update()
+    FASE.fase = 3
+    ultimoupdate= pygame.time.get_ticks()
+    while FASE.play:
+        now = pygame.time.get_ticks()
+        delta = now - ultimoupdate
+        intervalo = random.choice([700,1600,1500,2000,2500,])
+        alturasort = random.choice([200,210,260,220,300,350,400])
+        if delta >= intervalo:
+            Ave((FASE.pos_cam[0]+WIDTH,FASE.mapa.get_height()-alturasort)).ciclo = False
+            ultimoupdate = now
+
+        FASE.update()
         if len(all_diamantes.sprites()) == 0 :
-            fase3.play = False
-            fase3.state = 0
-            fase = 4
+            FASE.play = False
+            FASE.state = 0
+            FASE.fase += 1
+
+            
 
     elementos.empty()
-    fase3.mixer.music.stop()
-    return {"state": fase3.state , "fase": fase}
+    FASE.mixer.music.stop()
+    return {"state": FASE.state , "fase": FASE.fase}
     
 def Fase_4(tela):
     D = 'diamante'
@@ -136,19 +136,20 @@ def Fase_4(tela):
     [36, G, T, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, D, 0, 0, 0, 0, 0, 6, 0, 0, 0],
     [3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 0, 0, 0]]
 
-    fase4 = Fase(tela,(4000,1000),matmapa4)
+    FASE = Fase(tela,(4000,1000),matmapa4)
     
-    fase=4
-    while fase4.play:
-        fase4.update() # Atualiza fase
+    FASE.fase=4
+    while FASE.play:
+        FASE.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
         if len(all_diamantes.sprites()) == 0 :
-            fase4.play = False
-            fase4.state = 0
-            fase = 1
+            FASE.play = False
+            FASE.state = 0
+            FASE.fase += 1
+           
     elementos.empty()
-    fase4.mixer.music.stop()
-    return {"state": fase4.state , "fase": fase}
+    FASE.mixer.music.stop()
+    return {"state": FASE.state , "fase": FASE.fase}
 
 #cria fase 2
 
