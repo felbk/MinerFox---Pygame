@@ -553,7 +553,7 @@ class Ave(Corpo):
                 self.lastupdate = now
                 self.vx *= -1 #Inverte velocidade
                 self.flip = not self.flip
-        elif self.rect.x < 0:
+        elif self.rect.x < 150:
             self.kill()
         else:
             self.vx = -2.5
