@@ -15,7 +15,7 @@ def Fase_1(tela):
     matmapa[9] = [3]*7 + [6,7,8] + [0]*2+ [3]*20
     
     fase1 = Fase(tela,(4000,1000),matmapa) #Cria fase
-    fase1.fase = 1 
+    fase = 1
     while fase1.play:
         fase1.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
@@ -27,6 +27,48 @@ def Fase_1(tela):
     fase1.mixer.music.stop()
     return {"state": fase1.state , "fase": fase}
 
+def Fase_2(tela):
+    D = "diamante"
+    A = "ave"
+    C = 14
+    V = 15
+    B = 1
+    G = 12
+    T = 21
+    H = 16
+    F = 13
+    L = 36
+    
+    matmapa= [
+ [0, 0, 0, 0, 0, 0, H, 0, 0, 0, 0, 0, 0, 0, 0, 0, H, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, A, D, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, D, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, C, V, B, 0, H, 0, A, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, H, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0, T, D, 0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, A, T, 0, 0, 0, 0, A, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, C, V, B, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, D, 0, 0, 0],
+ [0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, V, B, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, H, 0, 0, 0, H, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0, 0, 0, 0, 0, A, T, 0, 0, 0, T, D, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, D, L, 0, V],
+ [0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, C, V, B, 0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, 0],
+ [0, 0, H, 0, 0, D, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0],
+ [0, L, T, 0, C, V, B, 0, 0, 0, 0, V, V, 0, 0, 0, 0, 0, D, L, 0, 0, C, V, B, 0, 0, 0, 0, 0],
+ [C, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0],]
+    
+    fase2 = Fase(tela,(len(matmapa[0])*100, len(matmapa) * 100),matmapa)
+
+    
+
+   
+    fase = 2
+    while fase2.play:
+        fase2.update() # Atualiza fase
+        # quando não houver mais aves, passa de fase
+        if len(all_diamantes.sprites()) == 0 :
+            fase2.play = False
+            fase2.state = 0
+            fase =  3
+    elementos.empty()
+    fase2.mixer.music.stop()
+    return {"state": fase2.state , "fase": fase}
 
 def Fase_3(tela):
     D = "diamante"
@@ -59,15 +101,17 @@ def Fase_3(tela):
     
     fase3 = Fase(tela,(len(matmapa[0])*100, len(matmapa) * 100),matmapa)
 
+    fase = 3
     while fase3.play:
         fase3.update()
         if len(all_diamantes.sprites()) == 0 :
             fase3.play = False
             fase3.state = 0
+            fase = 4
 
     elementos.empty()
     fase3.mixer.music.stop()
-    return {"state": fase3.state , "fase": 4}
+    return {"state": fase3.state , "fase": fase}
     
 def Fase_4(tela):
     D = 'diamante'
@@ -95,61 +139,20 @@ def Fase_4(tela):
 
     fase4 = Fase(tela,(4000,1000),matmapa4)
     
-
+    fase=4
     while fase4.play:
         fase4.update() # Atualiza fase
         # quando não houver mais aves, passa de fase
         if len(all_diamantes.sprites()) == 0 :
             fase4.play = False
             fase4.state = 0
+            fase = 1
     elementos.empty()
     fase4.mixer.music.stop()
-    return {"state": fase4.state , "fase": 1}
+    return {"state": fase4.state , "fase": fase}
 
 #cria fase 2
 
-def Fase_2(tela):
-    D = "diamante"
-    A = "ave"
-    C = 14
-    V = 15
-    B = 1
-    G = 12
-    T = 21
-    H = 16
-    F = 13
-    L = 36
-    
-    matmapa= [
- [0, 0, 0, 0, 0, 0, H, 0, 0, 0, 0, 0, 0, 0, 0, 0, H, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
- [0, 0, 0, 0, A, D, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, D, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
- [0, 0, 0, 0, C, V, B, 0, H, 0, A, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, H, 0, 0, 0, 0, 0, 0, 0],
- [0, 0, 0, 0, 0, 0, 0, 0, T, D, 0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, A, T, 0, 0, 0, 0, A, 0, 0],
- [0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, C, V, B, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, D, 0, 0, 0],
- [0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, V, B, 0, 0],
- [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, H, 0, 0, 0, H, 0, 0, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
- [0, 0, 0, 0, 0, 0, 0, 0, 0, A, T, 0, 0, 0, T, D, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, D, L, 0, V],
- [0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, 0, 0, C, V, B, 0, 0, 0, 0, 0, 0, 0, 0, C, V, B, 0, 0],
- [0, 0, H, 0, 0, D, A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, 0, 0, 0, 0],
- [0, L, T, 0, C, V, B, 0, 0, 0, 0, V, V, 0, 0, 0, 0, 0, D, L, 0, 0, C, V, B, 0, 0, 0, 0, 0],
- [C, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, C, V, V, B, 0, 0, 0, 0, 0, 0, 0, 0, 0],]
-    
-    fase2 = Fase(tela,(len(matmapa[0])*100, len(matmapa) * 100),matmapa)
-
-    
-
-    Diamante((6000,650))
-
-
-    while fase2.play:
-        fase2.update() # Atualiza fase
-        # quando não houver mais aves, passa de fase
-        if len(all_diamantes.sprites()) == 0 :
-            fase2.play = False
-            fase2.state = 0
-    elementos.empty()
-    fase2.mixer.music.stop()
-    return {"state": fase2.state , "fase": 1}
 #==============IMPORTS===============
 
 import pygame
