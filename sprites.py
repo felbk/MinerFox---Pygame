@@ -556,7 +556,7 @@ class Ave(Corpo):
         elif self.rect.x < 0:
             self.kill()
         else:
-            self.vx = -2
+            self.vx = -2.5
 
         self.rect.y = self.pos[1]
         self.anima()

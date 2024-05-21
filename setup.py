@@ -14,7 +14,7 @@ PLAYING = 1
 QUIT = 2
 FINAL = 3
 state = HOME
-fase = 3
+fase = 1
 
 
 while not state == QUIT:

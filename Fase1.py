@@ -99,6 +99,9 @@ def Fase_3(tela):
         if delta >= intervalo:
             Ave((FASE.pos_cam[0]+WIDTH,FASE.mapa.get_height()-alturasort)).ciclo = False
             ultimoupdate = now
+            for ave in aves:
+                if ave.rect.x < FASE.pos_cam[0]:
+                    ave.kill()
 
         FASE.update()
         if len(all_diamantes.sprites()) == 0 :
