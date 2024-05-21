@@ -71,6 +71,7 @@ def Fase_2(tela):
     return {"state": fase2.state , "fase": fase}
 
 def Fase_3(tela):
+    #atalhos para criação da matriz mapa
     D = "diamante"
     A = "ave"
     C = 14
