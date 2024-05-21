@@ -75,7 +75,7 @@ class Fase ():
         #Musicas e sons
         self.mixer = pygame.mixer
         self.mixer.music.load("songs\som__de_fundo.wav")
-        #self.mixer.music.play(-1)
+        self.mixer.music.play(-1)
         self.mixer.music.set_volume(0.2)
         self.game_over_sound = pygame.mixer.Sound("songs\game_over.mp3")
         self.diamante_sound = pygame.mixer.Sound("songs\coleta_diamantes.mp3")
