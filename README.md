@@ -13,6 +13,6 @@
 <ul>
   <li> D = Direita  </li>
   <li> E = Esquerda  </li>
-  <li> W = Pular  </li>
+  <li> Espaço = Pular  </li>
   
 </ul>
