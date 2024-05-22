@@ -7,7 +7,7 @@ from sys import exit
 from Fase1 import Fase_1, Fase_2, Fase_3, Fase_4, Fase_4
 from Inicio_MinerFox import inicio_minerfox
 pygame.init()
-tela = pygame.display.set_mode((WIDTH,HEIGHT))
+tela = pygame.display.set_mode((WIDTH,HEIGHT),FULLSCREEN)
 
 HOME = 0
 PLAYING = 1
