@@ -12,7 +12,7 @@
 <h3>Controles durante o jogo</h3>
 <ul>
   <li> D = Direita  </li>
-  <li> E = Esquerda  </li>
+  <li> A = Esquerda  </li>
   <li> Espaço = Pular  </li>
   
 </ul>
