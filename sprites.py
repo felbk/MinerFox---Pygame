@@ -209,6 +209,7 @@ class Fase ():
     
     #Processamento das informações a serem exibidas como texto 
     def hud_update(self):
+        #Cria contador das aves
         self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',36)
         self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, (255,255,255))
         return
@@ -233,6 +234,7 @@ class Fase ():
         
         self.camera_movimenta()
         self.cont_aves = len(aves.sprites())
+        #Desenha ave, coração e score
         self.tela.blit(self.img_ave,(0.8*WIDTH,0.001*HEIGHT))
         self.tela.blit(self.player.txt_live,(50,0.9*HEIGHT))
         self.tela.blit(self.score_fundo,(20,0.005*HEIGHT))
@@ -419,7 +421,7 @@ class Player(Corpo):
 
     def update(self):
         
-        
+        #Verifica ação de pular
         if self.jump:
             self.state = JUMP
         if self.vx == 0 and not self.Fall and self.vy == 0:
@@ -434,15 +436,17 @@ class Player(Corpo):
         self.anima()
         self.upd()
 
-        #ajeita raposa e colisor
         
-
+        
+        #Diminui a vida se a raposa cair do mapa
         if self.passou_all_gnds == True:
             self.lives_player -=1
             self.rect.midbottom = self.posinit
         
+        #Vidas cheias e vazias da raposa
         self.lives_off = self.lives_player_max - self.lives_player
 
+        #Escreve as vidas da raposa
         self.heart = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
         self.fonte = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',36)
         self.txt_live = self.heart.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
