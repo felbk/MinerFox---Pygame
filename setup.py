@@ -16,7 +16,7 @@ HOME = 0 #Começa na tela inicial
 PLAYING = 1 #Esta jogando
 QUIT = 2 #Estado de sair do jogo
 state = HOME # Jogo começa na tela inicial
-fase = 4 # Jogo começa na fase 1
+fase = 1 # Jogo começa na fase 1
 
 
 #Loop principal 
