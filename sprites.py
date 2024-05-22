@@ -456,7 +456,7 @@ class Player(Corpo):
     def anima(self):
                
         
-
+        #Animações de movimento da raposa
         if self.state == RUN:
             if self.anim != self.animacoes["run"]:
                 self.frame = 0
