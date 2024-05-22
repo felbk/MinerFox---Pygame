@@ -19,5 +19,6 @@
   <li> D = Direita  </li>
   <li> A = Esquerda  </li>
   <li> Espaço = Pular  </li>
-  
+   <li> A cada 500 pontos no score você receberá uma vida  </li>
+   <li> Boa sorte minerador!  </li>
 </ul>
