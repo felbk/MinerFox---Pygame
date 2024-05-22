@@ -569,7 +569,7 @@ class Ave(Corpo):
         return 
         
    
-   
+#Cria a classe dos diamantes   
 class Diamante(pygame.sprite.Sprite):
     def __init__(self, pos = tuple):
         pygame.sprite.Sprite.__init__(self)
