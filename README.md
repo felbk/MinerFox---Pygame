@@ -9,8 +9,8 @@
 <h2>🎮MinerFox🎮</h2>
 <p>
   O jogo se baseia na história de uma raposa mineradora que coleciona minérios(diamantes) durante o seu caminho, mas não será tão fácil assim: a raposa passará por fiscais(águias) que tentará barrar a sua coleção. A raposa avança pelo jogo quando coleciona todos os diamantes do mapa e assim passa para a próxima fase do jogo. O nível de dificuldade aumentará ao decorrer do jogo com um mapa mais complexo e uma grande quantidade de fiscais.
-A cada 500 pontos no score você receberá uma vida
-Boa sorte minerador!  </li>
+<li> A cada 500 pontos no score você receberá uma vida <li>
+<li> Boa sorte minerador!  </li>
 </ul>
 <h2>🎮Instruções para jogar🎮</h2>
 <p>
