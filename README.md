@@ -22,3 +22,7 @@
    <li> A cada 500 pontos no score você receberá uma vida  </li>
    <li> Boa sorte minerador!  </li>
 </ul>
+<h2>🎮Vídeo de apresentação🎮</h2>
+<p>
+  https://drive.google.com/file/d/1XdZYME_CAfgX13bQ5fasUAdw7tMhXUDo/view?usp=sharing
+  </ul>
