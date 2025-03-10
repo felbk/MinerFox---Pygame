@@ -10,7 +10,7 @@ from Assets import load_assets
 IDLE = 0
 RUN = 1
 JUMP = 2
-
+Branco = (255, 255, 255)
 
 elementos = pygame.sprite.Group() #Grupo para todos os elementos (para usar o update() draw() e etc)
 allgnds = pygame.sprite.Group() #Grupo de tiles com colisão/ física
@@ -170,12 +170,17 @@ class Fase ():
 
         #Confere vidas e acrescenta de acordo com pontos 
 
+        # if self.player.lives_player < self.player.lives_player_max and self.player.score >= 500 :
+        #     self.player.lives_player += 1 
+        #     self.player.score -= 500
+
+        # return
+    def confere_vidas_pontuacao(self):
         if self.player.lives_player < self.player.lives_player_max and self.player.score >= 500 :
             self.player.lives_player += 1 
             self.player.score -= 500
 
         return
-    
     def bloqueia_limites(self):
           #nao ultrapassa limites do mapa
         if self.player.rect.left < 0 :
@@ -211,18 +216,19 @@ class Fase ():
     def hud_update(self):
         #Cria contador das aves
         self.fonte_ave = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',36)
-        self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, (255,255,255))
+        self.txt_cont_aves = self.fonte_ave.render('{0} x '.format(self.cont_aves),True, Branco)
         return
     
     def update(self):
         elementos.update()
         
         
-        #self.mapa.fill((255,255,255))
+        #self.mapa.fill(Branco)
         self.analisa_colisoes()
         self.analisa_eventos()
         self.bloqueia_limites()
         self.hud_update()
+        self.confere_vidas_pontuacao()
        #Exibe background
         pygame.Surface.blit(self.mapa,self.bg,(self.pos_cam[0],self.pos_cam[1]))
       
@@ -450,7 +456,7 @@ class Player(Corpo):
         self.heart = pygame.font.Font('Assets/-interacoes/Hearts Salad.otf',48)
         self.fonte = pygame.font.Font('Assets\-interacoes\Alfabeto.ttf',36)
         self.txt_live = self.heart.render('N' * self.lives_player + 'M'*self.lives_off, True, (255,0,0))
-        self.txt_score = self.fonte.render('{0}'.format(self.score),True, (255,255,255))
+        self.txt_score = self.fonte.render('{0}'.format(self.score),True, Branco)
         return
 
     def anima(self):
